@@ -6,7 +6,7 @@ import * as path from 'path';
 
 // Assuming the 'nodeTest' directory is at the root of the project.
 // You might need to adjust the path depending on your project structure.
-const transferFilesPath = path.resolve(process.cwd(), 'nodeTest/src/transferFiles.js');
+const transferFilesPath = path.resolve(process.cwd(), '../file-import/src/transferFiles.js');
 const { TransferFiles } = require(transferFilesPath);
 
 

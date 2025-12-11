@@ -6,7 +6,7 @@ export declare class FilesService {
         message: string;
         files: {
             name: string;
-            path: any;
+            path: string;
         }[];
     }>;
     runImportWorker(): Promise<unknown>;

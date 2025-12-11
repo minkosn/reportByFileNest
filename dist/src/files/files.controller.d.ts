@@ -7,7 +7,7 @@ export declare class FilesController {
         message: string;
         files: {
             name: string;
-            path: any;
+            path: string;
         }[];
     }>;
     importFiles(): Promise<unknown>;
