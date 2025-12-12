@@ -17,7 +17,7 @@ const config_service_1 = require("../config/config.service");
 let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
     constructor(configService) {
         super({
-            jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
+            jwtFromRequest: passport_jwt_1.ExtractJwt.fromHeader('x-auth-token'),
             ignoreExpiration: false,
             secretOrKey: configService.get('JWT_SECRET'),
         });

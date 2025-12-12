@@ -18,7 +18,7 @@ const database_providers_1 = require("../database/database.providers");
 const pg_1 = require("pg");
 const worker_threads_1 = require("worker_threads");
 const path = require("path");
-const transferFilesPath = path.resolve(process.cwd(), '../nodeTest/src/transferFiles.js');
+const transferFilesPath = path.resolve(process.cwd(), '../file_import/src/transferFiles');
 const { TransferFiles } = require(transferFilesPath);
 let FilesService = class FilesService {
     constructor(db) {

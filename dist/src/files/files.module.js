@@ -13,6 +13,7 @@ const files_service_1 = require("./files.service");
 const platform_express_1 = require("@nestjs/platform-express");
 const config_service_1 = require("../config/config.service");
 const config_module_1 = require("../config/config.module");
+const database_module_1 = require("../database/database.module");
 let FilesModule = class FilesModule {
 };
 exports.FilesModule = FilesModule;
@@ -20,6 +21,7 @@ exports.FilesModule = FilesModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_module_1.ConfigModule,
+            database_module_1.DatabaseModule,
             platform_express_1.MulterModule.registerAsync({
                 imports: [config_module_1.ConfigModule],
                 useFactory: async (configService) => ({

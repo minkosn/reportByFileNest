@@ -4,10 +4,12 @@ import { FilesService } from './files.service';
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigService } from '../config/config.service';
 import { ConfigModule } from '../config/config.module';
+import { DatabaseModule } from '../database/database.module';
 
 @Module({
   imports: [
     ConfigModule,
+    DatabaseModule,
     MulterModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
