@@ -1,3 +1,8 @@
+7. Postgres implementation (TypeORM example)
+
+
+v 0.0.0 - Work as use worker for import files
+
 1. To upgrade node to LST version, run:
    nvm install --lts
    nvm use --lts

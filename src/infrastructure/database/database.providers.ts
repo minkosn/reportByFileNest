@@ -1,6 +1,6 @@
 import { Provider } from '@nestjs/common';
 import { Pool } from 'pg';
-import { ConfigService } from '../config/config.service';
+import { ConfigService } from '../../config/config.service';
 
 export const PG_CONNECTION = 'PG_CONNECTION';
 
