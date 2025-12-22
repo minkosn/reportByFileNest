@@ -1,5 +1,5 @@
 import { Readable } from 'stream';
-import { FileLoadOptions } from './file-load.types';
+import { FileLoadOptions } from './utility-classes/file-load.types';
 export declare class FileLoadService {
     private options;
     constructor(options: FileLoadOptions);

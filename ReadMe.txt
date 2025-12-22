@@ -2,6 +2,13 @@
    nvm install --lts
    nvm use --lts
 
+TO DO 
+=========
+1. in database 
+1.1 Add init DB structure
+1.2 refactor all modules where is used directly PGSQL and replace in 'database.service' that will call different classes with adapters.
+Like class InitDBStructure with adapters for PgSQL, Mongo,....  
+
 
 Flow 
 1. LoadFile

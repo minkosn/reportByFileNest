@@ -9,10 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var FileLoadService_1;
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FileLoadService = void 0;
 const common_1 = require("@nestjs/common");
-const file_load_types_1 = require("./file-load.types");
+const file_load_types_1 = require("./utility-classes/file-load.types");
 let FileLoadService = FileLoadService_1 = class FileLoadService {
     constructor(options) {
         this.options = null;
@@ -53,6 +54,6 @@ let FileLoadService = FileLoadService_1 = class FileLoadService {
 exports.FileLoadService = FileLoadService;
 exports.FileLoadService = FileLoadService = FileLoadService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof file_load_types_1.FileLoadOptions !== "undefined" && file_load_types_1.FileLoadOptions) === "function" ? _a : Object])
 ], FileLoadService);
 //# sourceMappingURL=file-load.service.js.map

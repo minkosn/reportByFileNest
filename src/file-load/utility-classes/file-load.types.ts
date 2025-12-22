@@ -2,7 +2,6 @@ export interface FileLoader<T> {
     load(): Promise<T>;
 }
 
-
 // Единен формат за ред 
 export interface DataRow { 
     [key: string]: any; // всяка колона е ключ-стойност 
@@ -10,6 +9,7 @@ export interface DataRow {
 // Всеки парсър ще връща генератор от DataRow 
 export interface FileParser { 
     parse(): AsyncGenerator<DataRow>; 
+    getHeaders(): Promise<XlsxColumn[]>;
 }
 
 export enum ExtensionFileType {
@@ -19,6 +19,12 @@ export enum ExtensionFileType {
 }
 
 export interface DatabaseAdapter { 
-    createTableForFile(tableName: string, columns: string[]): Promise<void>; 
+    createTableForFile(tableName: string, parser: FileParser): Promise<boolean>; 
     insertRow(tableName: string, row: any[]): Promise<void>; 
+    convertColumnsToDbFormat(columns: XlsxColumn[]): string[];
 } 
+
+export type XlsxColumn = {
+    value: any; 
+    type: string;
+}

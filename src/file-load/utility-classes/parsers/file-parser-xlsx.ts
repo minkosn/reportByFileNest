@@ -1,6 +1,9 @@
 import ExcelJS from "exceljs";
-import { FileParser, DataRow } from "./file-load.types";
+import { FileParser, DataRow } from '../file-load.types';
 
+// TO DO 
+//1. Option to know on which row is the header
+//2. Option to know from which row start data
 export class ExcelParser implements FileParser {
   constructor(private workbook: ExcelJS.Workbook) {}
 
@@ -18,5 +21,11 @@ export class ExcelParser implements FileParser {
         }); 
         yield data; 
     } 
+  }
+
+  async getHeaders(): Promise<string[]> {
+    const sheet = this.workbook.worksheets[0];
+    const headerRow = sheet.getRow(1);
+    return headerRow.values.map(value => alphabetConverter({text: value as string})) as string[];
   }
 }
