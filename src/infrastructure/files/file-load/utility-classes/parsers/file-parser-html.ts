@@ -1,4 +1,4 @@
-import cheerio from "cheerio";
+/*import cheerio from "cheerio";
 import { FileParser, DataRow } from "../file-load.types";
 
 export class HtmlParser implements FileParser {
@@ -17,3 +17,4 @@ export class HtmlParser implements FileParser {
     });
   }
 }
+*/

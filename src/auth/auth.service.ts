@@ -2,7 +2,7 @@ import { Inject, Injectable, UnauthorizedException, NotFoundException, InternalS
 import { Pool } from 'pg';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { PG_CONNECTION } from '../database/database.providers';
+import { PG_CONNECTION } from '../infrastructure/database/database.providers';
 // import { MailerService } from '../mailer/mailer.service'; // To be created
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';

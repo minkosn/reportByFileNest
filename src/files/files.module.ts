@@ -4,7 +4,7 @@ import { FilesService } from './files.service';
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigService } from '../config/config.service';
 import { ConfigModule } from '../config/config.module';
-import { DatabaseModule } from '../database/database.module';
+import { DatabaseModule } from '../infrastructure/database/database.module';
 
 @Module({
   imports: [

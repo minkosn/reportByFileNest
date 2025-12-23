@@ -18,41 +18,41 @@ import { MongoFactory } from './mongo/mongo.factory';
 @Module({})
 export class DatabaseModule {
     static forRoot(): DynamicModule {
-    return {
-        module: DatabaseModule,
-        imports: [ConfigModule, PostgresModule, MongoModule],
-        providers: [ 
-            { 
-                provide: DB_STRATEGY,
-                useFactory: (config: ConfigService) => { 
-                    switch (config.getDbType()) { 
-                        case 'postgres': return new PostgresStrategy();
-                        case 'mongo': return new MongoStrategy();
-                        case 'mssql': 
-                        default: throw new Error('MSSQL not yet implemented'); 
-                    } 
+        return {
+            module: DatabaseModule,
+            imports: [ConfigModule, PostgresModule, MongoModule],
+            providers: [ 
+                { 
+                    provide: DB_STRATEGY,
+                    useFactory: (config: ConfigService) => { 
+                        switch (config.getDbType()) { 
+                            case 'postgres': return new PostgresStrategy();
+                            case 'mongo': return new MongoStrategy();
+                            case 'mssql': 
+                            default: throw new Error('MSSQL not yet implemented'); 
+                        } 
+                    },
+                    inject: [ConfigService] 
                 },
-                inject: [ConfigService] 
-            },
-            { 
-                provide: DB_FACTORY,
-                useFactory: ( config: ConfigService, postgresFactory: PostgresFactory, mongoFactory: MongoFactory): DatabaseFactory => { 
-                    switch (config.getDbType()) { 
-                        case 'postgres': return postgresFactory;
-                        case 'mongo': return mongoFactory;
-                        case 'mssql': 
-                        default: throw new Error('MSSQL not yet implemented'); 
-                    } 
-                }, 
-                inject: [ConfigService, PostgresFactory, MongoFactory] 
-            },
-            { 
-                provide: USER_REPOSITORY,
-                useFactory: (factory: DatabaseFactory) => factory.createUserRepository(),
-                inject: [DB_FACTORY] 
-            },
-        ],
-        exports: [USER_REPOSITORY]
-    };
-  }
+                { 
+                    provide: DB_FACTORY,
+                    useFactory: ( config: ConfigService, postgresFactory: PostgresFactory, mongoFactory: MongoFactory): DatabaseFactory => { 
+                        switch (config.getDbType()) { 
+                            case 'postgres': return postgresFactory;
+                            case 'mongo': return mongoFactory;
+                            case 'mssql': 
+                            default: throw new Error('MSSQL not yet implemented'); 
+                        } 
+                    }, 
+                    inject: [ConfigService, PostgresFactory, MongoFactory] 
+                },
+                { 
+                    provide: USER_REPOSITORY,
+                    useFactory: (factory: DatabaseFactory) => factory.createUserRepository(),
+                    inject: [DB_FACTORY] 
+                },
+            ],
+            exports: [USER_REPOSITORY]
+        };
+    }
 }

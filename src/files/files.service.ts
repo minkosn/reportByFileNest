@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { PG_CONNECTION } from '../database/database.providers';
+import { PG_CONNECTION } from '../infrastructure/database/database.providers';
 import { Pool } from 'pg';
 import { Worker } from 'worker_threads';
 import * as path from 'path';

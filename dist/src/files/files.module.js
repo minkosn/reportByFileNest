@@ -13,7 +13,7 @@ const files_service_1 = require("./files.service");
 const platform_express_1 = require("@nestjs/platform-express");
 const config_service_1 = require("../config/config.service");
 const config_module_1 = require("../config/config.module");
-const database_module_1 = require("../database/database.module");
+const database_module_1 = require("../infrastructure/database/database.module");
 let FilesModule = class FilesModule {
 };
 exports.FilesModule = FilesModule;

@@ -1,4 +1,4 @@
-import * as ExcelJS from 'exceljs';
+/*import * as ExcelJS from 'exceljs';
 
 interface XlsFilesOptions {
     fileName: string;
@@ -175,3 +175,4 @@ export class XlsFiles implements XlsFilesClass {
         }
     }
 }
+*/

@@ -1,14 +1,18 @@
 
 export class User {
     constructor(
-        private id: number,
-        private user_name: string,
-        private user_password: string,
-        private user_inserted_on: Date,
-        private userupdated_on: Date,
-        private status: string
+        public id: number,
+        public user_name: string,
+        public user_password: string,
+        public user_inserted_on: Date,
+        public userupdated_on: Date,
+        public status: string
         //private user_role: string,
-    ) {
-
+    ) {}
+    
+    getId(): number {
+        return this.id;
     }
+    
+
 }

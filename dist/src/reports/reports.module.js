@@ -10,7 +10,7 @@ exports.ReportsModule = void 0;
 const common_1 = require("@nestjs/common");
 const reports_controller_1 = require("./reports.controller");
 const reports_service_1 = require("./reports.service");
-const database_module_1 = require("../database/database.module");
+const database_module_1 = require("../infrastructure/database/database.module");
 let ReportsModule = class ReportsModule {
 };
 exports.ReportsModule = ReportsModule;

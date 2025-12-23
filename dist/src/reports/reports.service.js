@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReportsService = void 0;
 const common_1 = require("@nestjs/common");
 const pg_1 = require("pg");
-const database_providers_1 = require("../database/database.providers");
+const database_providers_1 = require("../infrastructure/database/database.providers");
 let ReportsService = class ReportsService {
     constructor(db) {
         this.db = db;

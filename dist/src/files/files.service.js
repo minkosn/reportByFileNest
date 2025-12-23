@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilesService = void 0;
 const common_1 = require("@nestjs/common");
-const database_providers_1 = require("../database/database.providers");
+const database_providers_1 = require("../infrastructure/database/database.providers");
 const pg_1 = require("pg");
 const worker_threads_1 = require("worker_threads");
 const path = require("path");

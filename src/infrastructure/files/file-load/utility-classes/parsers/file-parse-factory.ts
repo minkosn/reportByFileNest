@@ -1,3 +1,4 @@
+/*
 import { FileParser, ExtensionFileType } from '../file-load.types';
 import { ExcelParser } from './file-parser-xlsx';
 import { CsvParser } from './file-parser-csv';

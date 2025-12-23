@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const pg_1 = require("pg");
 const bcrypt = require("bcryptjs");
 const jwt_1 = require("@nestjs/jwt");
-const database_providers_1 = require("../database/database.providers");
+const database_providers_1 = require("../infrastructure/database/database.providers");
 let AuthService = class AuthService {
     constructor(db, jwtService) {
         this.db = db;

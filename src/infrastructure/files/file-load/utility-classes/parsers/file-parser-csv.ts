@@ -1,4 +1,4 @@
-import { parse } from "csv-parse/sync";
+/*import { parse } from "csv-parse/sync";
 import { FileParser, DataRow } from "../file-load.types";
 
 export class CsvParser implements FileParser {
@@ -10,3 +10,4 @@ export class CsvParser implements FileParser {
     }
   }
 }
+*/

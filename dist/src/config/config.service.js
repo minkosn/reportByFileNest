@@ -12,12 +12,51 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConfigService = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
+var DatabaseTypeEnum;
+(function (DatabaseTypeEnum) {
+    DatabaseTypeEnum["POSTGRES_DB_TYPE"] = "postgres";
+    DatabaseTypeEnum["MONGO_DB_TYPE"] = "mongo";
+    DatabaseTypeEnum["MSSQL_DB_TYPE"] = "mssql";
+})(DatabaseTypeEnum || (DatabaseTypeEnum = {}));
+;
 let ConfigService = class ConfigService {
     constructor(nestConfigService) {
         this.nestConfigService = nestConfigService;
     }
     get(key) {
         return this.nestConfigService.get(key);
+    }
+    getDbType() {
+        return process.env.DB_TYPE || DatabaseTypeEnum.POSTGRES_DB_TYPE;
+    }
+    getConfig() {
+        switch (this.getDbType()) {
+            case DatabaseTypeEnum.MONGO_DB_TYPE:
+                return this.getConfigMongo();
+            case DatabaseTypeEnum.MSSQL_DB_TYPE:
+                return this.getConfigMssql();
+            default:
+                return this.getConfigPostgres();
+        }
+    }
+    getConfigPostgres() {
+        return {
+            host: this.get('DB_HOST'),
+            port: parseInt(this.get('DB_PORT'), 10),
+            user: this.get('DB_USER'),
+            password: this.get('DB_PASSWORD'),
+            database: this.get('DB_DATABASE'),
+        };
+    }
+    getConfigMongo() {
+        return {
+            uri: this.get('MONGO_URI')
+        };
+    }
+    getConfigMssql() {
+        return {
+            uri: this.get('MSSQL_URI')
+        };
     }
 };
 exports.ConfigService = ConfigService;

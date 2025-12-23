@@ -1,4 +1,4 @@
-import ExcelJS from "exceljs";
+/*import ExcelJS from "exceljs";
 import { FileParser, DataRow } from '../file-load.types';
 
 // TO DO 
@@ -28,4 +28,4 @@ export class ExcelParser implements FileParser {
     const headerRow = sheet.getRow(1);
     return headerRow.values.map(value => alphabetConverter({text: value as string})) as string[];
   }
-}
+}*/

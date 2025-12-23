@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Pool } from 'pg';
-import { PG_CONNECTION } from '../database/database.providers';
+import { PG_CONNECTION } from '../infrastructure/database/database.providers';
 import { ReportQueryDto } from './dto/report-query.dto';
 
 @Injectable()

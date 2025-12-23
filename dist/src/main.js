@@ -1,11 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const crypto_1 = require("crypto");
+globalThis.crypto ??= crypto_1.webcrypto;
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
 const config_service_1 = require("./config/config.service");
 async function bootstrap() {
+    console.log(`Bootstrap in`);
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    console.log(`NestFactory.create done`);
     app.enableCors({
         credentials: true,
         origin: 'http://localhost:8080',

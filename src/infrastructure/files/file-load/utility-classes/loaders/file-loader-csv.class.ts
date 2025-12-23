@@ -1,4 +1,4 @@
-import { parse } from 'csv-parse/sync'; 
+/*import { parse } from 'csv-parse/sync'; 
 import { FileLoader } from './utility-classes/file-load.types';
 import { Readable } from 'stream';
 
@@ -28,3 +28,4 @@ export class CsvFileLoader implements FileLoader<any[]> {
         return parse(content, { columns: true }); 
     } 
 }
+    */

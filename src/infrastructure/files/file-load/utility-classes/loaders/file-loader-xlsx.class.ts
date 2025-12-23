@@ -1,4 +1,4 @@
-import ExcelJS from 'exceljs'; 
+/*import ExcelJS from 'exceljs'; 
 import { FileLoader } from './utility-classes/file-load.types';
 
 class XlsFileLoader implements FileLoader<ExcelJS.Workbook> {
@@ -25,3 +25,4 @@ class XlsFileLoader implements FileLoader<ExcelJS.Workbook> {
 }
 
 export { FileLoader, XlsFileLoader };
+*/
