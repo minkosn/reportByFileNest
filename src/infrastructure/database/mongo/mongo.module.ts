@@ -16,7 +16,7 @@ import { MongoFactory } from './mongo.factory';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        uri: config.get('uri'),
+        uri: config.get('MONGO_URI'),
       }),
     }),
     MongooseModule.forFeature([

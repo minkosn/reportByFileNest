@@ -14,7 +14,8 @@ import { DatabaseModule } from './infrastructure/database/db.module';
 @Module({
   imports: [
     ConfigModule,
-    UserModule
+    UserModule,
+    DatabaseModule
     // AuthModule,
     // FilesModule,
     // ReportsModule

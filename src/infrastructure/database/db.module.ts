@@ -15,14 +15,27 @@ import { MongoModule } from './mongo/mongo.module';
 import { MongoStrategy } from './mongo/mongo.strategy';
 import { MongoFactory } from './mongo/mongo.factory';
 
+const dbType = process.env.DB_TYPE;
+
+const dbModules = [];
+const dbFactories = [];
+
+if (dbType === 'postgres') {
+    dbModules.push(PostgresModule);
+    dbFactories.push(PostgresFactory);
+} else if (dbType === 'mongo') {
+    dbModules.push(MongoModule);
+    dbFactories.push(MongoFactory);
+}
+
 @Module({})
 export class DatabaseModule {
     static forRoot(): DynamicModule {
         return {
             module: DatabaseModule,
-            imports: [ConfigModule, PostgresModule, MongoModule],
+            imports: [ConfigModule, ...dbModules],
             providers: [ 
-                { 
+                /*{ 
                     provide: DB_STRATEGY,
                     useFactory: (config: ConfigService) => { 
                         switch (config.getDbType()) { 
@@ -33,18 +46,18 @@ export class DatabaseModule {
                         } 
                     },
                     inject: [ConfigService] 
-                },
+                },*/
                 { 
                     provide: DB_FACTORY,
-                    useFactory: ( config: ConfigService, postgresFactory: PostgresFactory, mongoFactory: MongoFactory): DatabaseFactory => { 
+                    useFactory: ( config: ConfigService, dbFactory: any): DatabaseFactory => { 
                         switch (config.getDbType()) { 
-                            case 'postgres': return postgresFactory;
-                            case 'mongo': return mongoFactory;
+                            case 'postgres': return dbFactory as PostgresFactory;
+                            case 'mongo': return dbFactory as MongoFactory;
                             case 'mssql': 
                             default: throw new Error('MSSQL not yet implemented'); 
                         } 
                     }, 
-                    inject: [ConfigService, PostgresFactory, MongoFactory] 
+                    inject: [ConfigService, ...dbFactories] 
                 },
                 { 
                     provide: USER_REPOSITORY,
