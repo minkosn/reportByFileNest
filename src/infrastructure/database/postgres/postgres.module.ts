@@ -5,6 +5,8 @@ import { ConfigModule } from 'src/config/config.module';
 import { ConfigService } from 'src/config/config.service';
 
 import { PostgresUserEntity } from './postgres.user.entity';
+import { PostgresPersonEntity } from './postgres.person.entity';
+
 import { PostgresFactory } from './postgres.factory';
 
 @Module({
@@ -20,11 +22,11 @@ import { PostgresFactory } from './postgres.factory';
                 username: configService.get('DB_USER'),
                 password: configService.get('DB_PASSWORD'),
                 database: configService.get('DB_DATABASE'),
-                entities: [PostgresUserEntity],
+                entities: [PostgresUserEntity, PostgresPersonEntity],
                 synchronize: false,
             })
         }),
-        TypeOrmModule.forFeature([PostgresUserEntity])
+        TypeOrmModule.forFeature([PostgresUserEntity, PostgresPersonEntity])
     ],
     providers: [
         PostgresFactory

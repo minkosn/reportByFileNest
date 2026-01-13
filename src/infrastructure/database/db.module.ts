@@ -1,7 +1,12 @@
 import { Module, DynamicModule } from '@nestjs/common';
 import { ConfigModule } from '../../config/config.module';
 import { ConfigService } from '../../config/config.service';
-import { DB_FACTORY, DB_STRATEGY, USER_REPOSITORY } from './db.tokens';
+import { 
+    DB_FACTORY,
+    DB_STRATEGY,
+    USER_REPOSITORY,
+    PERSON_REPOSITORY 
+} from './db.tokens';
 import { DatabaseFactory } from './db-factory.interface';
 import { DatabaseStrategy } from './db-strategy.interface';
 
@@ -64,8 +69,13 @@ export class DatabaseModule {
                     useFactory: (factory: DatabaseFactory) => factory.createUserRepository(),
                     inject: [DB_FACTORY] 
                 },
+                {
+                    provide: PERSON_REPOSITORY,
+                    useFactory: (factory: DatabaseFactory) => factory.createPersonRepository(),
+                    inject: [DB_FACTORY]
+                }
             ],
-            exports: [USER_REPOSITORY]
+            exports: [USER_REPOSITORY, PERSON_REPOSITORY]
         };
     }
 }

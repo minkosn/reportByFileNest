@@ -1,0 +1,134 @@
+import { Injectable, Inject, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcryptjs';
+import { AUTH_REPOSITORY, USER_REPOSITORY } from '../../infrastructure/database/db.tokens';
+import { AuthRepository } from './auth.repository';
+
+import { User } from './user.entity';
+import { UserService } from './user.service';
+
+import { RegisterDto } from '../../interfaces/http/user/dto/register.dto';
+import { LoginDto } from '../../interfaces/http/user/dto/login.dto';
+import { ResetPasswordDto } from '../../interfaces/http/user/dto/reset-password.dto';
+import { UpdatePasswordDto } from '../../interfaces/http/user/dto/update-password.dto';
+
+export const TOKEN_RESET_TYPE = 'reset_password';
+
+@Injectable()
+export class AuthService {
+    constructor(
+        private readonly jwtService: JwtService,
+        @Inject(AUTH_REPOSITORY)
+        private readonly authRepo: AuthRepository,
+        private readonly userService: UserService,
+    ) {}
+
+    async register(registerDto: RegisterDto): Promise<void> {
+        const { username, password, email, firstName, lastName, birthDate } = registerDto;
+        const user = await this.userService.getUserByName(username);         
+        
+        if (user) {
+            throw new UnauthorizedException('User already exists');
+        }
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        await this.authRepo.addCustomer({
+            firstName,
+            lastName,
+            email,
+            birthDate,
+            username,
+            hashedPassword
+        });
+        
+        return this.authRepo.register(registerDto);
+    }
+    async login(loginDto: LoginDto): Promise<{ token: string; userId: any; }> {
+        const { username, password } = loginDto;
+        
+        const user = await this.userService.getUserByName(username);
+             
+        if (!user) {
+            throw new UnauthorizedException('Invalid credentials');
+        }
+    
+        const isMatch = await bcrypt.compare(password, user.user_password);
+        if (!isMatch) {
+            throw new UnauthorizedException('Invalid credentials');
+        }
+    
+        const payload = { id: user.id };
+        const token = this.jwtService.sign(payload);
+        return { token, userId: user.id };
+    }
+    async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<void> {
+        const { email } = resetPasswordDto;
+        
+        const userId = await this.authRepo.getUserIdByEmail(email);
+         
+        if (!userId) {
+            throw new NotFoundException('User not found for the provided email');
+        }
+
+        const token = this.jwtService.sign({ email }, { expiresIn: '15m' });
+        await this.authRepo.addTokenToUser(TOKEN_RESET_TYPE, userId, token);
+
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
+        const resetLink = `${frontendUrl}/validate-token?token=${token}`;
+
+        console.log(`Password reset link: ${resetLink}`);
+    
+    }
+    async updatePassword(updatePasswordDto: UpdatePasswordDto): Promise<{ message: string; }> {
+        const { token, newPassword, userId } = updatePasswordDto;
+        
+        try {
+            const decoded = this.jwtService.verify(token);
+
+            const resetTokens = await this.authRepo.getTokenUser(TOKEN_RESET_TYPE, userId, token);
+    
+            if (resetTokens.length === 0) {
+            throw new UnauthorizedException('Token not found by the user!');
+            }
+    
+            const dbToken = this.jwtService.verify(resetTokens[0]?.token_user);
+
+            if (dbToken.email !== decoded.email) {
+                throw new UnauthorizedException('Invalid data in the token');
+            }
+    
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            
+            await this.authRepo.setPasswordAndClearResetToken(hashedPassword, userId);
+       
+            return { message: 'Password updated successfully' };
+        } catch (error) {
+            if( error?.type === 'DBError' ) throw new Error(error.message);
+            else throw new UnauthorizedException('Invalid or expired token');
+        }
+    }
+    
+    async verifyResetPasswordToken(token: string): Promise<{ userId: any; }> {
+        try {
+            const decoded = this.jwtService.verify(token);
+            const { email } = decoded;
+
+            const resetTokens = await this.authRepo.get_token(TOKEN_RESET_TYPE, token);
+
+            if (resetTokens.length === 0) {
+                throw new UnauthorizedException('Invalid or expired token');
+            }
+
+            const userId = await this.authRepo.getUserIdByEmail(email);
+            
+            if (!userId) {
+                throw new NotFoundException('User not found for the provided email');
+            }
+
+            return Promise.resolve({ userId });
+        } catch (error) {
+            throw new UnauthorizedException('Invalid or expired token');
+        }
+    }
+} 

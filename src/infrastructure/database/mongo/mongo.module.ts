@@ -7,6 +7,8 @@ import {
   MongoUser,
   MongoUserSchema,
 } from './mongo.user.schema';
+import { MongoPerson, MongoPersonSchema } from './mongo.person.schema';
+
 import { MongoFactory } from './mongo.factory';
 
 @Module({
@@ -21,6 +23,7 @@ import { MongoFactory } from './mongo.factory';
     }),
     MongooseModule.forFeature([
       { name: MongoUser.name, schema: MongoUserSchema },
+      { name: MongoPerson.name, schema: MongoPersonSchema },
     ]),
   ],
   providers: [MongoFactory],

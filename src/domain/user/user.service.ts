@@ -7,7 +7,8 @@ import { User } from './user.entity';
 export class UserService {
     constructor(
         @Inject(USER_REPOSITORY)
-        private readonly users: UserRepository) {};
+        private readonly users: UserRepository
+    ) {};
 
     getUserByName(userName: string): Promise<User | null> {
         return this.users.findByName(userName);
