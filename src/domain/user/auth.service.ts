@@ -42,7 +42,8 @@ export class AuthService {
             hashedPassword
         });
         
-        return this.authRepo.register(registerDto);
+        return;
+        //return this.authRepo.register(registerDto);
     }
     async login(loginDto: LoginDto): Promise<{ token: string; userId: any; }> {
         const { username, password } = loginDto;

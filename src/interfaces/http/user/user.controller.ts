@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { UserService } from 'src/domain/user/user.service';
+import { AuthService } from 'src/domain/user/auth.service';
 import { User } from 'src/domain/user/user.entity';
 
 import { UserDto } from './dto/user.dto';
@@ -10,7 +11,10 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Controller('users')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+        private readonly userService: UserService,
+        private readonly authService: AuthService
+    ) {}
 
     //User CRUD operations
     @Get()

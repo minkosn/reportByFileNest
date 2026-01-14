@@ -7,7 +7,7 @@ export class RegisterDto {
 
     @IsString()
     @IsNotEmpty()
-    @MinLength(6)
+    @MinLength(3)
     readonly password: string;  
 
     @IsEmail()

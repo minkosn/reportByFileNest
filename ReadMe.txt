@@ -1,3 +1,16 @@
+Users:
+    "username": "firsto_2", 
+    "password": "222"
+
+    "username": "firsto_3", 
+    "password": "firsto_333"    
+
+    "username": "firsto_114445",
+    "password": "000",
+    
+
+
+
 7. Postgres implementation (TypeORM example)
 
 

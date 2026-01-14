@@ -6,6 +6,7 @@ import { ConfigService } from 'src/config/config.service';
 
 import { PostgresUserEntity } from './postgres.user.entity';
 import { PostgresPersonEntity } from './postgres.person.entity';
+import { PostgresAuthEntity } from './postgres.auth.entity';
 
 import { PostgresFactory } from './postgres.factory';
 
@@ -26,7 +27,7 @@ import { PostgresFactory } from './postgres.factory';
                 synchronize: false,
             })
         }),
-        TypeOrmModule.forFeature([PostgresUserEntity, PostgresPersonEntity])
+        TypeOrmModule.forFeature([PostgresUserEntity, PostgresPersonEntity, PostgresAuthEntity])
     ],
     providers: [
         PostgresFactory
