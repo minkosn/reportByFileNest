@@ -8,6 +8,7 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { isPublic } from '../../decorators/public.decorator';
 
 @Controller('users')
 export class UserController {
@@ -39,11 +40,13 @@ export class UserController {
     }
 
     // user Auth
+    @isPublic()
     @Post('register')
     async register(@Body() registerDto: RegisterDto) {
         return this.authService.register(registerDto);
     }
 
+    @isPublic()
     @Post('login')
     async login(@Body() loginDto: LoginDto) {
         return this.authService.login(loginDto);
