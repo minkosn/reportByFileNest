@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 import { UserController } from '../../interfaces/http/user/user.controller';
@@ -10,8 +9,7 @@ import { ConfigModule } from '../../config/config.module';
 @Module({
   imports: [
     DatabaseModule.forRoot(),
-    ConfigModule,
-    JwtModule,
+    ConfigModule
   ],  
   controllers: [UserController],
   providers: [UserService, AuthService/*, AuthGuard*/],

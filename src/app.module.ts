@@ -19,9 +19,9 @@ import { ConfigService } from './config/config.service';
     PersonModule,
     DatabaseModule,
     JwtModule.registerAsync({
+      global: true,
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        global: true,
         secret: configService.get('JWT_SECRET'),
         signOptions: { expiresIn: '1h' },
       }),
