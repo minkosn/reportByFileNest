@@ -8,31 +8,6 @@ export class PostgresAuthRepository implements AuthRepository {
         private readonly dataSource: DataSource,
     ) {}  
 
-    /*register(registerDto: RegisterDto): Promise<void> {
-        throw new Error('Method not implemented.');
-    };
-        
-    login(loginDto: LoginDto): Promise<{ token: string; userId: any; }> {
-        throw new Error('Method not implemented.');
-    };
-    
-    resetPassword(resetPasswordDto: ResetPasswordDto): Promise<void> {
-        throw new Error('Method not implemented.');
-    };
-    
-    updatePassword(updatePasswordDto: UpdatePasswordDto): Promise<{ message: string; }> {
-        throw new Error('Method not implemented.');
-    };
-    
-    getUserById(id: any): Promise<any> {
-        throw new Error('Method not implemented.');
-    };
-    
-    verifyResetPasswordToken(token: string): Promise<{ userId: any; }> {
-        throw new Error('Method not implemented.');
-    };
-    */
-
     async addCustomer(newCustomer : AddCustomer): Promise<BigInteger> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
         

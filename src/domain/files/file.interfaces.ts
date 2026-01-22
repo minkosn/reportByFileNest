@@ -1,0 +1,36 @@
+//file interfaces 
+export interface IFileRepository<TEntity = any> {
+    create(entity: TEntity): Promise<TEntity>;
+    
+    //get instance as 'fieldName' is filename from the correct passed class, 'value' si some value from the instances by this field
+    getByField<K extends keyof TEntity>(fieldName: K, value: TEntity[K]): Promise<TEntity[]>;
+    
+    //get all instances from current used entity class
+    findAll(): Promise<TEntity[]>;
+}
+
+
+//handleFileUpload
+export interface IFileDBFields {
+    originalName: string;
+    fileName: string;
+    filePath: string;
+    importDate: Date;
+    distributor: string;
+    rowCount?: number;
+    batchId?: string;
+} 
+
+export interface IFileUpload extends IFileDBFields {
+        year: string,
+        month: string
+}
+
+export interface IUploadedFileResult {
+    message: string;
+    files: { name: string; path: string }[];
+}
+
+export interface IImportedFileDBFields extends Pick<IFileDBFields, 'importDate' | 'distributor' | 'rowCount' |'originalName'> {}
+
+

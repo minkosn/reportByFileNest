@@ -12,6 +12,8 @@ import { LoginDto } from '../../interfaces/http/user/dto/login.dto';
 import { ResetPasswordDto } from '../../interfaces/http/user/dto/reset-password.dto';
 import { UpdatePasswordDto } from '../../interfaces/http/user/dto/update-password.dto';
 
+import { ILoggedUser } from './auth.interfaces';
+
 export const TOKEN_RESET_TYPE = 'reset_password';
 
 @Injectable()
@@ -45,7 +47,7 @@ export class AuthService {
         return;
         //return this.authRepo.register(registerDto);
     }
-    async login(loginDto: LoginDto): Promise<{ token: string; userId: any; }> {
+    async login(loginDto: LoginDto): Promise<ILoggedUser> {
         const { username, password } = loginDto;
         
         const user = await this.userService.getUserByName(username);
