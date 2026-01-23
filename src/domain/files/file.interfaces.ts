@@ -10,6 +10,23 @@ export interface IFileRepository<TEntity = any> {
 }
 
 
+
+export interface IFileDetailType {
+    //On upload
+    file_name: string;
+    file_name_origin: string;
+    file_path: string;
+    
+    //On import
+    distributor: string;
+    year: string;
+    month: string;
+    batch_id: string;
+};  
+
+
+
+
 //handleFileUpload
 export interface IFileDBFields {
     originalName: string;

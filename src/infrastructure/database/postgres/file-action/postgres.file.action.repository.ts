@@ -1,0 +1,28 @@
+import { FileActionName, FileActionStatus, FileActionEntity } from 'src/domain/files/file-action/file.action.entity';
+import { FileActionRepository } from '../../../../domain/files/file-action/file.action.repository';
+import { PostgresFileActionEntity } from './postgres.file.action.entity';
+import { Repository } from 'typeorm'
+
+export class PostgresFileActionRepository implements FileActionRepository {
+    constructor(private readonly repo: Repository<PostgresFileActionEntity>){};
+
+    create(entity: PostgresFileActionEntity) {
+        return this.repo.save(entity);
+    }
+
+    getByField(fieldName: string, value: any): Promise<PostgresFileActionEntity[]> {
+        return this.repo.findBy({ [fieldName]: value });
+    }
+
+    findAll(): Promise<PostgresFileActionEntity[]> {
+        return this.repo.find();
+    }
+
+    updateStatus(FileActionName: FileActionName, status: FileActionStatus, updatedBy: number): Promise<FileActionEntity> {
+        return this.repo.save({
+            file_action_name: FileActionName,
+            file_action_status: status,
+            file_action_updated_by: updatedBy
+        });
+    }
+};

@@ -11,6 +11,9 @@ import { PostgresPersonEntity } from './postgres.person.entity';
 import { AuthRepository } from 'src/domain/user/auth.repository';
 import { PostgresAuthRepository } from './postgres.auth.repository';
 import { PostgresAuthEntity } from './postgres.auth.entity';
+import { PostgresFileActionEntity } from './file-action/postgres.file.action.entity';
+import { PostgresFileActionRepository } from './file-action/postgres.file.action.repository';
+import { FileActionRepository } from 'src/domain/files/file-action/file.action.repository';
 
 @Injectable()
 export class PostgresFactory implements DatabaseFactory {
@@ -26,7 +29,11 @@ export class PostgresFactory implements DatabaseFactory {
         //Auth Repo
         @InjectRepository(PostgresAuthEntity)
         private readonly authRepo: Repository<PostgresAuthEntity>,
-
+        
+        //File Action Repo
+        @InjectRepository(PostgresFileActionEntity)
+        private readonly fileActionRepo: Repository<PostgresFileActionEntity>,
+        
         @InjectDataSource()
         private readonly dataSource: DataSource,
 
@@ -42,5 +49,9 @@ export class PostgresFactory implements DatabaseFactory {
 
     createAuthRepository() : AuthRepository {
         return new PostgresAuthRepository(this.authRepo, this.dataSource);
+    }
+
+    createFileActionRepository() : FileActionRepository {
+        return new PostgresFileActionRepository(this.fileActionRepo);
     }
 };
