@@ -44,4 +44,8 @@ export class MongoFactory implements DatabaseFactory {
     createAuthRepository() : AuthRepository {
         return new MongoAuthRepository(this.authRepo, this.dataSource);
     }
+
+    createFileActionRepository(): any {
+        throw new Error('Method not implemented.');
+    }
 }

@@ -1,7 +1,7 @@
 import { ILoggedUser } from '../user/auth.interfaces';
 import { Injectable } from '@nestjs/common';
 import { FileRepository } from './file.repository';
-import { IUploadedFileResult, IFileDBFields, IImportedFileDBFields } from './file.interfaces';
+import { IUploadedFileResult, IFileDBFields, IImportedFileDBFields, IFileDetailType } from './file.interfaces';
 
 import { FileActionService } from './file-action/file.action.service';
 import { FileActionName, FileActionStatus } from './file-action/file.action.enums';
@@ -9,12 +9,15 @@ import { FILE_ACTION_NAME } from './file-action/file.action.constants';
 
 import { FileToActionService } from './file-to-action/file.to.action.service';
 
+import { FileDetailService } from './file-detail/file.detail.service';
+
 @Injectable()   
 export class FileService {
     constructor(
         private readonly fileRepository: FileRepository,
         private readonly fileActionService: FileActionService,
-        private readonly fileToActionService: FileToActionService
+        private readonly fileToActionService: FileToActionService,
+        private readonly fileDetailService: FileDetailService
     ) {};
 
     async uploadFiles(year: string, month: string, files: Array<Express.Multer.File>, user: ILoggedUser) : Promise<IUploadedFileResult> {
@@ -23,9 +26,9 @@ export class FileService {
         }
 
         const newEntries = files.map(file => ({
-            originalName: Buffer.from(file.originalname, 'latin1').toString('utf8'),
-            fileName: file.filename,
-            path: file.path,
+            file_name_origin: Buffer.from(file.originalname, 'latin1').toString('utf8'),
+            file_name: file.filename,
+            file_path: file.path,
             importDate: new Date(),
             distributor: 'N/A',
             rowCount: 0,
@@ -40,6 +43,7 @@ export class FileService {
         const fileToActionRecord = await this.fileToActionService.createFileToAction(file_action_id, user.userId);
 
         //write file-details
+        this.fileDetailService.add(FileActionName.UPLOAD, fileToActionRecord.file_to_action_action, newEntries as unknown as IFileDetailType[]);
 
         // Save file upload trace to the database
         //await this.fileRepository.traceFileUpload(newEntries); 

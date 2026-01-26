@@ -1,20 +1,23 @@
-import { FileActionName, FileActionStatus } from '../../../../domain/files/file-action/file.action.entity';
-import { Entity, Column } from 'typeorm';
+import { FileActionName, FileActionStatus } from '../../../../domain/files/file-action/file.action.enums';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('fileAction', { schema: 'file' })
 export class PostgresFileActionEntity {
+    @PrimaryGeneratedColumn()
+    file_action_id: number;
+    
     @Column({
-        type: 'string',
+        type: 'text',
         name: 'file_action_name',
         enum: FileActionName 
     })
     file_action_name: FileActionName; //Enum of actions: UPLOAD, IMPORT, CLEAR-UPLOADS
     
     @Column({
-        type: 'string',
+        type: 'bigint',
         name: 'file_action_status',
-        enum: FileActionStatus,
-        default: FileActionStatus.ACTIVE 
+        //enum: FileActionStatus,
+        //default: FileActionStatus.ACTIVE 
     })
     file_action_status: FileActionStatus; //Enum of status: ACTIVE, INACTIVE
     

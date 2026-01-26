@@ -5,7 +5,12 @@ import { FILE_DETAIL_REPOSITORY } from '../../../infrastructure/database/db.toke
 import { FileDetailType } from '../file-detail-type/file.detail.type.enum';
 import { IFileDetailType } from '../file.interfaces'
 
+import { FileActionName } from '../file-action/file.action.enums'
+
 /* Service add details for each action related to file*/
+
+type UploadType = Omit<IFileDetailType, FileDetailType.BATCH_ID>;
+type ImportType = Pick<IFileDetailType, FileDetailType.BATCH_ID>;
 
 @Injectable()
 export class FileDetailService {
@@ -18,21 +23,68 @@ export class FileDetailService {
         return this.fileDetailRepository.create(fileDetail);
     }
 
-    async addFileDetailsOnUpload(fileToActionId: number, fileDetails: Omit<IFileDetailType, FileDetailType.BATCH_ID>): Promise<boolean> {
+    //one pair of property-value at call
+    private async addFileDetailsOnUpload(fileToActionId: number, detail: UploadType): Promise<boolean> {
+       
+        const fileDetailEntity: FileDetailEntity = {
+                file_detail_file_to_action: fileToActionId,
+                file_detail_value: Object.values(detail)[0],
+                file_detail_type: Object.keys(detail)[0] as FileDetailType,
+        };
+        await this.addFileDetail(fileDetailEntity);
         
-        for (const detailType in fileDetails) {
-            const fileDetailEntity: FileDetailEntity = {
-                file_detail_value: fileDetails[detailType],
-                file_detail_type: detailType as FileDetailType,
-                file_detail_file_to_action: fileToActionId
-            };
-            await this.addFileDetail(fileDetailEntity);
-        }
 
         return true;
     }
 
-    async addFileDetailsOnImport(): Promise<boolean> {
+    private async addFileDetailsOnImport(fileToActionId: number, fileDetails: ImportType): Promise<boolean> {
+        return true;
+    }
+
+    //get method to add detail based on action
+    private getDetailActionMethod(action: FileActionName): (fileToActionId: number, fileDetails: ImportType | UploadType)=>Promise<boolean> {
+        switch(action) {
+            case FileActionName.UPLOAD:
+                return this.addFileDetailsOnUpload;
+            case FileActionName.IMPORT:
+                return this.addFileDetailsOnImport;
+            default:
+                throw new Error(`Unknown category detail: ${action}`);
+        }
+    };
+    
+    //get params based on action
+    private getDetailActionParams(action: FileActionName): string[] {
+        switch(action) {
+            case FileActionName.UPLOAD:
+                return Object.values(FileDetailType).filter(type => type !== FileDetailType.BATCH_ID);
+            case FileActionName.IMPORT:
+                return [FileDetailType.BATCH_ID];      
+        }
+    }
+            
+    //general method to add details based on action
+    async add(action: FileActionName, actionId: number, Details: IFileDetailType[]): Promise<boolean> {
+        //get method to add details
+        const method = this.getDetailActionMethod(action);
+        //get required params for action
+        const paramNames = this.getDetailActionParams(action);
+        
+        //process each detail
+        for(const detail of Details) {
+            //get passed params
+            const paramsByAction = Object.keys(detail).filter(key => paramNames.includes(key));
+            
+            //get params and call method to store details
+            for (const param of paramsByAction) {
+                if (!detail[param]) {
+                    throw new Error(`Missing parameter: ${param}`);
+                }
+                //store details
+                await method.call(this, actionId, detail);
+            }
+        }
+        
         return true;
     }
 }

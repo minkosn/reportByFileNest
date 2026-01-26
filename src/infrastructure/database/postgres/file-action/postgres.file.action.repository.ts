@@ -1,4 +1,5 @@
-import { FileActionName, FileActionStatus, FileActionEntity } from 'src/domain/files/file-action/file.action.entity';
+import { FileActionEntity } from 'src/domain/files/file-action/file.action.entity';
+import { FileActionName, FileActionStatus } from 'src/domain/files/file-action/file.action.enums';
 import { FileActionRepository } from '../../../../domain/files/file-action/file.action.repository';
 import { PostgresFileActionEntity } from './postgres.file.action.entity';
 import { Repository } from 'typeorm'

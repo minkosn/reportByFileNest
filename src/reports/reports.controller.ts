@@ -1,10 +1,13 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+//import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { AuthGuard } from '../domain/user/auth.guard';
+
 import { ReportsService } from './reports.service';
 import { ReportQueryDto } from './dto/report-query.dto';
 
 @Controller('reports')
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
+@UseGuards(AuthGuard)
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 

@@ -17,10 +17,11 @@ export interface IFileDetailType {
     file_name_origin: string;
     file_path: string;
     
-    //On import
     distributor: string;
     year: string;
     month: string;
+    
+    //On import
     batch_id: string;
 };  
 

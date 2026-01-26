@@ -1,6 +1,6 @@
 
 import { FileActionEntity} from './file.action.entity';
-import { , FileActionStatus, FileActionName  } from './file.action.enums';
+import { FileActionStatus, FileActionName  } from './file.action.enums';
 import { IFileRepository } from '../file.interfaces';
 
 export interface FileActionRepository extends IFileRepository<FileActionEntity> {
