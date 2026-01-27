@@ -4,7 +4,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { UploadDto } from './dto/upload.dto';
 import { IUploadedFileResult } from '../../../domain/files/file.interfaces';
 
-@Controller('file')
+@Controller('files')
 export class FilesController {
     constructor(private readonly fileService: FileService) {};
 

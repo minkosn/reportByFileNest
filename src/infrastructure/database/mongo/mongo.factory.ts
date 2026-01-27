@@ -48,4 +48,12 @@ export class MongoFactory implements DatabaseFactory {
     createFileActionRepository(): any {
         throw new Error('Method not implemented.');
     }
+
+    createFileDetailRepository(): any {
+        throw new Error('Method not implemented.');
+    }
+
+    createFileToActionRepository(): any {
+        throw new Error('Method not implemented.');
+    }
 }

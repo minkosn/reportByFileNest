@@ -6,6 +6,8 @@ import { DatabaseModule } from '../../infrastructure/database/db.module';
 import { FileService } from './file.service';
 import { FileActionService } from './file-action/file.action.service';
 import { FileToActionService } from './file-to-action/file.to.action.service';
+import { FileDetailService } from './file-detail/file.detail.service';
+import { FilesController } from '../../interfaces/http/file/file.controller';
 
 
 @Module({
@@ -20,7 +22,8 @@ import { FileToActionService } from './file-to-action/file.to.action.service';
                   inject: [ConfigService],
                 }),
     ],
-    providers: [FileService, FileActionService, FileToActionService],
-    exports: [FileService]
+    controllers: [FilesController],
+    providers: [FileService, FileActionService, FileToActionService, FileDetailService],
+    exports: [FileService/*, FileActionService, FileToActionService, FileDetailService*/]
 })
 export class FileModule {};

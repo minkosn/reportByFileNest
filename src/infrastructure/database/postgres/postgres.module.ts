@@ -8,6 +8,8 @@ import { PostgresUserEntity } from './postgres.user.entity';
 import { PostgresPersonEntity } from './postgres.person.entity';
 import { PostgresAuthEntity } from './postgres.auth.entity';
 import { PostgresFileActionEntity } from './file-action/postgres.file.action.entity';
+import { PostgresFileDetailEntity } from './file-detail/postgres.file.detail.entity';
+import { PostgresFileToActionEntity } from './file-to-action/postgres.file.to.action.entity';
 
 import { PostgresFactory } from './postgres.factory';
 
@@ -24,7 +26,14 @@ import { PostgresFactory } from './postgres.factory';
                 username: configService.get('DB_USER'),
                 password: configService.get('DB_PASSWORD'),
                 database: configService.get('DB_DATABASE'),
-                entities: [PostgresUserEntity, PostgresPersonEntity, PostgresAuthEntity, PostgresFileActionEntity],
+                entities: [
+                    PostgresUserEntity, 
+                    PostgresPersonEntity, 
+                    PostgresAuthEntity, 
+                    PostgresFileActionEntity,
+                    PostgresFileDetailEntity,
+                    PostgresFileToActionEntity
+                ],
                 synchronize: false,
             })
         }),
@@ -32,7 +41,9 @@ import { PostgresFactory } from './postgres.factory';
             PostgresUserEntity,
             PostgresPersonEntity,
             PostgresAuthEntity,
-            PostgresFileActionEntity
+            PostgresFileActionEntity,
+            PostgresFileDetailEntity,
+            PostgresFileToActionEntity
         ])
     ],
     providers: [

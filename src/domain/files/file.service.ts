@@ -11,10 +11,11 @@ import { FileToActionService } from './file-to-action/file.to.action.service';
 
 import { FileDetailService } from './file-detail/file.detail.service';
 
+
 @Injectable()   
 export class FileService {
     constructor(
-        private readonly fileRepository: FileRepository,
+        //private readonly fileRepository: FileRepository,
         private readonly fileActionService: FileActionService,
         private readonly fileToActionService: FileToActionService,
         private readonly fileDetailService: FileDetailService
@@ -58,14 +59,17 @@ export class FileService {
     }
 
     async getUploadedFiles(): Promise<IFileDBFields[]> {
-        return this.fileRepository.getUploadedFiles();
+        //return this.fileRepository.getUploadedFiles();
+        return [];
     }
 
     async getImportedFiles(): Promise<IImportedFileDBFields[]> {
-        return this.fileRepository.getImportedFiles(); 
+        //return this.fileRepository.getImportedFiles();
+        return []; 
     }
 
     async clearUploadFolder(): Promise<void> {
-        return this.fileRepository.clearUploadFolder();
+        //return this.fileRepository.clearUploadFolder();
+        return; 
     }
 }  

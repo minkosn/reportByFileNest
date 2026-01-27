@@ -7,7 +7,9 @@ import {
     USER_REPOSITORY,
     PERSON_REPOSITORY,
     AUTH_REPOSITORY,
-    FILE_ACTION_REPOSITORY 
+    FILE_ACTION_REPOSITORY,
+    FILE_TO_ACTION_REPOSITORY,
+    FILE_DETAIL_REPOSITORY 
 } from './db.tokens';
 import { DatabaseFactory } from './db-factory.interface';
 import { DatabaseStrategy } from './db-strategy.interface';
@@ -85,14 +87,27 @@ export class DatabaseModule {
                     provide: FILE_ACTION_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createFileActionRepository(),
                     inject: [DB_FACTORY]
-                }
+                },
+                {
+                    provide: FILE_TO_ACTION_REPOSITORY,
+                    useFactory: (factory: DatabaseFactory) => factory.createFileToActionRepository(),
+                    inject: [DB_FACTORY]
+                },
+                {
+                    provide: FILE_DETAIL_REPOSITORY,
+                    useFactory: (factory: DatabaseFactory) => factory.createFileDetailRepository(),
+                    inject: [DB_FACTORY]
+                },
+    
             ],
             exports: [
                 DB_FACTORY,
                 USER_REPOSITORY,
                 PERSON_REPOSITORY,
                 AUTH_REPOSITORY,
-                FILE_ACTION_REPOSITORY
+                FILE_ACTION_REPOSITORY,
+                FILE_TO_ACTION_REPOSITORY,
+                FILE_DETAIL_REPOSITORY
             ]
         };
     }

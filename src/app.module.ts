@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
 import { UserModule } from './domain/user/user.module';
 import { PersonModule } from './domain/person/person.module';
-//import { FilesModule } from './files/files.module';
+import { FileModule } from './domain/files/file.module';
 //import { ReportsModule } from './reports/reports.module';
 //import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './infrastructure/database/db.module';
@@ -27,11 +27,10 @@ import { ConfigService } from './config/config.service';
       }),
       inject: [ConfigService],
     }),
-    UserModule
-    
-    // AuthModule,
-    // FilesModule,
+    UserModule,
+    FileModule
     // ReportsModule
+     // AuthModule,
 ],
   controllers: [AppController],
   providers: [

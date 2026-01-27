@@ -11,9 +11,18 @@ import { PostgresPersonEntity } from './postgres.person.entity';
 import { AuthRepository } from 'src/domain/user/auth.repository';
 import { PostgresAuthRepository } from './postgres.auth.repository';
 import { PostgresAuthEntity } from './postgres.auth.entity';
+
 import { PostgresFileActionEntity } from './file-action/postgres.file.action.entity';
 import { PostgresFileActionRepository } from './file-action/postgres.file.action.repository';
 import { FileActionRepository } from 'src/domain/files/file-action/file.action.repository';
+
+import { FileDetailRepository } from 'src/domain/files/file-detail/file.detail.repository';
+import { PostgresFileDetailEntity } from './file-detail/postgres.file.detail.entity';
+import { PostgresFileDetailRepository } from './file-detail/postgres.file.detail.repository';
+
+import { FileToActionRepository } from 'src/domain/files/file-to-action/file.to.action.repository';
+import { PostgresFileToActionEntity } from './file-to-action/postgres.file.to.action.entity';
+import { PostgresFileToActionRepository } from './file-to-action/postgres.file.to.action.repository';
 
 @Injectable()
 export class PostgresFactory implements DatabaseFactory {
@@ -33,7 +42,16 @@ export class PostgresFactory implements DatabaseFactory {
         //File Action Repo
         @InjectRepository(PostgresFileActionEntity)
         private readonly fileActionRepo: Repository<PostgresFileActionEntity>,
-        
+
+        //File Detail Repo
+        @InjectRepository(PostgresFileDetailEntity)
+        private readonly fileDetailRepo: Repository<PostgresFileDetailEntity>,
+
+        //File To Action Repo
+        @InjectRepository(PostgresFileToActionEntity)
+        private readonly fileToActionRepo: Repository<PostgresFileToActionEntity>,
+
+        //Data Source        
         @InjectDataSource()
         private readonly dataSource: DataSource,
 
@@ -54,4 +72,15 @@ export class PostgresFactory implements DatabaseFactory {
     createFileActionRepository() : FileActionRepository {
         return new PostgresFileActionRepository(this.fileActionRepo);
     }
+
+    createFileToActionRepository(): FileToActionRepository {
+        return new PostgresFileToActionRepository(this.fileToActionRepo);
+    }
+
+    createFileDetailRepository(): FileDetailRepository {
+        return new PostgresFileDetailRepository(this.fileDetailRepo);
+    };
+            
+
+        
 };

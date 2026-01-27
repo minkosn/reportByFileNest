@@ -1,6 +1,11 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Pool } from 'pg';
-import { PG_CONNECTION } from '../infrastructure/database/database.providers';
+
+//TO DO: Will use datasoure to make queries
+//import { PG_CONNECTION } from '../infrastructure/database/database.providers_not_use';
+//  TEMP declared dataSource , TO BE REMOVED LATER
+const PG_CONNECTION = 'PG_CONNECTION';
+
 import { ReportQueryDto } from './dto/report-query.dto';
 
 @Injectable()
