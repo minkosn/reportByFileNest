@@ -78,7 +78,7 @@ export class PostgresFactory implements DatabaseFactory {
     }
 
     createFileDetailRepository(): FileDetailRepository {
-        return new PostgresFileDetailRepository(this.fileDetailRepo);
+        return new PostgresFileDetailRepository(this.fileDetailRepo, this.dataSource);
     };
             
 

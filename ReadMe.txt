@@ -1,3 +1,6 @@
+.1 To Do Entoty for detailType !
+
+
 Users:
     "username": "firsto_2", 
     "password": "222"

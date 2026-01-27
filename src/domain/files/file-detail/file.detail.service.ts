@@ -26,14 +26,15 @@ export class FileDetailService {
     //one pair of property-value at call
     private async addFileDetailsOnUpload(fileToActionId: number, detail: UploadType): Promise<boolean> {
        
+        const detailTypeId = await this.fileDetailRepository.getDetailTypeId(Object.keys(detail)[0]);
+
         const fileDetailEntity: FileDetailEntity = {
                 file_detail_file_to_action: fileToActionId,
                 file_detail_value: Object.values(detail)[0],
-                file_detail_type: Object.keys(detail)[0] as FileDetailType,
+                file_detail_type: detailTypeId //Object.keys(detail)[0] as FileDetailType,
         };
         await this.addFileDetail(fileDetailEntity);
-        
-
+   
         return true;
     }
 
@@ -77,11 +78,12 @@ export class FileDetailService {
             
             //get params and call method to store details
             for (const param of paramsByAction) {
-                if (!detail[param]) {
+                const detailValue = detail[param]
+                if (!detailValue) {
                     throw new Error(`Missing parameter: ${param}`);
                 }
                 //store details
-                await method.call(this, actionId, detail);
+                await method.call(this, actionId, {[param]: detailValue});
             }
         }
         

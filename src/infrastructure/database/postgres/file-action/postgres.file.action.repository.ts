@@ -11,8 +11,9 @@ export class PostgresFileActionRepository implements FileActionRepository {
         return this.repo.save(entity);
     }
 
-    getByField(fieldName: string, value: any): Promise<PostgresFileActionEntity[]> {
-        return this.repo.findBy({ [fieldName]: value });
+    async getByField(fieldName: string, value: any): Promise<PostgresFileActionEntity[]> {
+        const result = await this.repo.findBy({ [fieldName]: value }); 
+        return result;
     }
 
     findAll(): Promise<PostgresFileActionEntity[]> {

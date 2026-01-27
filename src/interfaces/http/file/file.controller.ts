@@ -12,7 +12,7 @@ export class FilesController {
     @Post('upload')
     @UseInterceptors(FilesInterceptor('files'))
     async uploadFile(@UploadedFiles() files: Array<Express.Multer.File>, @Body() body: UploadDto, @Request() req: any) : Promise<IUploadedFileResult> {
-        return this.fileService.uploadFiles(body.year, body.month, files, req.user);
+        return this.fileService.uploadFiles(body.year, body.month, files, { token: '', userId: req.user.id});
     }
 
     // get uploaded files endpoint

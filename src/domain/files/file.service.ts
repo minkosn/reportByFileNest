@@ -44,7 +44,7 @@ export class FileService {
         const fileToActionRecord = await this.fileToActionService.createFileToAction(file_action_id, user.userId);
 
         //write file-details
-        this.fileDetailService.add(FileActionName.UPLOAD, fileToActionRecord.file_to_action_action, newEntries as unknown as IFileDetailType[]);
+        await this.fileDetailService.add(FileActionName.UPLOAD, fileToActionRecord.file_to_action_id, newEntries as unknown as IFileDetailType[]);
 
         // Save file upload trace to the database
         //await this.fileRepository.traceFileUpload(newEntries); 
