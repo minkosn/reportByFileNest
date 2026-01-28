@@ -9,7 +9,8 @@ import {
     AUTH_REPOSITORY,
     FILE_ACTION_REPOSITORY,
     FILE_TO_ACTION_REPOSITORY,
-    FILE_DETAIL_REPOSITORY 
+    FILE_DETAIL_REPOSITORY,
+    FILE_DETAIL_TYPE_REPOSITORY 
 } from './db.tokens';
 import { DatabaseFactory } from './db-factory.interface';
 import { DatabaseStrategy } from './db-strategy.interface';
@@ -98,6 +99,11 @@ export class DatabaseModule {
                     useFactory: (factory: DatabaseFactory) => factory.createFileDetailRepository(),
                     inject: [DB_FACTORY]
                 },
+                {
+                    provide: FILE_DETAIL_TYPE_REPOSITORY,
+                    useFactory: (factory: DatabaseFactory) => factory.createFileDetailTypeRepository(),
+                    inject: [DB_FACTORY]
+                }
     
             ],
             exports: [
@@ -107,7 +113,8 @@ export class DatabaseModule {
                 AUTH_REPOSITORY,
                 FILE_ACTION_REPOSITORY,
                 FILE_TO_ACTION_REPOSITORY,
-                FILE_DETAIL_REPOSITORY
+                FILE_DETAIL_REPOSITORY,
+                FILE_DETAIL_TYPE_REPOSITORY
             ]
         };
     }

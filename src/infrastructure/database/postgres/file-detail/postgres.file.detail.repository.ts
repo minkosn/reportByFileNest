@@ -5,7 +5,7 @@ import { FileDetailRepository } from 'src/domain/files/file-detail/file.detail.r
 export class PostgresFileDetailRepository implements FileDetailRepository {
     constructor(
         private readonly repo: Repository<PostgresFileDetailEntity>,
-        private readonly dataSource: DataSource
+        //private readonly dataSource: DataSource
     ){};
     async create(entity: PostgresFileDetailEntity) {
         return this.repo.save(entity);
@@ -18,7 +18,7 @@ export class PostgresFileDetailRepository implements FileDetailRepository {
     async findAll(): Promise<PostgresFileDetailEntity[]> {
         return this.repo.find();
     }
-
+    /*
     async getDetailTypeId(detailType: string): Promise<number> {
         const queryRunner = this.dataSource.createQueryRunner();
         
@@ -35,5 +35,5 @@ export class PostgresFileDetailRepository implements FileDetailRepository {
         } finally {     
             await queryRunner.release();
         }
-    }
+    }*/
 };

@@ -1,6 +1,4 @@
 import {IFileRepository } from "../../files/file.interfaces"; 
 import { FileDetailEntity } from "./file.detail.entity";
 
-export interface FileDetailRepository extends IFileRepository<FileDetailEntity>{
-    getDetailTypeId(detailType: string): Promise<number>;
-};
+export interface FileDetailRepository extends IFileRepository<FileDetailEntity>{};

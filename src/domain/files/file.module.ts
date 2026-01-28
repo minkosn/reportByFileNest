@@ -7,8 +7,8 @@ import { FileService } from './file.service';
 import { FileActionService } from './file-action/file.action.service';
 import { FileToActionService } from './file-to-action/file.to.action.service';
 import { FileDetailService } from './file-detail/file.detail.service';
+import { FileDetailTypeService } from './file-detail-type/file.detail.type.service';
 import { FilesController } from '../../interfaces/http/file/file.controller';
-
 
 @Module({
     imports: [
@@ -23,7 +23,7 @@ import { FilesController } from '../../interfaces/http/file/file.controller';
                 }),
     ],
     controllers: [FilesController],
-    providers: [FileService, FileActionService, FileToActionService, FileDetailService],
+    providers: [FileService, FileActionService, FileToActionService, FileDetailService, FileDetailTypeService],
     exports: [FileService/*, FileActionService, FileToActionService, FileDetailService*/]
 })
 export class FileModule {};

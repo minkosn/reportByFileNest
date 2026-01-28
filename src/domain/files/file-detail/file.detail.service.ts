@@ -7,6 +7,9 @@ import { IFileDetailType } from '../file.interfaces'
 
 import { FileActionName } from '../file-action/file.action.enums'
 
+import { FileDetailTypeService } from '../file-detail-type/file.detail.type.service';
+
+
 /* Service add details for each action related to file*/
 
 type UploadType = Omit<IFileDetailType, FileDetailType.BATCH_ID>;
@@ -16,7 +19,8 @@ type ImportType = Pick<IFileDetailType, FileDetailType.BATCH_ID>;
 export class FileDetailService {
     constructor(
         @Inject(FILE_DETAIL_REPOSITORY)
-        private readonly fileDetailRepository: FileDetailRepository
+        private readonly fileDetailRepository: FileDetailRepository,
+        private readonly fileDetailTypeService: FileDetailTypeService
     ){};
 
     private async addFileDetail(fileDetail: FileDetailEntity): Promise<FileDetailEntity> {
@@ -26,12 +30,13 @@ export class FileDetailService {
     //one pair of property-value at call
     private async addFileDetailsOnUpload(fileToActionId: number, detail: UploadType): Promise<boolean> {
        
-        const detailTypeId = await this.fileDetailRepository.getDetailTypeId(Object.keys(detail)[0]);
+        //const detailTypeId = await this.fileDetailRepository.getDetailTypeId(Object.keys(detail)[0]);
+        const detailType = await this.fileDetailTypeService.getFileDetailTypes(Object.keys(detail)[0] as unknown as IFileDetailType);
 
         const fileDetailEntity: FileDetailEntity = {
                 file_detail_file_to_action: fileToActionId,
                 file_detail_value: Object.values(detail)[0],
-                file_detail_type: detailTypeId //Object.keys(detail)[0] as FileDetailType,
+                file_detail_type: detailType.file_detail_type_id //Object.keys(detail)[0] as FileDetailType,
         };
         await this.addFileDetail(fileDetailEntity);
    

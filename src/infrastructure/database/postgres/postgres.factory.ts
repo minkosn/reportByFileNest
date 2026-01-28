@@ -24,6 +24,10 @@ import { FileToActionRepository } from 'src/domain/files/file-to-action/file.to.
 import { PostgresFileToActionEntity } from './file-to-action/postgres.file.to.action.entity';
 import { PostgresFileToActionRepository } from './file-to-action/postgres.file.to.action.repository';
 
+import { FileDetailTypeRepository } from 'src/domain/files/file-detail-type/file.detail.type.repository';
+import { PostgresFileDetailTypeEntity } from './file-detail-type/postgres.file.detail.type.entity';
+import { PostgresFileDetailTypeRepository } from './file-detail-type/postgres.file.detail.type.repository';
+
 @Injectable()
 export class PostgresFactory implements DatabaseFactory {
     constructor(
@@ -50,6 +54,10 @@ export class PostgresFactory implements DatabaseFactory {
         //File To Action Repo
         @InjectRepository(PostgresFileToActionEntity)
         private readonly fileToActionRepo: Repository<PostgresFileToActionEntity>,
+
+        //File Detail Type Repo
+        @InjectRepository(PostgresFileDetailTypeEntity)
+        private readonly fileDetailTypeRepo: Repository<PostgresFileDetailTypeEntity>,
 
         //Data Source        
         @InjectDataSource()
@@ -78,9 +86,10 @@ export class PostgresFactory implements DatabaseFactory {
     }
 
     createFileDetailRepository(): FileDetailRepository {
-        return new PostgresFileDetailRepository(this.fileDetailRepo, this.dataSource);
+        return new PostgresFileDetailRepository(this.fileDetailRepo/*, this.dataSource*/);
     };
-            
 
-        
+    createFileDetailTypeRepository(): FileDetailTypeRepository {
+        return new PostgresFileDetailTypeRepository(this.fileDetailTypeRepo);
+    }
 };

@@ -10,6 +10,7 @@ import { PostgresAuthEntity } from './postgres.auth.entity';
 import { PostgresFileActionEntity } from './file-action/postgres.file.action.entity';
 import { PostgresFileDetailEntity } from './file-detail/postgres.file.detail.entity';
 import { PostgresFileToActionEntity } from './file-to-action/postgres.file.to.action.entity';
+import { PostgresFileDetailTypeEntity } from './file-detail-type/postgres.file.detail.type.entity';
 
 import { PostgresFactory } from './postgres.factory';
 
@@ -32,7 +33,8 @@ import { PostgresFactory } from './postgres.factory';
                     PostgresAuthEntity, 
                     PostgresFileActionEntity,
                     PostgresFileDetailEntity,
-                    PostgresFileToActionEntity
+                    PostgresFileToActionEntity,
+                    PostgresFileDetailTypeEntity
                 ],
                 synchronize: false,
             })
@@ -43,7 +45,8 @@ import { PostgresFactory } from './postgres.factory';
             PostgresAuthEntity,
             PostgresFileActionEntity,
             PostgresFileDetailEntity,
-            PostgresFileToActionEntity
+            PostgresFileToActionEntity,
+            PostgresFileDetailTypeEntity
         ])
     ],
     providers: [

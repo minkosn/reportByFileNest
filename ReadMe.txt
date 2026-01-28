@@ -1,4 +1,4 @@
-.1 To Do Entoty for detailType !
+.1 To Do Entity for detailType !
 
 
 Users:
