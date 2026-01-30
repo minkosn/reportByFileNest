@@ -1,4 +1,5 @@
-.1 To Do Entity for detailType !
+1. File import 
+2. Reports
 
 
 Users:
