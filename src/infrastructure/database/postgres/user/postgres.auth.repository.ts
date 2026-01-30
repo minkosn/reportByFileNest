@@ -1,4 +1,4 @@
-import { AuthRepository, AddCustomer } from '../../../domain/user/auth.repository';
+import { AuthRepository, AddCustomer } from '../../../../domain/user/auth.repository';
 import { PostgresAuthEntity } from './postgres.auth.entity';
 import { Repository, DataSource } from 'typeorm';
 

@@ -16,7 +16,6 @@ import { ConfigService } from './config/config.service';
 @Module({
   imports: [
     ConfigModule,
-    PersonModule,
     DatabaseModule,
     JwtModule.registerAsync({
       global: true,
@@ -28,6 +27,7 @@ import { ConfigService } from './config/config.service';
       inject: [ConfigService],
     }),
     UserModule,
+    PersonModule,
     FileModule
     // ReportsModule
      // AuthModule,

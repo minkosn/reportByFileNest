@@ -1,5 +1,5 @@
-import { UserRepository } from '../../../domain/user/user.repository';
-import { User } from '../../../domain/user/user.entity';
+import { UserRepository } from '../../../../domain/user/user.repository';
+import { User } from '../../../../domain/user/user.entity';
 import { Repository } from 'typeorm';
 import { PostgresUserEntity } from './postgres.user.entity';
 

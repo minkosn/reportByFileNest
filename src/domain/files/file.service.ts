@@ -28,7 +28,7 @@ export class FileService {
         }
 
         const newEntries = files.map(file => ({
-            file_name_origin: Buffer.from(file.originalname, 'latin1').toString('utf8'),
+            file_name_origin: file.originalname,//Buffer.from(file.originalname, 'latin1').toString('utf8'),
             file_name: file.filename,
             file_path: file.path,
             importDate: new Date(),

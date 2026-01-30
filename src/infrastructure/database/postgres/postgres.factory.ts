@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { DatabaseFactory } from '../db-factory.interface';
-import { PostgresUserEntity } from './postgres.user.entity';
-import { PostgresUserRepository } from './postgres.user.repository';
+import { PostgresUserEntity } from './user/postgres.user.entity';
+import { PostgresUserRepository } from './user/postgres.user.repository';
 import { Repository, DataSource } from 'typeorm';
 import { UserRepository } from 'src/domain/user/user.repository';
 import { PersonRepository } from 'src/domain/person/person.repository';
-import { PostgresPersonRepository } from './postgres.person.repository';
-import { PostgresPersonEntity } from './postgres.person.entity';
+import { PostgresPersonRepository } from './person/postgres.person.repository';
+import { PostgresPersonEntity } from './person/postgres.person.entity';
 import { AuthRepository } from 'src/domain/user/auth.repository';
-import { PostgresAuthRepository } from './postgres.auth.repository';
-import { PostgresAuthEntity } from './postgres.auth.entity';
+import { PostgresAuthRepository } from './user/postgres.auth.repository';
+import { PostgresAuthEntity } from './user/postgres.auth.entity';
 
 import { PostgresFileActionEntity } from './file-action/postgres.file.action.entity';
 import { PostgresFileActionRepository } from './file-action/postgres.file.action.repository';

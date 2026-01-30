@@ -8,22 +8,25 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
 
 async function bootstrap() {
-  console.log(`Bootstrap in`);
+  
+    const app = await NestFactory.create(AppModule);
+    console.log(`NestFactory.create done`);
 
-  const app = await NestFactory.create(AppModule);
-  console.log(`NestFactory.create done`);
+    //allow FE localhost:8080 to access BE
+    app.enableCors({ 
+        credentials: true,
+        origin: 'http://localhost:8080',
+        methods: ['GET','POST','PUT','DELETE']
+    });
+    
+        app.useGlobalPipes(new ValidationPipe());
+    
+    app.setGlobalPrefix('api');
 
-
-  app.enableCors({ 
-    credentials: true,
-    origin: 'http://localhost:8080',
-    methods: ['GET','POST','PUT','DELETE']
-});
-  app.useGlobalPipes(new ValidationPipe());
-  app.setGlobalPrefix('api');
-  const configService = app.get(ConfigService);
-  const port = configService.get('PORT') || 3000;
-  await app.listen(port);
-  console.log(`Application is running on: ${await app.getUrl()}`);
+    const configService = app.get(ConfigService);
+    const port = configService.get('PORT') || 3000;
+    await app.listen(port);
+    console.log(`Application is running on: ${await app.getUrl()}`);
 }
+
 bootstrap();

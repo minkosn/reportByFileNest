@@ -1,6 +1,13 @@
 1. File import 
 2. Reports
 
+versions:
+   0.0.0 - initial version  
+   1.0.0 - application with basic features:
+    - Users management (login, register, password reset, password update, list users, gte user info)
+    - Parsons management (list persons, get person info)
+    - Basic API for files (upload, list uploads, list imports) 
+
 
 Users:
     "username": "firsto_2", 

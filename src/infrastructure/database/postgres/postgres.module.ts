@@ -4,9 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from 'src/config/config.module';
 import { ConfigService } from 'src/config/config.service';
 
-import { PostgresUserEntity } from './postgres.user.entity';
-import { PostgresPersonEntity } from './postgres.person.entity';
-import { PostgresAuthEntity } from './postgres.auth.entity';
+import { PostgresUserEntity } from './user/postgres.user.entity';
+import { PostgresPersonEntity } from './person/postgres.person.entity';
+import { PostgresAuthEntity } from './user/postgres.auth.entity';
 import { PostgresFileActionEntity } from './file-action/postgres.file.action.entity';
 import { PostgresFileDetailEntity } from './file-detail/postgres.file.detail.entity';
 import { PostgresFileToActionEntity } from './file-to-action/postgres.file.to.action.entity';
