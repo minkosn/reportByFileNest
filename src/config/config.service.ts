@@ -72,4 +72,5 @@ export class ConfigService {
         uri: this.get('MSSQL_URI')
     }
   }
+  
 }

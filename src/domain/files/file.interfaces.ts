@@ -9,8 +9,6 @@ export interface IFileRepository<TEntity = any> {
     findAll(): Promise<TEntity[]>;
 }
 
-
-
 export interface IFileDetailType {
     //On upload
     file_name: string;

@@ -23,7 +23,4 @@ export class FileToActionService {
     async getFileToActionByActionId(actionId: number): Promise<FileToActionEntity[]> {
         return this.fileToActionRepository.getByField('file_to_action_action', actionId);
     }
- 
-    
-    
 }

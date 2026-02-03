@@ -24,6 +24,6 @@ import { FilesController } from '../../interfaces/http/file/file.controller';
     ],
     controllers: [FilesController],
     providers: [FileService, FileActionService, FileToActionService, FileDetailService, FileDetailTypeService],
-    exports: [FileService/*, FileActionService, FileToActionService, FileDetailService*/]
+    exports: [FileService]
 })
 export class FileModule {};

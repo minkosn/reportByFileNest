@@ -16,8 +16,6 @@ export class PostgresFileActionEntity {
     @Column({
         type: 'bigint',
         name: 'file_action_status',
-        //enum: FileActionStatus,
-        //default: FileActionStatus.ACTIVE 
     })
     file_action_status: FileActionStatus; //Enum of status: ACTIVE, INACTIVE
     

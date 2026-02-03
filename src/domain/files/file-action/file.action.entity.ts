@@ -1,16 +1,4 @@
 
-/*export enum FileActionName {
-    UPLOAD = 'UPLOAD',
-    IMPORT = 'IMPORT',
-    CLEAR_UPLOADS = 'CLEAR_UPLOADS'
-}
-
-export enum FileActionStatus {
-    ACTIVE = 'ACTIVE',
-    INACTIVE = 'INACTIVE'
-}
-*/
-
 import { FileActionName, FileActionStatus } from './file.action.enums';
 import { FILE_ACTION_NAME } from './file.action.constants';
 //relation file 1:m FileActions

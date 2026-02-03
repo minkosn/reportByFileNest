@@ -1,5 +1,4 @@
 // relation file 1:m file details
-import { FileDetailType } from "../file-detail-type/file.detail.type.enum";
 export class FileDetailEntity {
     file_detail_id?: number;
     file_detail_type: number; //FileDetailType; //Enum ?  'DISTRIBUTOR' | 'YEAR' | 'MONTH' | 'BATCH_ID'

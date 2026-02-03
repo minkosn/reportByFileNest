@@ -1,4 +1,3 @@
-import { FileDetailType } from "./file.detail.type.enum";
 export class FileDetailTypeEntity {
     file_detail_type_id?: number;
     file_detail_type_data: string;//FileDetailType;

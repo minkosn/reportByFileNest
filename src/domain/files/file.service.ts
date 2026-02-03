@@ -1,6 +1,5 @@
 import { ILoggedUser } from '../user/auth.interfaces';
 import { Injectable } from '@nestjs/common';
-import { FileRepository } from './file.repository';
 import { IUploadedFileResult, IFileDBFields, IImportedFileDBFields, IFileDetailType } from './file.interfaces';
 
 import { FileActionService } from './file-action/file.action.service';
@@ -16,7 +15,6 @@ import { FileDetailService } from './file-detail/file.detail.service';
 @Injectable()   
 export class FileService {
     constructor(
-        //private readonly fileRepository: FileRepository,
         private readonly fileActionService: FileActionService,
         private readonly fileToActionService: FileToActionService,
         private readonly fileDetailService: FileDetailService
@@ -38,6 +36,9 @@ export class FileService {
             month
         }));
 
+        // Save file upload trace to the database
+        
+
         //get id of file action - upload
         const [{file_action_id, ...restFileAction}, ...rest] = await this.fileActionService.getByField(FILE_ACTION_NAME, FileActionName.UPLOAD);
 
@@ -46,9 +47,6 @@ export class FileService {
 
         //write file-details
         await this.fileDetailService.add(FileActionName.UPLOAD, fileToActionRecord.file_to_action_id, newEntries as unknown as IFileDetailType[]);
-
-        // Save file upload trace to the database
-        //await this.fileRepository.traceFileUpload(newEntries); 
 
         return {
             message: 'Files uploaded successfully',
@@ -60,17 +58,17 @@ export class FileService {
     }
 
     async getUploadedFiles(): Promise<IFileDBFields[]> {
-        //return this.fileRepository.getUploadedFiles();
+        //TO DO return this.fileRepository.getUploadedFiles();
         return [];
     }
 
     async getImportedFiles(): Promise<IImportedFileDBFields[]> {
-        //return this.fileRepository.getImportedFiles();
+        //TO DO return this.fileRepository.getImportedFiles();
         return []; 
     }
 
     async clearUploadFolder(): Promise<void> {
-        //return this.fileRepository.clearUploadFolder();
+        //TO DO return this.fileRepository.clearUploadFolder();
         return; 
     }
 }  

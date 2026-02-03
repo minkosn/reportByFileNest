@@ -4,7 +4,6 @@ import { AuthService } from './auth.service';
 import { UserController } from '../../interfaces/http/user/user.controller';
 import { DatabaseModule } from '../../infrastructure/database/db.module';
 import { ConfigModule } from '../../config/config.module';
-//import { AuthGuard } from './auth.guard';
 
 @Module({
   imports: [
@@ -12,8 +11,8 @@ import { ConfigModule } from '../../config/config.module';
     ConfigModule
   ],  
   controllers: [UserController],
-  providers: [UserService, AuthService/*, AuthGuard*/],
-  exports: [UserService, AuthService/*, AuthGuard*/],
+  providers: [UserService, AuthService],
+  exports: [UserService, AuthService],
   
 })
 export class UserModule {};
