@@ -35,9 +35,9 @@ export class MongoAuthRepository implements AuthRepository {
 
     async addCustomer(newCustomer : AddCustomer): Promise<BigInteger> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
-        
+        /*
         let outPersonId: BigInteger;    
-        /* TO DO: Implement the stored procedure call for MongoDB
+         TO DO: Implement the stored procedure call for MongoDB
         await this.repo.query('CALL "user".proc_add_customer($1, $2, $3, $4, $5, $6, $7)', [
             firstName,
             lastName,
@@ -47,13 +47,15 @@ export class MongoAuthRepository implements AuthRepository {
             hashedPassword,
             outPersonId
         ]);
-        */
+        
         return outPersonId;
+        */
+       throw new Error('Method not implemented.');
     }
 
     async getUserIdByEmail(email: string): Promise<BigInteger> {
         // TO DO: Implement the stored procedure call for MongoDB
-        return 0n as undefined as BigInteger;
+        return 0n as unknown as BigInteger;
         //const result = await this.repo.query('SELECT get_user_id_by_email as user_id FROM "user".get_user_id_by_email($1)', [email]);
         //return result?.rows[0]?.user_id;
     }

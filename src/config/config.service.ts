@@ -33,7 +33,7 @@ export class ConfigService {
   constructor(private nestConfigService: NestConfigService) {}
 
   get(key: string): string {
-    return this.nestConfigService.get<string>(key);
+    return this.nestConfigService.get<string>(key) ?? '';
   }
 
   getDbType(): DatabaseType {

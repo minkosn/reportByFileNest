@@ -16,7 +16,7 @@ export class FileDetailTypeService {
         return this.repo.create(fileDetailTypeEntity);
     }
 
-    async getFileDetailTypes(type: IFileDetailType): Promise<FileDetailTypeEntity> {
+    async getFileDetailTypes(type: IFileDetailType): Promise<FileDetailTypeEntity | null> {
         return this.repo.findByType(type);
     }
 }

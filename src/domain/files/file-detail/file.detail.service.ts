@@ -32,7 +32,9 @@ export class FileDetailService {
        
         //const detailTypeId = await this.fileDetailRepository.getDetailTypeId(Object.keys(detail)[0]);
         const detailType = await this.fileDetailTypeService.getFileDetailTypes(Object.keys(detail)[0] as unknown as IFileDetailType);
-
+        if(!detailType || !detailType.file_detail_type_id) {
+            throw new Error(`Detail type not found: ${Object.keys(detail)[0]}`);
+        }
         const fileDetailEntity: FileDetailEntity = {
                 file_detail_file_to_action: fileToActionId,
                 file_detail_value: Object.values(detail)[0],
@@ -65,7 +67,9 @@ export class FileDetailService {
             case FileActionName.UPLOAD:
                 return Object.values(FileDetailType).filter(type => type !== FileDetailType.BATCH_ID);
             case FileActionName.IMPORT:
-                return [FileDetailType.BATCH_ID];      
+                return [FileDetailType.BATCH_ID];  
+            default: 
+                throw new Error(`Unknown category detail: ${action}`);
         }
     }
             

@@ -11,19 +11,19 @@ export class PostgresAuthRepository implements AuthRepository {
     async addCustomer(newCustomer : AddCustomer): Promise<BigInteger> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
         
-        let outPersonId: BigInteger;    
+        //let outPersonId: BigInteger;    
         
-        await this.repo.query('CALL "user".proc_add_customer($1, $2, $3, $4, $5, $6, $7)', [
+        const result = await this.repo.query('CALL "user".proc_add_customer($1, $2, $3, $4, $5, $6, $7)', [
             firstName,
             lastName,
             email,
             birthDate,
             username,
             hashedPassword,
-            outPersonId
+            //outPersonId
         ]);
 
-        return outPersonId;
+        return result[0]?.out_person_id;
     }
 
     async getUserIdByEmail(email: string): Promise<BigInteger> {

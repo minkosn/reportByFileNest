@@ -29,7 +29,7 @@ export class ReportsService {
 
     private getAllDistributorQuery(filters: ReportQueryDto): [string, any[]] {
         let sql = '';
-        const params = [];
+        const params : any[] = [];
 
         for (let index = 0; index < this.DISTRIBUTOR_LIST.length; index++) {
             let nextIndex = params.length;

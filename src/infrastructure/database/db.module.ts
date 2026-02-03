@@ -27,9 +27,15 @@ import { MongoFactory } from './mongo/mongo.factory';
 
 const dbType = process.env.DB_TYPE;
 
-const dbModules = [];
-const dbFactories = [];
-
+//const dbModules = [];
+const dbModule = dbType === 'postgres' 
+    ? PostgresModule
+    : MongoModule; 
+//const dbFactories = [];
+const dbFactory = dbType === 'postgres' 
+    ? PostgresFactory
+    : MongoFactory;
+/*
 if (dbType === 'postgres') {
     dbModules.push(PostgresModule);
     dbFactories.push(PostgresFactory);
@@ -37,13 +43,13 @@ if (dbType === 'postgres') {
     dbModules.push(MongoModule);
     dbFactories.push(MongoFactory);
 }
-
+*/
 @Module({})
 export class DatabaseModule {
     static forRoot(): DynamicModule {
         return {
             module: DatabaseModule,
-            imports: [ConfigModule, ...dbModules],
+            imports: [ConfigModule, dbModule/*...dbModules*/],
             providers: [ 
                 /*{ 
                     provide: DB_STRATEGY,
@@ -67,7 +73,7 @@ export class DatabaseModule {
                             default: throw new Error('MSSQL not yet implemented'); 
                         } 
                     }, 
-                    inject: [ConfigService, ...dbFactories] 
+                    inject: [ConfigService, dbFactory/*...dbFactories*/] 
                 },
                 { 
                     provide: USER_REPOSITORY,

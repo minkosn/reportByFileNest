@@ -41,10 +41,14 @@ export class FileService {
 
         //get id of file action - upload
         const [{file_action_id, ...restFileAction}, ...rest] = await this.fileActionService.getByField(FILE_ACTION_NAME, FileActionName.UPLOAD);
-
+        if(!file_action_id) {
+            throw new Error(`File action not found: ${FileActionName.UPLOAD}`);
+        }
         //write file-to-action
         const fileToActionRecord = await this.fileToActionService.createFileToAction(file_action_id, user.userId);
-
+        if(!fileToActionRecord?.file_to_action_id) {
+            throw new Error(`Error creating file to action record for action id: ${file_action_id}`);
+        }
         //write file-details
         await this.fileDetailService.add(FileActionName.UPLOAD, fileToActionRecord.file_to_action_id, newEntries as unknown as IFileDetailType[]);
 
@@ -59,7 +63,7 @@ export class FileService {
 
     async getUploadedFiles(): Promise<IFileDBFields[]> {
         //TO DO return this.fileRepository.getUploadedFiles();
-        return [];
+        throw new Error('Method not implemented.'); 
     }
 
     async getImportedFiles(): Promise<IImportedFileDBFields[]> {

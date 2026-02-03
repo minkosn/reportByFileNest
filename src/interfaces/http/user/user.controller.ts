@@ -19,17 +19,17 @@ export class UserController {
 
     //User CRUD operations
     @Get()
-    async findAll(): Promise<User[]> {
+    async findAll(): Promise<User[] | null> {
         return this.userService.getAllUsers();
     }
 
     @Get(':id')
-    async findOne(@Param('id') id: string): Promise<User> {
+    async findOne(@Param('id') id: string): Promise<User | null> {
         return this.userService.getUserById(parseInt(id));
     }
 
     @Get('name/:name')
-    async findByName(@Param('name') name: string): Promise<User> {
+    async findByName(@Param('name') name: string): Promise<User | null> {
         return this.userService.getUserByName(name);
     }
 

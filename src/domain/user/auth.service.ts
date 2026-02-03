@@ -27,6 +27,9 @@ export class AuthService {
 
     async register(registerDto: RegisterDto): Promise<void> {
         const { username, password, email, firstName, lastName, birthDate } = registerDto;
+        if(!username || !password || !email || !birthDate) {
+            throw new UnauthorizedException('Missing required fields');
+        }
         const user = await this.userService.getUserByName(username);         
         
         if (user) {
@@ -91,10 +94,10 @@ export class AuthService {
 
             const resetTokens = await this.authRepo.getTokenUser(TOKEN_RESET_TYPE, userId, token);
     
-            if (resetTokens.length === 0) {
-            throw new UnauthorizedException('Token not found by the user!');
+            if (resetTokens?.length === 0 || !resetTokens) {
+                throw new UnauthorizedException('Token not found by the user!');
             }
-    
+            
             const dbToken = this.jwtService.verify(resetTokens[0]?.token_user);
 
             if (dbToken.email !== decoded.email) {
@@ -119,7 +122,7 @@ export class AuthService {
 
             const resetTokens = await this.authRepo.get_token(TOKEN_RESET_TYPE, token);
 
-            if (resetTokens.length === 0) {
+            if (resetTokens?.length === 0 || !resetTokens) {
                 throw new UnauthorizedException('Invalid or expired token');
             }
 
