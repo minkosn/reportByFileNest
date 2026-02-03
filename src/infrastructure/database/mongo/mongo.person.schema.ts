@@ -27,6 +27,17 @@ export class MongoPerson {
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MongoUser' })
     fk_user_id: MongoUser;
+
+    constructor() {
+        this.id = 0;
+        this.first_name = '';
+        this.last_name = '';
+        this.birth_date = new Date();
+        this.inserted_on = new Date();
+        this.updated_on = new Date();
+        this.status = '';
+        this.fk_user_id = new MongoUser();
+    }
 }
 
 export type MongoPersonDocument = mongoose.HydratedDocument<MongoPerson>;

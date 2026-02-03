@@ -28,7 +28,7 @@ export class FileDetailService {
     }
 
     //one pair of property-value at call
-    private async addFileDetailsOnUpload(fileToActionId: number, detail: UploadType): Promise<boolean> {
+    private async addFileDetailsOnUpload(fileToActionId: number, detail: {[key: string]: string}): Promise<boolean> {
        
         //const detailTypeId = await this.fileDetailRepository.getDetailTypeId(Object.keys(detail)[0]);
         const detailType = await this.fileDetailTypeService.getFileDetailTypes(Object.keys(detail)[0] as unknown as IFileDetailType);
@@ -45,12 +45,12 @@ export class FileDetailService {
         return true;
     }
 
-    private async addFileDetailsOnImport(fileToActionId: number, fileDetails: ImportType): Promise<boolean> {
+    private async addFileDetailsOnImport(fileToActionId: number, fileDetails: {[key: string]: string}): Promise<boolean> {
         return true;
     }
 
     //get method to add detail based on action
-    private getDetailActionMethod(action: FileActionName): (fileToActionId: number, fileDetails: ImportType | UploadType)=>Promise<boolean> {
+    private getDetailActionMethod(action: FileActionName): (fileToActionId: number, fileDetails: {[key: string]: string})=>Promise<boolean> {
         switch(action) {
             case FileActionName.UPLOAD:
                 return this.addFileDetailsOnUpload;
@@ -87,12 +87,12 @@ export class FileDetailService {
             
             //get params and call method to store details
             for (const param of paramsByAction) {
-                const detailValue = detail[param]
+                const detailValue = detail[param as keyof IFileDetailType];
                 if (!detailValue) {
                     throw new Error(`Missing parameter: ${param}`);
                 }
                 //store details
-                await method.call(this, actionId, {[param]: detailValue});
+                await method.call(this, actionId, {[param]: detailValue} as UploadType | ImportType); 
             }
         }
         

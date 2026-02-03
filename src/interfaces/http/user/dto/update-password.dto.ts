@@ -13,5 +13,11 @@ export class UpdatePasswordDto {
     @IsString()
     @IsNotEmpty()
     readonly userId: string;
+
+    constructor() {
+        this.token = '';
+        this.newPassword = '';
+        this.userId = '';
+    }
 }
 

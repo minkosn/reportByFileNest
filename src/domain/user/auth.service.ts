@@ -109,7 +109,7 @@ export class AuthService {
             await this.authRepo.setPasswordAndClearResetToken(hashedPassword, userId);
        
             return { message: 'Password updated successfully' };
-        } catch (error) {
+        } catch (error: any) {
             if( error?.type === 'DBError' ) throw new Error(error.message);
             else throw new UnauthorizedException('Invalid or expired token');
         }

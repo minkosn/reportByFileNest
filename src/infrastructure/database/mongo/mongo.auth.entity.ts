@@ -6,8 +6,14 @@ export class MongoAuthEntity {
     birthDate: string;
     username: string;
     hashedPassword: string;
-    addCustomer(): bigint {
-        return 1n;
-    } 
+    constructor() {
+        this.id = 0;
+        this.firstName = '';
+        this.lastName = '';
+        this.email = '';
+        this.birthDate = '';
+        this.username = '';
+        this.hashedPassword = '';
+    }
 
 }

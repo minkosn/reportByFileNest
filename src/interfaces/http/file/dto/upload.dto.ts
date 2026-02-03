@@ -8,4 +8,9 @@ export class UploadDto {
   @IsString()
   @IsNotEmpty()
   readonly month: string;
+
+  constructor() {
+    this.year = new Date().getFullYear().toString();
+    this.month = new Date().getMonth().toString();
+  }
 }

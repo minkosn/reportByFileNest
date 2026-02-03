@@ -24,4 +24,12 @@ export class PostgresFileActionEntity {
     
     @Column()
     file_action_updated_by: number;
+
+    constructor() {
+        this.file_action_id = 0;
+        this.file_action_name = FileActionName.UPLOAD;
+        this.file_action_status = FileActionStatus.INACTIVE;
+        this.file_action_updated_on = new Date();
+        this.file_action_updated_by = 0;
+    }
 };

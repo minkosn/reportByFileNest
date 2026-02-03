@@ -9,4 +9,9 @@ export class UserDto {
   @IsNotEmpty()
   @MinLength(3) //@MinLength(6)
   readonly password: string;
+
+  constructor() {
+    this.username = '';
+    this.password = '';
+  }
 }

@@ -14,4 +14,11 @@ export class PostgresFileDetailEntity {
     
     @Column()
     file_detail_file_to_action: number;
+
+    constructor() {
+        this.file_detail_id = 0;
+        this.file_detail_type = 0;
+        this.file_detail_value = '';
+        this.file_detail_file_to_action = 0;
+    }
 };

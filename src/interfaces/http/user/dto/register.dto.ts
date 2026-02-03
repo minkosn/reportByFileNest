@@ -24,4 +24,14 @@ export class RegisterDto {
     @IsOptional()
     @IsDateString()
     readonly birthDate?: string;
+
+    constructor() {
+        this.username = '';
+        this.password = '';
+        this.email = '';
+        this.firstName = '';
+        this.lastName = '';
+        this.birthDate = '';
+    
+    }
 }

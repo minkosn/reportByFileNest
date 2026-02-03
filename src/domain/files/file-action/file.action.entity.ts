@@ -8,4 +8,11 @@ export class FileActionEntity {
     file_action_status: FileActionStatus; //Enum of status: ACTIVE, INACTIVE
     file_action_updated_on?: Date; //triggered on action
     file_action_updated_by: number; //FK user id
+    
+    constructor() {
+        this[FILE_ACTION_NAME] = FileActionName.UPLOAD; //default action
+        this.file_action_status = FileActionStatus.ACTIVE; //default status 
+        this.file_action_updated_by = 1; //default user
+        this.file_action_updated_on = new Date(); //default to now 
+    }
 }

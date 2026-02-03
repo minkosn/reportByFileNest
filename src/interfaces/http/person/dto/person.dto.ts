@@ -7,4 +7,10 @@ export class PersonDto {
     last_name: string;
     @IsDate()
     birth_date: Date;
+
+    constructor() {
+        this.first_name = '';
+        this.last_name = '';
+        this.birth_date = new Date();   
+    }
 }

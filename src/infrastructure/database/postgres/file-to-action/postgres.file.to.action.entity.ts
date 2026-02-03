@@ -16,4 +16,11 @@ export class PostgresFileToActionEntity {
     
     @Column()
     file_to_action_performed_By: number;
+
+    constructor() {
+        this.file_to_action_id = 0;
+        this.file_to_action_action = 0;
+        this.file_to_action_date = new Date();
+        this.file_to_action_performed_By = 0;
+    }
 };

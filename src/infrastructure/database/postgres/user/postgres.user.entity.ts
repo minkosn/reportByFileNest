@@ -13,5 +13,13 @@ export class PostgresUserEntity {
     @Column()
     userupdated_on: Date;
     @Column()
-    status: string;        
+    status: string;      
+    constructor() {
+        this.user_inserted_on = new Date();
+        this.userupdated_on = new Date();
+        this.status = 'active';
+        this.user_name = '';
+        this.user_password = '';
+        this.id = 0;    
+    }  
 }

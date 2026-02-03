@@ -91,7 +91,7 @@ export class ReportsService {
                 batches: batches.rows
             };
         }
-        catch (error) {
+        catch (error: any) {
             throw new Error(error.message);
         }
     }
@@ -103,7 +103,7 @@ export class ReportsService {
             const result = await this.db.query(sql, [Number(batchId), product, city]);
             return result?.rows || [];
         }
-        catch (error) {
+        catch (error: any) {
             throw new Error(error.message);
         }
     }

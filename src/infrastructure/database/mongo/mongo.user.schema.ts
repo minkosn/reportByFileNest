@@ -21,6 +21,14 @@ export class MongoUser {
       
     @Prop()
     status: string;
+    constructor() {
+        this.id = 0;
+        this.user_name = '';
+        this.user_password = '';
+        this.user_inserted_on = new Date();
+        this.userupdated_on = new Date();
+        this.status = '';
+    }
 }
 
 export type MongoUserDocument = MongoUser & Document;

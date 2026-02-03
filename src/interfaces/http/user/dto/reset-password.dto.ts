@@ -4,4 +4,8 @@ export class ResetPasswordDto {
     @IsEmail()
     @IsNotEmpty()
     email: string;
+
+    constructor() {
+        this.email = '';
+    }
 } 

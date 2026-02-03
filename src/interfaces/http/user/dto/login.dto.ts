@@ -9,4 +9,9 @@ export class LoginDto {
     @IsNotEmpty()
     @MinLength(3)
     password: string;
+
+    constructor() {
+        this.username = '';
+        this.password = '';
+    }
   }
