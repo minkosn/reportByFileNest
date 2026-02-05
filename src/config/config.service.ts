@@ -33,11 +33,13 @@ export class ConfigService {
   constructor(private nestConfigService: NestConfigService) {}
 
   get(key: string): string {
-    return this.nestConfigService.get<string>(key) ?? '';
+    const value = this.nestConfigService.get<string>(key); 
+    return  value ?? '';
   }
 
   getDbType(): DatabaseType {
-    return (process.env.DB_TYPE as DatabaseType) || DatabaseTypeEnum.POSTGRES_DB_TYPE;
+    //return (process.env.DB_TYPE as DatabaseType) || DatabaseTypeEnum.POSTGRES_DB_TYPE;
+    return (process.env.DB_TYPE ?? DatabaseTypeEnum.POSTGRES_DB_TYPE)  as DatabaseType;
   }
 
   getConfig(): Configs {

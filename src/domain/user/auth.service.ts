@@ -1,10 +1,9 @@
 import { Injectable, Inject, NotFoundException, UnauthorizedException} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import { AUTH_REPOSITORY, USER_REPOSITORY } from '../../infrastructure/database/db.tokens';
+import { AUTH_REPOSITORY } from '../../infrastructure/database/db.tokens';
 import { AuthRepository } from './auth.repository';
 
-import { User } from './user.entity';
 import { UserService } from './user.service';
 
 import { RegisterDto } from '../../interfaces/http/user/dto/register.dto';
@@ -78,9 +77,9 @@ export class AuthService {
         }
 
         const token = this.jwtService.sign({ email }, { expiresIn: '15m' });
-        await this.authRepo.addTokenToUser(TOKEN_RESET_TYPE, userId, token);
+        await this.authRepo.addTokenToUser(TOKEN_RESET_TYPE, String(userId), token);
 
-        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
+        const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:8080';
         const resetLink = `${frontendUrl}/validate-token?token=${token}`;
 
         console.log(`Password reset link: ${resetLink}`);
@@ -90,7 +89,7 @@ export class AuthService {
         const { token, newPassword, userId } = updatePasswordDto;
         
         try {
-            const decoded = this.jwtService.verify(token);
+            const decoded = this.jwtService.verify<{ email: string }>(token);
 
             const resetTokens = await this.authRepo.getTokenUser(TOKEN_RESET_TYPE, userId, token);
     
@@ -98,7 +97,7 @@ export class AuthService {
                 throw new UnauthorizedException('Token not found by the user!');
             }
             
-            const dbToken = this.jwtService.verify(resetTokens[0]?.token_user);
+            const dbToken = this.jwtService.verify<{ email: string }>(resetTokens[0]?.token_user);
 
             if (dbToken.email !== decoded.email) {
                 throw new UnauthorizedException('Invalid data in the token');
@@ -109,15 +108,17 @@ export class AuthService {
             await this.authRepo.setPasswordAndClearResetToken(hashedPassword, userId);
        
             return { message: 'Password updated successfully' };
-        } catch (error: any) {
-            if( error?.type === 'DBError' ) throw new Error(error.message);
-            else throw new UnauthorizedException('Invalid or expired token');
+        } catch (error) {
+            if( (error as object).hasOwnProperty('type') && (error as {type: string}).type === 'DBError') 
+                throw new Error((error as Error).message);
+            else
+                throw new UnauthorizedException('Invalid or expired token');
         }
     }
     
-    async verifyResetPasswordToken(token: string): Promise<{ userId: any; }> {
+    async verifyResetPasswordToken(token: string): Promise<{ userId: number; }> {
         try {
-            const decoded = this.jwtService.verify(token);
+            const decoded = this.jwtService.verify<{ email: string }>(token);
             const { email } = decoded;
 
             const resetTokens = await this.authRepo.get_token(TOKEN_RESET_TYPE, token);
@@ -132,9 +133,9 @@ export class AuthService {
                 throw new NotFoundException('User not found for the provided email');
             }
 
-            return Promise.resolve({ userId });
+            return await Promise.resolve({ userId });
         } catch (error) {
-            throw new UnauthorizedException('Invalid or expired token');
+            throw new UnauthorizedException('Invalid or expired token!', JSON.stringify(error));
         }
     }
 } 

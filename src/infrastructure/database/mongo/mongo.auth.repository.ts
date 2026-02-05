@@ -53,9 +53,9 @@ export class MongoAuthRepository implements AuthRepository {
        throw new Error('Method not implemented.');
     }
 
-    async getUserIdByEmail(email: string): Promise<BigInteger> {
+    async getUserIdByEmail(email: string): Promise<number> {
         // TO DO: Implement the stored procedure call for MongoDB
-        return 0n as unknown as BigInteger;
+        return await Promise.resolve(0);
         //const result = await this.repo.query('SELECT get_user_id_by_email as user_id FROM "user".get_user_id_by_email($1)', [email]);
         //return result?.rows[0]?.user_id;
     }

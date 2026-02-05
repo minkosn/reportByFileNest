@@ -10,7 +10,7 @@ export interface AddCustomer {
 export interface AuthRepository {
     addCustomer(newCustomer : AddCustomer): Promise<BigInteger>;
 
-    getUserIdByEmail(email: string): Promise<any>;
+    getUserIdByEmail(email: string): Promise<number | null>;
 
     addTokenToUser(tokenType: string , userId: string, token: string): Promise<void>;
 

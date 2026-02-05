@@ -46,16 +46,17 @@ export class FileDetailService {
     }
 
     private async addFileDetailsOnImport(fileToActionId: number, fileDetails: Record<string, string>): Promise<boolean> {
-        return true;
+        const result = await Promise.resolve([fileToActionId, fileDetails]);
+        throw new Error(`Not implemented yet: ${JSON.stringify(result)}`);
     }
 
     //get method to add detail based on action
-    private getDetailActionMethod(action: FileActionName): (fileToActionId: number, fileDetails: Record<string, string>)=>Promise<boolean> {
+    private getDetailActionMethod (action: FileActionName): (fileToActionId: number, fileDetails: Record<string, string>)=>Promise<boolean> {
         switch(action) {
             case FileActionName.UPLOAD:
-                return this.addFileDetailsOnUpload;
+                return this.addFileDetailsOnUpload.bind(this);
             case FileActionName.IMPORT:
-                return this.addFileDetailsOnImport;
+                return this.addFileDetailsOnImport.bind(this);
             default:
                 throw new Error(`Unknown category detail: ${action}`);
         }

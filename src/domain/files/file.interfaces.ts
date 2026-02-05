@@ -1,3 +1,5 @@
+import { FileActionName, FileActionStatus } from './file-action/file.action.enums';
+
 //file interfaces 
 export interface IFileRepository<TEntity = any> {
     create(entity: TEntity): Promise<TEntity>;
@@ -23,7 +25,7 @@ export interface IFileDetailType {
     batch_id: string;
 };  
 
-
+export type DetailTypeValue = number | FileActionStatus | Date | FileActionName | undefined;
 
 
 //handleFileUpload
@@ -47,6 +49,8 @@ export interface IUploadedFileResult {
     files: { name: string; path: string }[];
 }
 
-export interface IImportedFileDBFields extends Pick<IFileDBFields, 'importDate' | 'distributor' | 'rowCount' |'originalName'> {}
+export interface IImportedFileDBFields extends Pick<IFileDBFields, 'importDate' | 'distributor' | 'rowCount' |'originalName'> {
+    init(): Promise<void>;
+}
 
 

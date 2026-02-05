@@ -16,7 +16,7 @@ import { FilesController } from '../../interfaces/http/file/file.controller';
             DatabaseModule.forRoot(),
             MulterModule.registerAsync({
                   imports: [ConfigModule],
-                  useFactory: async (configService: ConfigService) => ({
+                  useFactory: (/*configService: ConfigService*/) => ({
                     dest: './uploads',
                   }),
                   inject: [ConfigService],

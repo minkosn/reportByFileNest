@@ -26,8 +26,8 @@ export class PostgresAuthRepository implements AuthRepository {
         return result[0]?.out_person_id;
     }
 
-    async getUserIdByEmail(email: string): Promise<BigInteger> {
-        const result = await this.repo.query('SELECT get_user_id_by_email as user_id FROM "user".get_user_id_by_email($1)', [email]);
+    async getUserIdByEmail(email: string): Promise<number> {
+        const result: {user_id: number}[] = await this.repo.query('SELECT get_user_id_by_email as user_id FROM "user".get_user_id_by_email($1)', [email]);
         return result[0]?.user_id;
     }
 
