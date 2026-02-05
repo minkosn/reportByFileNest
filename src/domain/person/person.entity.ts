@@ -1,8 +1,8 @@
 export class Person {
     constructor (
-        public id: Number,
-        public first_name: String,
-        public last_name: String,
+        public id: number,
+        public first_name: string,
+        public last_name: string,
         public birth_date: Date
     ) {}
 }

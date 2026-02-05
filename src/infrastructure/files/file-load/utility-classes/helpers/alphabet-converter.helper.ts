@@ -33,7 +33,7 @@ const cyrillic_to_latin = {
 
 interface alphabetConverterMap {
     text: string;
-    convert?: {[key: string]: string};
+    convert?: Record<string, string>;
 }
 
 export const alphabetConverter = ({text, convert= cyrillic_to_latin } : alphabetConverterMap) => {

@@ -1,4 +1,4 @@
-export type AddCustomer = {
+export interface AddCustomer {
     firstName: string;
     lastName: string;
     email: string;

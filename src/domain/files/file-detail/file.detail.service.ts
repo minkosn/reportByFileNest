@@ -28,11 +28,11 @@ export class FileDetailService {
     }
 
     //one pair of property-value at call
-    private async addFileDetailsOnUpload(fileToActionId: number, detail: {[key: string]: string}): Promise<boolean> {
+    private async addFileDetailsOnUpload(fileToActionId: number, detail: Record<string, string>): Promise<boolean> {
        
         //const detailTypeId = await this.fileDetailRepository.getDetailTypeId(Object.keys(detail)[0]);
         const detailType = await this.fileDetailTypeService.getFileDetailTypes(Object.keys(detail)[0] as unknown as IFileDetailType);
-        if(!detailType || !detailType.file_detail_type_id) {
+        if(!detailType?.file_detail_type_id) {
             throw new Error(`Detail type not found: ${Object.keys(detail)[0]}`);
         }
         const fileDetailEntity: FileDetailEntity = {
@@ -45,12 +45,12 @@ export class FileDetailService {
         return true;
     }
 
-    private async addFileDetailsOnImport(fileToActionId: number, fileDetails: {[key: string]: string}): Promise<boolean> {
+    private async addFileDetailsOnImport(fileToActionId: number, fileDetails: Record<string, string>): Promise<boolean> {
         return true;
     }
 
     //get method to add detail based on action
-    private getDetailActionMethod(action: FileActionName): (fileToActionId: number, fileDetails: {[key: string]: string})=>Promise<boolean> {
+    private getDetailActionMethod(action: FileActionName): (fileToActionId: number, fileDetails: Record<string, string>)=>Promise<boolean> {
         switch(action) {
             case FileActionName.UPLOAD:
                 return this.addFileDetailsOnUpload;

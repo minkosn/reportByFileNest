@@ -3,9 +3,7 @@ export interface FileLoader<T> {
 }
 
 // Единен формат за ред 
-export interface DataRow { 
-    [key: string]: any; // всяка колона е ключ-стойност 
-} 
+export type DataRow = Record<string, any>; 
 // Всеки парсър ще връща генератор от DataRow 
 export interface FileParser { 
     parse(): AsyncGenerator<DataRow>; 
@@ -24,7 +22,7 @@ export interface DatabaseAdapter {
     convertColumnsToDbFormat(columns: XlsxColumn[]): string[];
 } 
 
-export type XlsxColumn = {
+export interface XlsxColumn {
     value: any; 
     type: string;
 }

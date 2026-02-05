@@ -20,7 +20,7 @@ export class FileService {
         private readonly fileDetailService: FileDetailService
     ) {};
 
-    async uploadFiles(year: string, month: string, files: Array<Express.Multer.File>, user: ILoggedUser) : Promise<IUploadedFileResult> {
+    async uploadFiles(year: string, month: string, files: Express.Multer.File[], user: ILoggedUser) : Promise<IUploadedFileResult> {
         if (!files || files.length === 0) {
             throw new Error('No files uploaded.');
         }

@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
 
-type MongoConfig = {
+interface MongoConfig {
     uri: string;
-};
+}
 
-type MssqlConfig = {
+interface MssqlConfig {
     uri: string;
-};
+}
 
-type PostgresConfig = {
+interface PostgresConfig {
     host: string;
     port: number;
     user: string;
     password: string;
     database: string;
-};
+}
 
 type Configs = PostgresConfig | MongoConfig | MssqlConfig;
 

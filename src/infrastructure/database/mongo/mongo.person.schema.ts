@@ -5,13 +5,13 @@ import { MongoUser }  from './mongo.user.schema';
 @Schema({ collection: 'person' })
 export class MongoPerson {
     @Prop()
-    id: Number;
+    id: number;
     
     @Prop()
-    first_name: String;
+    first_name: string;
     
     @Prop()
-    last_name: String;
+    last_name: string;
     
     @Prop()
     birth_date: Date;
@@ -23,7 +23,7 @@ export class MongoPerson {
     updated_on: Date;
     
     @Prop()
-    status: String;
+    status: string;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MongoUser' })
     fk_user_id: MongoUser;

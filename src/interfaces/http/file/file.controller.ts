@@ -11,7 +11,7 @@ export class FilesController {
     // upload files endpoint
     @Post('upload')
     @UseInterceptors(FilesInterceptor('files'))
-    async uploadFile(@UploadedFiles() files: Array<Express.Multer.File>, @Body() body: UploadDto, @Request() req: any) : Promise<IUploadedFileResult> {
+    async uploadFile(@UploadedFiles() files: Express.Multer.File[], @Body() body: UploadDto, @Request() req: any) : Promise<IUploadedFileResult> {
         return this.fileService.uploadFiles(body.year, body.month, files, { token: '', userId: req.user.id});
     }
 
