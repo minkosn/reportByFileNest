@@ -1,6 +1,7 @@
 import { PostgresFileDetailEntity } from './postgres.file.detail.entity';
-import { Repository, DataSource } from 'typeorm'
+import { Repository } from 'typeorm'
 import { FileDetailRepository } from 'src/domain/files/file-detail/file.detail.repository';
+import { FileDetailType } from 'src/domain/files/file.interfaces';
 
 export class PostgresFileDetailRepository implements FileDetailRepository {
     constructor(
@@ -11,7 +12,7 @@ export class PostgresFileDetailRepository implements FileDetailRepository {
         return this.repo.save(entity);
     }
 
-    async getByField(fieldName: string, value: any): Promise<PostgresFileDetailEntity[]> {
+    async getByField(fieldName: string, value: FileDetailType): Promise<PostgresFileDetailEntity[]> {
         return this.repo.findBy({ [fieldName]: value });
     }
 

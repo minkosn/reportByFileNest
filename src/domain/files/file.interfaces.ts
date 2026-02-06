@@ -25,7 +25,10 @@ export interface IFileDetailType {
     batch_id: string;
 };  
 
-export type DetailTypeValue = number | FileActionStatus | Date | FileActionName | undefined;
+export type FileActionType = number | FileActionStatus | Date | FileActionName | undefined;
+export type FileDetailTypeType = number | string | FileActionStatus | Date | FileActionName | undefined;
+export type FileDetailType = number | string | undefined;
+export type FileToActionDataType = number | Date | undefined;
 
 
 //handleFileUpload

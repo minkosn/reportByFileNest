@@ -2,7 +2,7 @@
 import { Model } from 'mongoose';
 import { UserRepository } from '../../../domain/user/user.repository';
 import { User } from '../../../domain/user/user.entity';
-import { MongoUser, MongoUserDocument } from './mongo.user.schema';
+import { MongoUserDocument } from './mongo.user.schema';
 
 export class MongoUserRepository implements UserRepository {
   constructor(private readonly model: Model<MongoUserDocument>) {}
@@ -28,7 +28,7 @@ export class MongoUserRepository implements UserRepository {
     const doc = await this.model
       .findByIdAndUpdate(
         user.getId(),
-        { ...user },
+        { ...user as object },
         { upsert: true, new: true },
       )
       .exec();

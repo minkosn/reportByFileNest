@@ -1,4 +1,3 @@
-import { FileDetailType } from 'src/domain/files/file-detail-type/file.detail.type.enum';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('fileDetail', { schema: 'file' })

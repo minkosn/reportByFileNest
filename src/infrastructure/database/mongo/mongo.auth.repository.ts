@@ -35,6 +35,7 @@ export class MongoAuthRepository implements AuthRepository {
 
     async addCustomer(newCustomer : AddCustomer): Promise<BigInteger> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
+        await Promise.resolve([firstName, lastName, email, birthDate, username, hashedPassword]);
         /*
         let outPersonId: BigInteger;    
          TO DO: Implement the stored procedure call for MongoDB
@@ -55,14 +56,18 @@ export class MongoAuthRepository implements AuthRepository {
 
     async getUserIdByEmail(email: string): Promise<number> {
         // TO DO: Implement the stored procedure call for MongoDB
-        return await Promise.resolve(0);
+        await Promise.resolve(email);
+        return 0;
+
         //const result = await this.repo.query('SELECT get_user_id_by_email as user_id FROM "user".get_user_id_by_email($1)', [email]);
         //return result?.rows[0]?.user_id;
     }
 
-    async addTokenToUser(tokenType: string , userId: any, token: string): Promise<void> {
+    async addTokenToUser(tokenType: string , userId: string, token: string): Promise<void> {
         // TO DO: Implement the stored procedure call for MongoDB
         //await this.repo.query('CALL "user".proc_add_token($1, $2, $3)', [tokenType, userId, token]);
+        await Promise.resolve([tokenType, userId, token]);
+        return; 
     }
 
     async getTokenUser(tokenType: string, userId: string, token: string): Promise<{token_user: string}[] | null> {
@@ -73,6 +78,7 @@ export class MongoAuthRepository implements AuthRepository {
             null,
             token,
         ]);*/
+        await Promise.resolve([tokenType, userId, token]);
         return null;
     }
 
@@ -93,6 +99,7 @@ export class MongoAuthRepository implements AuthRepository {
             await queryRunner.release();
         }    
             */
+        await Promise.resolve([hashedPassword, userId]);
         return;   
     }
 
@@ -106,6 +113,7 @@ export class MongoAuthRepository implements AuthRepository {
             token,
         ]);
         */
+        await Promise.resolve([tokenType, token]);
         return null;
     }
 }

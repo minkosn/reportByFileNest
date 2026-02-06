@@ -4,7 +4,7 @@ import { FILE_ACTION_REPOSITORY } from '../../../infrastructure/database/db.toke
 import { FileActionEntity} from './file.action.entity';
 import { FileActionName, FileActionStatus } from './file.action.enums';
 import { FileActionRepository } from './file.action.repository';
-import { DetailTypeValue } from '../file.interfaces';
+import { FileActionType } from '../file.interfaces';
 
 /*The service will be used initial stage when have to add actions 
 - in process of work to deactivate or reactivate some action
@@ -25,7 +25,7 @@ export class FileActionService {
         return this.fileActionRepository.create(fileActionData);
     };
     // retrieve a file action by its name, or all file actions
-    async getByField(fieldName?: keyof FileActionEntity, value?: DetailTypeValue) {
+    async getByField(fieldName?: keyof FileActionEntity, value?: FileActionType) {
         return fieldName 
             ? this.fileActionRepository.getByField(fieldName, value) 
             : this.fileActionRepository.findAll();

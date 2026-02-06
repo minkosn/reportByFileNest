@@ -1,3 +1,4 @@
+/*  TO DO
 import { FileLoader, DatabaseAdapter, ExtensionFileType, FileParser } from './file-load.types';
 //import { parserFactory } from './file-parse-factory';
 
@@ -26,3 +27,4 @@ class FileProcessor {
         }
     } 
 }
+    */

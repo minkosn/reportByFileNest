@@ -1,3 +1,4 @@
+/* TO DO
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 //import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AuthGuard } from '../domain/user/auth.guard';
@@ -31,3 +32,4 @@ export class ReportsController {
     return this.reportsService.getReportArticulCity(query);
   }
 }
+*/

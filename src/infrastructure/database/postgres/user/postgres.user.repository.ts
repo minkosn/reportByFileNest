@@ -19,7 +19,7 @@ export class PostgresUserRepository implements UserRepository {
         return entities.map(entity => new User(entity.id, entity.user_name, entity.user_password, entity.user_inserted_on, entity.userupdated_on, entity.status));
     }
     async save(user: User): Promise<User> {
-        const createdUser = this.repo.create({...user});
+        const createdUser = this.repo.create({...user as object});
         const savedUser = await this.repo.save(createdUser);
         return new User(savedUser.id, savedUser.user_name, savedUser.user_password, savedUser.user_inserted_on, savedUser.userupdated_on, savedUser.status);
     }

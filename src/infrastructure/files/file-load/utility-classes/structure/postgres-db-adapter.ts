@@ -1,3 +1,4 @@
+/* TO DO
 import { Pool } from 'pg';
 import { DatabaseAdapter, FileParser, XlsxColumn } from '../file-load.types';
 import { alphabetConverter } from '../helpers/alphabet-converter.helper';
@@ -44,3 +45,4 @@ export class PostgresDatabaseAdapter implements DatabaseAdapter {
         return headers.map(({value, type}) => `${alphabetConverter({text: value})} TEXT`);
     }
 }
+    */

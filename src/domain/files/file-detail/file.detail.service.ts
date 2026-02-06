@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { FileDetailRepository } from './file.detail.repository';
 import { FileDetailEntity } from './file.detail.entity';
 import { FILE_DETAIL_REPOSITORY } from '../../../infrastructure/database/db.tokens' 
-import { FileDetailType } from '../file-detail-type/file.detail.type.enum';
+import { FileDetailTypeFields as FileDetailType} from '../file-detail-type/file.detail.type.enum';
 import { IFileDetailType } from '../file.interfaces'
 
 import { FileActionName } from '../file-action/file.action.enums'

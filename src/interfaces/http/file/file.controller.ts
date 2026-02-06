@@ -11,7 +11,7 @@ export class FilesController {
     // upload files endpoint
     @Post('upload')
     @UseInterceptors(FilesInterceptor('files'))
-    async uploadFile(@UploadedFiles() files: Express.Multer.File[], @Body() body: UploadDto, @Request() req: any) : Promise<IUploadedFileResult> {
+    async uploadFile(@UploadedFiles() files: Express.Multer.File[], @Body() body: UploadDto, @Request() req: {user: {id: number}}) : Promise<IUploadedFileResult> {
         return this.fileService.uploadFiles(body.year, body.month, files, { token: '', userId: req.user.id});
     }
 
@@ -36,6 +36,7 @@ export class FilesController {
     // import already uploaded files endpoint
     @Post('import-files')
     async importFiles() {
+        await Promise.resolve(''); //lint 
         throw new Error('Not implemented yet.');
         //return this.fileService.runImportWorker();
     }

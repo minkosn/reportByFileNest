@@ -11,19 +11,23 @@ export class PostgresAuthRepository implements AuthRepository {
     async addCustomer(newCustomer : AddCustomer): Promise<BigInteger> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
         
-        //let outPersonId: BigInteger;    
+        let outPersonId: unknown;   //output parameter    
         
-        const result = await this.repo.query('CALL "user".proc_add_customer($1, $2, $3, $4, $5, $6, $7)', [
+        const result = await this.repo.query<{person_id: BigInteger}[]>('CALL "user".proc_add_customer($1, $2, $3, $4, $5, $6, $7)', [
             firstName,
             lastName,
             email,
             birthDate,
             username,
             hashedPassword,
-            //outPersonId
+            outPersonId
         ]);
 
-        return result[0]?.out_person_id;
+        if(result.length === 0) {
+            throw new Error("Failed to add customer");
+        }
+        //return outPersonId;
+        return result[0]?.person_id;
     }
 
     async getUserIdByEmail(email: string): Promise<number> {
@@ -31,7 +35,7 @@ export class PostgresAuthRepository implements AuthRepository {
         return result[0]?.user_id;
     }
 
-    async addTokenToUser(tokenType: string , userId: any, token: string): Promise<void> {
+    async addTokenToUser(tokenType: string , userId: string, token: string): Promise<void> {
         await this.repo.query('CALL "user".proc_add_token($1, $2, $3)', [tokenType, userId, token]);
     }
 

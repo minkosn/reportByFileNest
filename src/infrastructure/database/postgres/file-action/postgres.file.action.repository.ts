@@ -3,6 +3,7 @@ import { FileActionName, FileActionStatus } from 'src/domain/files/file-action/f
 import { FileActionRepository } from '../../../../domain/files/file-action/file.action.repository';
 import { PostgresFileActionEntity } from './postgres.file.action.entity';
 import { Repository } from 'typeorm'
+import { FileActionType } from 'src/domain/files/file.interfaces';
 
 export class PostgresFileActionRepository implements FileActionRepository {
     constructor(private readonly repo: Repository<PostgresFileActionEntity>){};
@@ -11,7 +12,7 @@ export class PostgresFileActionRepository implements FileActionRepository {
         return this.repo.save(entity);
     }
 
-    async getByField(fieldName: string, value: any): Promise<PostgresFileActionEntity[]> {
+    async getByField(fieldName: string, value: FileActionType): Promise<PostgresFileActionEntity[]> {
         const result = await this.repo.findBy({ [fieldName]: value }); 
         return result;
     }

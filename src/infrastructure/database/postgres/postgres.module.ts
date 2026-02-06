@@ -20,7 +20,7 @@ import { PostgresFactory } from './postgres.factory';
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
-            useFactory: async (configService: ConfigService) => ({
+            useFactory: (configService: ConfigService) => ({
                 type: 'postgres',
                 host: configService.get('DB_HOST'),
                 port: parseInt(configService.get('DB_PORT')),
