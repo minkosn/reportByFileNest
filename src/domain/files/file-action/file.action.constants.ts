@@ -1,1 +1,1 @@
-export const FILE_ACTION_NAME = 'file_action_name'
+export const FILE_ACTION_NAME = 'file_action_name';

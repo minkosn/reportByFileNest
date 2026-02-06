@@ -6,7 +6,7 @@ export class MongoAuthRepository implements AuthRepository {
     constructor(
         private readonly repo: Repository<MongoAuthEntity>,
         private readonly dataSource: DataSource,
-    ) {}  
+    ) {}
 
     /*register(registerDto: RegisterDto): Promise<void> {
         throw new Error('Method not implemented.');
@@ -33,7 +33,7 @@ export class MongoAuthRepository implements AuthRepository {
     };
     */
 
-    async addCustomer(newCustomer : AddCustomer): Promise<BigInteger> {
+    async addCustomer(newCustomer: AddCustomer): Promise<BigInteger> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
         await Promise.resolve([firstName, lastName, email, birthDate, username, hashedPassword]);
         /*
@@ -51,7 +51,7 @@ export class MongoAuthRepository implements AuthRepository {
         
         return outPersonId;
         */
-       throw new Error('Method not implemented.');
+        throw new Error('Method not implemented.');
     }
 
     async getUserIdByEmail(email: string): Promise<number> {
@@ -63,14 +63,14 @@ export class MongoAuthRepository implements AuthRepository {
         //return result?.rows[0]?.user_id;
     }
 
-    async addTokenToUser(tokenType: string , userId: string, token: string): Promise<void> {
+    async addTokenToUser(tokenType: string, userId: string, token: string): Promise<void> {
         // TO DO: Implement the stored procedure call for MongoDB
         //await this.repo.query('CALL "user".proc_add_token($1, $2, $3)', [tokenType, userId, token]);
         await Promise.resolve([tokenType, userId, token]);
-        return; 
+        return;
     }
 
-    async getTokenUser(tokenType: string, userId: string, token: string): Promise<{token_user: string}[] | null> {
+    async getTokenUser(tokenType: string, userId: string, token: string): Promise<{ token_user: string }[] | null> {
         /*return this.repo.query('SELECT * FROM "user".fn_get_token($1, $2, $3, $4, $5)', [
             tokenType,
             userId,
@@ -100,10 +100,10 @@ export class MongoAuthRepository implements AuthRepository {
         }    
             */
         await Promise.resolve([hashedPassword, userId]);
-        return;   
+        return;
     }
 
-    async get_token(tokenType: string, token: string): Promise<{token_user: string}[] | null> {
+    async get_token(tokenType: string, token: string): Promise<{ token_user: string }[] | null> {
         /*
         return this.repo.query('SELECT * FROM "user".fn_get_token($1, $2, $3, $4, $5)', [
             tokenType,

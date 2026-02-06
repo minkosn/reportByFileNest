@@ -8,4 +8,4 @@ export class ResetPasswordDto {
     constructor() {
         this.email = '';
     }
-} 
+}

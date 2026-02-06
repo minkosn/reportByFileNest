@@ -6,40 +6,38 @@ export class PostgresAuthRepository implements AuthRepository {
     constructor(
         private readonly repo: Repository<PostgresAuthEntity>,
         private readonly dataSource: DataSource,
-    ) {}  
+    ) {}
 
-    async addCustomer(newCustomer : AddCustomer): Promise<BigInteger> {
+    async addCustomer(newCustomer: AddCustomer): Promise<BigInteger> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
-        
-        let outPersonId: unknown;   //output parameter    
-        
-        const result = await this.repo.query<{person_id: BigInteger}[]>('CALL "user".proc_add_customer($1, $2, $3, $4, $5, $6, $7)', [
-            firstName,
-            lastName,
-            email,
-            birthDate,
-            username,
-            hashedPassword,
-            outPersonId
-        ]);
 
-        if(result.length === 0) {
-            throw new Error("Failed to add customer");
+        let outPersonId: unknown; //output parameter
+
+        const result = await this.repo.query<{ person_id: BigInteger }[]>(
+            'CALL "user".proc_add_customer($1, $2, $3, $4, $5, $6, $7)',
+            [firstName, lastName, email, birthDate, username, hashedPassword, outPersonId],
+        );
+
+        if (result.length === 0) {
+            throw new Error('Failed to add customer');
         }
         //return outPersonId;
         return result[0]?.person_id;
     }
 
     async getUserIdByEmail(email: string): Promise<number> {
-        const result: {user_id: number}[] = await this.repo.query('SELECT get_user_id_by_email as user_id FROM "user".get_user_id_by_email($1)', [email]);
+        const result: { user_id: number }[] = await this.repo.query(
+            'SELECT get_user_id_by_email as user_id FROM "user".get_user_id_by_email($1)',
+            [email],
+        );
         return result[0]?.user_id;
     }
 
-    async addTokenToUser(tokenType: string , userId: string, token: string): Promise<void> {
+    async addTokenToUser(tokenType: string, userId: string, token: string): Promise<void> {
         await this.repo.query('CALL "user".proc_add_token($1, $2, $3)', [tokenType, userId, token]);
     }
 
-    async getTokenUser(tokenType: string, userId: string, token: string): Promise<{token_user: string}[] | null> {
+    async getTokenUser(tokenType: string, userId: string, token: string): Promise<{ token_user: string }[] | null> {
         return this.repo.query('SELECT * FROM "user".fn_get_token($1, $2, $3, $4, $5)', [
             tokenType,
             userId,
@@ -51,35 +49,38 @@ export class PostgresAuthRepository implements AuthRepository {
 
     async setPasswordAndClearResetToken(hashedPassword: string, userId: string): Promise<void> {
         const queryRunner = this.dataSource.createQueryRunner();
-        
+
         await queryRunner.connect();
         await queryRunner.startTransaction();
 
         try {
-            await queryRunner.query('UPDATE "user".users SET user_password = $1 WHERE id = $2', [hashedPassword, userId]);
+            await queryRunner.query('UPDATE "user".users SET user_password = $1 WHERE id = $2', [
+                hashedPassword,
+                userId,
+            ]);
             await queryRunner.query('DELETE FROM "user".token WHERE "user" = $1', [userId]);
             await queryRunner.commitTransaction();
         } catch (err) {
             await queryRunner.rollbackTransaction();
-            
-            if (err instanceof Error) {
-                (err as Error & {type: string}).type  = 'DBError';
-                throw err;
-            };
 
-            const extendError: Error & { type: string } = { 
+            if (err instanceof Error) {
+                (err as Error & { type: string }).type = 'DBError';
+                throw err;
+            }
+
+            const extendError: Error & { type: string } = {
                 message: 'Unknown error',
                 type: 'DBError',
-                name: 'setPasswordAndClearResetToken'
+                name: 'setPasswordAndClearResetToken',
             };
-            
+
             throw extendError;
-        } finally {     
+        } finally {
             await queryRunner.release();
-        }    
+        }
     }
 
-    async get_token(tokenType: string, token: string): Promise<{token_user: string}[] | null> {
+    async get_token(tokenType: string, token: string): Promise<{ token_user: string }[] | null> {
         return this.repo.query('SELECT * FROM "user".fn_get_token($1, $2, $3, $4, $5)', [
             tokenType,
             null,

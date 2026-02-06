@@ -4,13 +4,13 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 export class PostgresFileDetailTypeEntity {
     @PrimaryGeneratedColumn()
     file_detail_type_id: number;
-    
+
     @Column()
     file_detail_type_data: string;
-    
+
     @Column()
     file_detail_type_performed_by: number;
-    
+
     @Column()
     file_detail_type_updated_on: Date;
     constructor() {
@@ -19,4 +19,4 @@ export class PostgresFileDetailTypeEntity {
         this.file_detail_type_data = '';
         this.file_detail_type_id = 0;
     }
- };
+}

@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from 'src/config/config.module';
@@ -28,16 +27,16 @@ import { PostgresFactory } from './postgres.factory';
                 password: configService.get('DB_PASSWORD'),
                 database: configService.get('DB_DATABASE'),
                 entities: [
-                    PostgresUserEntity, 
-                    PostgresPersonEntity, 
-                    PostgresAuthEntity, 
+                    PostgresUserEntity,
+                    PostgresPersonEntity,
+                    PostgresAuthEntity,
                     PostgresFileActionEntity,
                     PostgresFileDetailEntity,
                     PostgresFileToActionEntity,
-                    PostgresFileDetailTypeEntity
+                    PostgresFileDetailTypeEntity,
                 ],
                 synchronize: false,
-            })
+            }),
         }),
         TypeOrmModule.forFeature([
             PostgresUserEntity,
@@ -46,14 +45,10 @@ import { PostgresFactory } from './postgres.factory';
             PostgresFileActionEntity,
             PostgresFileDetailEntity,
             PostgresFileToActionEntity,
-            PostgresFileDetailTypeEntity
-        ])
+            PostgresFileDetailTypeEntity,
+        ]),
     ],
-    providers: [
-        PostgresFactory
-    ],
-    exports: [
-        PostgresFactory
-    ]
+    providers: [PostgresFactory],
+    exports: [PostgresFactory],
 })
 export class PostgresModule {}

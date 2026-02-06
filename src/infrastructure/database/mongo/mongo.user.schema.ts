@@ -6,19 +6,19 @@ import { Document } from 'mongoose';
 export class MongoUser {
     @Prop()
     id: number;
-    
+
     @Prop()
     user_name: string;
-    
+
     @Prop()
     user_password: string;
-    
+
     @Prop()
     user_inserted_on: Date;
-      
+
     @Prop()
     userupdated_on: Date;
-      
+
     @Prop()
     status: string;
     constructor() {

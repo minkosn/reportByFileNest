@@ -5,23 +5,23 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 export class PostgresFileActionEntity {
     @PrimaryGeneratedColumn()
     file_action_id: number;
-    
+
     @Column({
         type: 'text',
         name: 'file_action_name',
-        enum: FileActionName 
+        enum: FileActionName,
     })
     file_action_name: FileActionName; //Enum of actions: UPLOAD, IMPORT, CLEAR-UPLOADS
-    
+
     @Column({
         type: 'bigint',
         name: 'file_action_status',
     })
     file_action_status: FileActionStatus; //Enum of status: ACTIVE, INACTIVE
-    
+
     @Column()
     file_action_updated_on?: Date; //triggered on action
-    
+
     @Column()
     file_action_updated_by: number;
 
@@ -32,4 +32,4 @@ export class PostgresFileActionEntity {
         this.file_action_updated_on = new Date();
         this.file_action_updated_by = 0;
     }
-};
+}

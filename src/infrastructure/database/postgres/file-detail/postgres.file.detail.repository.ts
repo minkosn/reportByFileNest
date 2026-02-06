@@ -1,5 +1,5 @@
 import { PostgresFileDetailEntity } from './postgres.file.detail.entity';
-import { Repository } from 'typeorm'
+import { Repository } from 'typeorm';
 import { FileDetailRepository } from 'src/domain/files/file-detail/file.detail.repository';
 import { FileDetailType } from 'src/domain/files/file.interfaces';
 
@@ -7,7 +7,7 @@ export class PostgresFileDetailRepository implements FileDetailRepository {
     constructor(
         private readonly repo: Repository<PostgresFileDetailEntity>,
         //private readonly dataSource: DataSource
-    ){};
+    ) {}
     async create(entity: PostgresFileDetailEntity) {
         return this.repo.save(entity);
     }
@@ -37,4 +37,4 @@ export class PostgresFileDetailRepository implements FileDetailRepository {
             await queryRunner.release();
         }
     }*/
-};
+}

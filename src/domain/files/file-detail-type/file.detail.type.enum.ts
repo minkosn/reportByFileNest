@@ -6,7 +6,7 @@ export enum FileDetailTypeFields {
     DISTRIBUTOR = 'distributor',
     YEAR = 'year',
     MONTH = 'month',
-    
+
     //On import
-    BATCH_ID = 'batch_id'
-};  
+    BATCH_ID = 'batch_id',
+}

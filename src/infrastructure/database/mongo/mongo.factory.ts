@@ -5,12 +5,8 @@ import { Model } from 'mongoose';
 import { DatabaseFactory } from '../db-factory.interface';
 
 import { UserRepository } from '../../../domain/user/user.repository';
-import {
-  MongoUser,
-  MongoUserDocument,
-} from './mongo.user.schema';
+import { MongoUser, MongoUserDocument } from './mongo.user.schema';
 import { MongoUserRepository } from './mongo.user.repository';
-
 
 import { PersonRepository } from '../../../domain/person/person.repository';
 import { MongoPersonRepository } from './mongo.person.repository';
@@ -30,7 +26,6 @@ export class MongoFactory implements DatabaseFactory {
         private readonly personModel: Model<MongoPersonDocument>,
         private readonly authRepo: Repository<MongoAuthEntity>,
         private readonly dataSource: DataSource,
-
     ) {}
 
     createUserRepository(): UserRepository {
@@ -41,7 +36,7 @@ export class MongoFactory implements DatabaseFactory {
         return new MongoPersonRepository(this.personModel);
     }
 
-    createAuthRepository() : AuthRepository {
+    createAuthRepository(): AuthRepository {
         return new MongoAuthRepository(this.authRepo, this.dataSource);
     }
 

@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 export class PostgresPersonEntity {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column()   
+    @Column()
     first_name: string;
     @Column()
     last_name: string;
@@ -16,6 +16,5 @@ export class PostgresPersonEntity {
         this.first_name = '';
         this.last_name = '';
         this.birth_date = new Date();
-    
     }
 }

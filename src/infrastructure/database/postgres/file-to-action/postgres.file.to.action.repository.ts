@@ -1,10 +1,10 @@
 import { FileToActionRepository } from '../../../../domain/files/file-to-action/file.to.action.repository';
 import { PostgresFileToActionEntity } from './postgres.file.to.action.entity';
-import { Repository } from 'typeorm'
+import { Repository } from 'typeorm';
 import { FileToActionDataType } from '../../../../domain/files/file.interfaces';
 
 export class PostgresFileToActionRepository implements FileToActionRepository {
-    constructor(private readonly repo: Repository<PostgresFileToActionEntity>){};
+    constructor(private readonly repo: Repository<PostgresFileToActionEntity>) {}
 
     create(entity: PostgresFileToActionEntity) {
         return this.repo.save(entity);
@@ -17,4 +17,4 @@ export class PostgresFileToActionRepository implements FileToActionRepository {
     findAll(): Promise<PostgresFileToActionEntity[]> {
         return this.repo.find();
     }
-};
+}

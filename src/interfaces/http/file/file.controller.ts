@@ -1,4 +1,4 @@
-import { Request ,Body, Controller, Post, UploadedFiles, UseInterceptors, Get } from '@nestjs/common';
+import { Request, Body, Controller, Post, UploadedFiles, UseInterceptors, Get } from '@nestjs/common';
 import { FileService } from '../../../domain/files/file.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UploadDto } from './dto/upload.dto';
@@ -6,13 +6,17 @@ import { IUploadedFileResult } from '../../../domain/files/file.interfaces';
 
 @Controller('files')
 export class FilesController {
-    constructor(private readonly fileService: FileService) {};
+    constructor(private readonly fileService: FileService) {}
 
     // upload files endpoint
     @Post('upload')
     @UseInterceptors(FilesInterceptor('files'))
-    async uploadFile(@UploadedFiles() files: Express.Multer.File[], @Body() body: UploadDto, @Request() req: {user: {id: number}}) : Promise<IUploadedFileResult> {
-        return this.fileService.uploadFiles(body.year, body.month, files, { token: '', userId: req.user.id});
+    async uploadFile(
+        @UploadedFiles() files: Express.Multer.File[],
+        @Body() body: UploadDto,
+        @Request() req: { user: { id: number } },
+    ): Promise<IUploadedFileResult> {
+        return this.fileService.uploadFiles(body.year, body.month, files, { token: '', userId: req.user.id });
     }
 
     // get uploaded files endpoint
@@ -32,11 +36,11 @@ export class FilesController {
     async clearUploads() {
         return this.fileService.clearUploadFolder();
     }
-    
+
     // import already uploaded files endpoint
     @Post('import-files')
     async importFiles() {
-        await Promise.resolve(''); //lint 
+        await Promise.resolve(''); //lint
         throw new Error('Not implemented yet.');
         //return this.fileService.runImportWorker();
     }

@@ -12,18 +12,18 @@ import { FilesController } from '../../interfaces/http/file/file.controller';
 
 @Module({
     imports: [
-            ConfigModule,
-            DatabaseModule.forRoot(),
-            MulterModule.registerAsync({
-                  imports: [ConfigModule],
-                  useFactory: (/*configService: ConfigService*/) => ({
-                    dest: './uploads',
-                  }),
-                  inject: [ConfigService],
-                }),
+        ConfigModule,
+        DatabaseModule.forRoot(),
+        MulterModule.registerAsync({
+            imports: [ConfigModule],
+            useFactory: (/*configService: ConfigService*/) => ({
+                dest: './uploads',
+            }),
+            inject: [ConfigService],
+        }),
     ],
     controllers: [FilesController],
     providers: [FileService, FileActionService, FileToActionService, FileDetailService, FileDetailTypeService],
-    exports: [FileService]
+    exports: [FileService],
 })
-export class FileModule {};
+export class FileModule {}

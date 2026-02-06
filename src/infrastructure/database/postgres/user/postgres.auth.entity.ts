@@ -17,6 +17,5 @@ export class PostgresAuthEntity {
     }
     addCustomer(): bigint {
         return 1n;
-    } 
-
+    }
 }

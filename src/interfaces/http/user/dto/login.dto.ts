@@ -1,9 +1,8 @@
 import { IsString, IsNotEmpty, MinLength } from 'class-validator';
 
 export class LoginDto {
-    @IsString() 
+    @IsString()
     @IsNotEmpty()
-
     username: string;
     @IsString()
     @IsNotEmpty()
@@ -14,4 +13,4 @@ export class LoginDto {
         this.username = '';
         this.password = '';
     }
-  }
+}

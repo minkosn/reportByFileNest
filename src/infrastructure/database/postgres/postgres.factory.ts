@@ -34,7 +34,7 @@ export class PostgresFactory implements DatabaseFactory {
         //User Repo
         @InjectRepository(PostgresUserEntity)
         private readonly userRepo: Repository<PostgresUserEntity>,
-        
+
         //Person Repo
         @InjectRepository(PostgresPersonEntity)
         private readonly personRepo: Repository<PostgresPersonEntity>,
@@ -42,7 +42,7 @@ export class PostgresFactory implements DatabaseFactory {
         //Auth Repo
         @InjectRepository(PostgresAuthEntity)
         private readonly authRepo: Repository<PostgresAuthEntity>,
-        
+
         //File Action Repo
         @InjectRepository(PostgresFileActionEntity)
         private readonly fileActionRepo: Repository<PostgresFileActionEntity>,
@@ -59,11 +59,10 @@ export class PostgresFactory implements DatabaseFactory {
         @InjectRepository(PostgresFileDetailTypeEntity)
         private readonly fileDetailTypeRepo: Repository<PostgresFileDetailTypeEntity>,
 
-        //Data Source        
+        //Data Source
         @InjectDataSource()
         private readonly dataSource: DataSource,
-
-    ) {};
+    ) {}
 
     createUserRepository(): UserRepository {
         return new PostgresUserRepository(this.userRepo);
@@ -73,11 +72,11 @@ export class PostgresFactory implements DatabaseFactory {
         return new PostgresPersonRepository(this.personRepo);
     }
 
-    createAuthRepository() : AuthRepository {
+    createAuthRepository(): AuthRepository {
         return new PostgresAuthRepository(this.authRepo, this.dataSource);
     }
 
-    createFileActionRepository() : FileActionRepository {
+    createFileActionRepository(): FileActionRepository {
         return new PostgresFileActionRepository(this.fileActionRepo);
     }
 
@@ -86,10 +85,10 @@ export class PostgresFactory implements DatabaseFactory {
     }
 
     createFileDetailRepository(): FileDetailRepository {
-        return new PostgresFileDetailRepository(this.fileDetailRepo/*, this.dataSource*/);
-    };
+        return new PostgresFileDetailRepository(this.fileDetailRepo /*, this.dataSource*/);
+    }
 
     createFileDetailTypeRepository(): FileDetailTypeRepository {
         return new PostgresFileDetailTypeRepository(this.fileDetailTypeRepo);
     }
-};
+}

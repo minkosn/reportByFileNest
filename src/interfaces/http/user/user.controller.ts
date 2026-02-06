@@ -14,7 +14,7 @@ import { isPublic } from '../../decorators/public.decorator';
 export class UserController {
     constructor(
         private readonly userService: UserService,
-        private readonly authService: AuthService
+        private readonly authService: AuthService,
     ) {}
 
     //User CRUD operations
@@ -61,5 +61,4 @@ export class UserController {
     async updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
         return this.authService.updatePassword(updatePasswordDto);
     }
-  
 }

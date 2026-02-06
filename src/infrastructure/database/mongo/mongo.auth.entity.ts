@@ -15,5 +15,4 @@ export class MongoAuthEntity {
         this.username = '';
         this.hashedPassword = '';
     }
-
 }

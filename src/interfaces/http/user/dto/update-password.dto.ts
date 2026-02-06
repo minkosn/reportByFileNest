@@ -9,7 +9,7 @@ export class UpdatePasswordDto {
     @IsNotEmpty()
     @MinLength(3)
     readonly newPassword: string;
-    
+
     @IsString()
     @IsNotEmpty()
     readonly userId: string;
@@ -20,4 +20,3 @@ export class UpdatePasswordDto {
         this.userId = '';
     }
 }
-

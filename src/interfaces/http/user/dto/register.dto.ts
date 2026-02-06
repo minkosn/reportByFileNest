@@ -3,12 +3,12 @@ import { IsString, IsNotEmpty, MinLength, IsEmail, IsOptional, IsDateString } fr
 export class RegisterDto {
     @IsString()
     @IsNotEmpty()
-    readonly username: string;  
+    readonly username: string;
 
     @IsString()
     @IsNotEmpty()
     @MinLength(3)
-    readonly password: string;  
+    readonly password: string;
 
     @IsEmail()
     readonly email: string;
@@ -20,7 +20,7 @@ export class RegisterDto {
     @IsString()
     @IsNotEmpty()
     readonly lastName: string;
-    
+
     @IsOptional()
     @IsDateString()
     readonly birthDate?: string;
@@ -32,6 +32,5 @@ export class RegisterDto {
         this.firstName = '';
         this.lastName = '';
         this.birthDate = '';
-    
     }
 }

@@ -4,13 +4,13 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 export class PostgresFileDetailEntity {
     @PrimaryGeneratedColumn()
     file_detail_id: number;
-    
+
     @Column()
     file_detail_type: number; //Enum of actions: UPLOAD, IMPORT, CLEAR-UPLOADS
-        
+
     @Column()
     file_detail_value: string;
-    
+
     @Column()
     file_detail_file_to_action: number;
 
@@ -20,4 +20,4 @@ export class PostgresFileDetailEntity {
         this.file_detail_value = '';
         this.file_detail_file_to_action = 0;
     }
-};
+}

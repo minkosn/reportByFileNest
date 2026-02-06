@@ -4,7 +4,7 @@ import { Person } from 'src/domain/person/person.entity';
 
 @Controller('persons')
 export class PersonController {
-    constructor(private readonly personService: PersonService) { };
+    constructor(private readonly personService: PersonService) {}
 
     @Get()
     async findAll(): Promise<Person[]> {
@@ -15,4 +15,4 @@ export class PersonController {
     async findByName(@Param('name') name: string): Promise<Person[]> {
         return this.personService.getPersonByName(name);
     }
-}  
+}

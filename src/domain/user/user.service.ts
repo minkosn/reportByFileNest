@@ -7,12 +7,12 @@ import { User } from './user.entity';
 export class UserService {
     constructor(
         @Inject(USER_REPOSITORY)
-        private readonly users: UserRepository
-    ) {};
+        private readonly users: UserRepository,
+    ) {}
 
     getUserByName(userName: string): Promise<User | null> {
         return this.users.findByName(userName);
-    }    
+    }
 
     getUserById(userId: number): Promise<User | null> {
         return this.users.findById(userId);
@@ -21,9 +21,8 @@ export class UserService {
     getAllUsers(): Promise<User[] | null> {
         return this.users.findAll();
     }
-    
+
     createUser(user: User): Promise<User> {
         return this.users.save(user);
     }
-
 }

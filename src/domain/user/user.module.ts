@@ -6,13 +6,9 @@ import { DatabaseModule } from '../../infrastructure/database/db.module';
 import { ConfigModule } from '../../config/config.module';
 
 @Module({
-  imports: [
-    DatabaseModule.forRoot(),
-    ConfigModule
-  ],  
-  controllers: [UserController],
-  providers: [UserService, AuthService],
-  exports: [UserService, AuthService],
-  
+    imports: [DatabaseModule.forRoot(), ConfigModule],
+    controllers: [UserController],
+    providers: [UserService, AuthService],
+    exports: [UserService, AuthService],
 })
-export class UserModule {};
+export class UserModule {}

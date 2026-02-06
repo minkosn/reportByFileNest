@@ -1,4 +1,4 @@
-import { Injectable, Inject, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import { Injectable, Inject, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { AUTH_REPOSITORY } from '../../infrastructure/database/db.tokens';
@@ -26,52 +26,52 @@ export class AuthService {
 
     async register(registerDto: RegisterDto): Promise<void> {
         const { username, password, email, firstName, lastName, birthDate } = registerDto;
-        if(!username || !password || !email || !birthDate) {
+        if (!username || !password || !email || !birthDate) {
             throw new UnauthorizedException('Missing required fields');
         }
-        const user = await this.userService.getUserByName(username);         
-        
+        const user = await this.userService.getUserByName(username);
+
         if (user) {
             throw new UnauthorizedException('User already exists');
         }
-        
+
         const hashedPassword = await bcrypt.hash(password, 10);
-        
+
         await this.authRepo.addCustomer({
             firstName,
             lastName,
             email,
             birthDate,
             username,
-            hashedPassword
+            hashedPassword,
         });
-        
+
         return;
         //return this.authRepo.register(registerDto);
     }
     async login(loginDto: LoginDto): Promise<ILoggedUser> {
         const { username, password } = loginDto;
-        
+
         const user = await this.userService.getUserByName(username);
-             
+
         if (!user) {
             throw new UnauthorizedException('Invalid credentials');
         }
-    
+
         const isMatch = await bcrypt.compare(password, user.user_password);
         if (!isMatch) {
             throw new UnauthorizedException('Invalid credentials');
         }
-    
+
         const payload = { id: user.id };
         const token = this.jwtService.sign(payload);
         return { token, userId: user.id };
     }
     async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<void> {
         const { email } = resetPasswordDto;
-        
+
         const userId = await this.authRepo.getUserIdByEmail(email);
-         
+
         if (!userId) {
             throw new NotFoundException('User not found for the provided email');
         }
@@ -83,40 +83,38 @@ export class AuthService {
         const resetLink = `${frontendUrl}/validate-token?token=${token}`;
 
         console.log(`Password reset link: ${resetLink}`);
-    
     }
-    async updatePassword(updatePasswordDto: UpdatePasswordDto): Promise<{ message: string; }> {
+    async updatePassword(updatePasswordDto: UpdatePasswordDto): Promise<{ message: string }> {
         const { token, newPassword, userId } = updatePasswordDto;
-        
+
         try {
             const decoded = this.jwtService.verify<{ email: string }>(token);
 
             const resetTokens = await this.authRepo.getTokenUser(TOKEN_RESET_TYPE, userId, token);
-    
+
             if (resetTokens?.length === 0 || !resetTokens) {
                 throw new UnauthorizedException('Token not found by the user!');
             }
-            
+
             const dbToken = this.jwtService.verify<{ email: string }>(resetTokens[0]?.token_user);
 
             if (dbToken.email !== decoded.email) {
                 throw new UnauthorizedException('Invalid data in the token');
             }
-    
+
             const hashedPassword = await bcrypt.hash(newPassword, 10);
-            
+
             await this.authRepo.setPasswordAndClearResetToken(hashedPassword, userId);
-       
+
             return { message: 'Password updated successfully' };
         } catch (error) {
-            if( (error as object).hasOwnProperty('type') && (error as {type: string}).type === 'DBError') 
+            if ((error as object).hasOwnProperty('type') && (error as { type: string }).type === 'DBError')
                 throw new Error((error as Error).message);
-            else
-                throw new UnauthorizedException('Invalid or expired token');
+            else throw new UnauthorizedException('Invalid or expired token');
         }
     }
-    
-    async verifyResetPasswordToken(token: string): Promise<{ userId: number; }> {
+
+    async verifyResetPasswordToken(token: string): Promise<{ userId: number }> {
         try {
             const decoded = this.jwtService.verify<{ email: string }>(token);
             const { email } = decoded;
@@ -128,7 +126,7 @@ export class AuthService {
             }
 
             const userId = await this.authRepo.getUserIdByEmail(email);
-            
+
             if (!userId) {
                 throw new NotFoundException('User not found for the provided email');
             }
@@ -138,4 +136,4 @@ export class AuthService {
             throw new UnauthorizedException('Invalid or expired token!', JSON.stringify(error));
         }
     }
-} 
+}

@@ -4,16 +4,16 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 export class PostgresFileToActionEntity {
     @PrimaryGeneratedColumn()
     file_to_action_id: number;
-    
+
     @Column({
         type: 'bigint',
-        name: 'file_to_action_action'
+        name: 'file_to_action_action',
     })
     file_to_action_action: number; //Enum of actions: UPLOAD, IMPORT, CLEAR-UPLOADS
-        
+
     @Column()
     file_to_action_date: Date;
-    
+
     @Column()
     file_to_action_performed_By: number;
 
@@ -23,4 +23,4 @@ export class PostgresFileToActionEntity {
         this.file_to_action_date = new Date();
         this.file_to_action_performed_By = 0;
     }
-};
+}

@@ -16,31 +16,31 @@ import { ConfigService } from './config/config.service';
 //import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [
-    ConfigModule,
-    DatabaseModule,
-    JwtModule.registerAsync({
-      global: true,
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '1h' },
-      }),
-      inject: [ConfigService],
-    }),
-    UserModule,
-    PersonModule,
-    FileModule
-    // ReportsModule
-     // AuthModule,
-],
-  controllers: [AppController],
-  providers: [
-    {
-        provide: APP_GUARD,
-        useClass: AuthGuard,
-    },
-    AppService
-],
+    imports: [
+        ConfigModule,
+        DatabaseModule,
+        JwtModule.registerAsync({
+            global: true,
+            imports: [ConfigModule],
+            useFactory: (configService: ConfigService) => ({
+                secret: configService.get('JWT_SECRET'),
+                signOptions: { expiresIn: '1h' },
+            }),
+            inject: [ConfigService],
+        }),
+        UserModule,
+        PersonModule,
+        FileModule,
+        // ReportsModule
+        // AuthModule,
+    ],
+    controllers: [AppController],
+    providers: [
+        {
+            provide: APP_GUARD,
+            useClass: AuthGuard,
+        },
+        AppService,
+    ],
 })
 export class AppModule {}

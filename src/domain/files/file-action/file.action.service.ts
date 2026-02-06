@@ -1,7 +1,6 @@
-
 import { Inject, Injectable } from '@nestjs/common';
-import { FILE_ACTION_REPOSITORY } from '../../../infrastructure/database/db.tokens' 
-import { FileActionEntity} from './file.action.entity';
+import { FILE_ACTION_REPOSITORY } from '../../../infrastructure/database/db.tokens';
+import { FileActionEntity } from './file.action.entity';
 import { FileActionName, FileActionStatus } from './file.action.enums';
 import { FileActionRepository } from './file.action.repository';
 import { FileActionType } from '../file.interfaces';
@@ -11,28 +10,24 @@ import { FileActionType } from '../file.interfaces';
 - to get data by some action
 */
 
-
 @Injectable()
 export class FileActionService {
-    
     constructor(
         @Inject(FILE_ACTION_REPOSITORY)
-        private readonly fileActionRepository: FileActionRepository
-    ){};
+        private readonly fileActionRepository: FileActionRepository,
+    ) {}
     // create a new file action record
     //fileActionData -accept only keys exiting in the class entity
     async createFileAction(fileActionData: { [K in keyof FileActionEntity]: FileActionEntity[K] }) {
         return this.fileActionRepository.create(fileActionData);
-    };
+    }
     // retrieve a file action by its name, or all file actions
     async getByField(fieldName?: keyof FileActionEntity, value?: FileActionType) {
-        return fieldName 
-            ? this.fileActionRepository.getByField(fieldName, value) 
-            : this.fileActionRepository.findAll();
-    };
+        return fieldName ? this.fileActionRepository.getByField(fieldName, value) : this.fileActionRepository.findAll();
+    }
 
     // update action name status
     async updateFileActionStatus(fileActionName: FileActionName, status: FileActionStatus, updatedBy: number) {
         return this.fileActionRepository.updateStatus(fileActionName, status, updatedBy);
-    };
+    }
 }

@@ -11,6 +11,6 @@ export class PersonDto {
     constructor() {
         this.first_name = '';
         this.last_name = '';
-        this.birth_date = new Date();   
+        this.birth_date = new Date();
     }
 }

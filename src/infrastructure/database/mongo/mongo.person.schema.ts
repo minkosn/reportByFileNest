@@ -1,27 +1,27 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { MongoUser }  from './mongo.user.schema';
+import { MongoUser } from './mongo.user.schema';
 
 @Schema({ collection: 'person' })
 export class MongoPerson {
     @Prop()
     id: number;
-    
+
     @Prop()
     first_name: string;
-    
+
     @Prop()
     last_name: string;
-    
+
     @Prop()
     birth_date: Date;
-    
+
     @Prop()
     inserted_on: Date;
-    
+
     @Prop()
     updated_on: Date;
-    
+
     @Prop()
     status: string;
 

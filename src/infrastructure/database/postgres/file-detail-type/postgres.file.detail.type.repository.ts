@@ -1,12 +1,10 @@
-import { Repository } from 'typeorm'
+import { Repository } from 'typeorm';
 import { PostgresFileDetailTypeEntity } from './postgres.file.detail.type.entity';
 import { FileDetailTypeRepository } from 'src/domain/files/file-detail-type/file.detail.type.repository';
 import { FileDetailTypeType, IFileDetailType } from 'src/domain/files/file.interfaces';
 
 export class PostgresFileDetailTypeRepository implements FileDetailTypeRepository {
-    constructor(
-        private readonly repo: Repository<PostgresFileDetailTypeEntity>
-    ){};
+    constructor(private readonly repo: Repository<PostgresFileDetailTypeEntity>) {}
     async create(entity: PostgresFileDetailTypeEntity) {
         return this.repo.save(entity);
     }
@@ -22,5 +20,4 @@ export class PostgresFileDetailTypeRepository implements FileDetailTypeRepositor
     async getByField(fieldName: string, value: FileDetailTypeType): Promise<PostgresFileDetailTypeEntity[]> {
         return this.repo.findBy({ [fieldName]: value });
     }
-
-};
+}
