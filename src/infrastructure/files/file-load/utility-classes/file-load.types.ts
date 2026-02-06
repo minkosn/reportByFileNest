@@ -1,3 +1,4 @@
+/* TO DO
 export interface FileLoader<T> {
     load(): Promise<T>;
 }
@@ -26,3 +27,4 @@ export interface XlsxColumn {
     value: any; 
     type: string;
 }
+    */

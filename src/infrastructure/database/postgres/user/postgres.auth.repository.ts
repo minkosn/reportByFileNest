@@ -59,9 +59,21 @@ export class PostgresAuthRepository implements AuthRepository {
             await queryRunner.query('UPDATE "user".users SET user_password = $1 WHERE id = $2', [hashedPassword, userId]);
             await queryRunner.query('DELETE FROM "user".token WHERE "user" = $1', [userId]);
             await queryRunner.commitTransaction();
-        } catch (err: any) {
+        } catch (err) {
             await queryRunner.rollbackTransaction();
-            throw {...err, type: 'DBError'};
+            
+            if (err instanceof Error) {
+                (err as Error & {type: string}).type  = 'DBError';
+                throw err;
+            };
+
+            const extendError: Error & { type: string } = { 
+                message: 'Unknown error',
+                type: 'DBError',
+                name: 'setPasswordAndClearResetToken'
+            };
+            
+            throw extendError;
         } finally {     
             await queryRunner.release();
         }    
