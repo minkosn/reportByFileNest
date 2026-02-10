@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
-import { UserService } from 'src/domain/user/user.service';
-import { AuthService } from 'src/domain/user/auth.service';
-import { User } from 'src/domain/user/user.entity';
+import { UserService } from '../../../domain/user/user.service';
+import { AuthService } from '../../../domain/user/auth.service';
+import { User } from '../../../domain/user/user.entity';
 
 import { UserDto } from './dto/user.dto';
 import { RegisterDto } from './dto/register.dto';
