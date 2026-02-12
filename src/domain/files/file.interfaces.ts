@@ -20,9 +20,11 @@ export interface IFileDetailType {
     distributor: string;
     year: string;
     month: string;
+    importDate?: Date;
+    rowCount?: number;
 
     //On import
-    batch_id: string;
+    batch_id?: string;
 }
 
 export type FileActionType = number | FileActionStatus | Date | FileActionName | undefined;

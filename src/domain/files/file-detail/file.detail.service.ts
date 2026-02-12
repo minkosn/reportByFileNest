@@ -94,11 +94,12 @@ export class FileDetailService {
             //get params and call method to store details
             for (const param of paramsByAction) {
                 const detailValue = detail[param as keyof IFileDetailType];
-                if (!detailValue) {
+                if (detailValue === undefined) {
                     throw new Error(`Missing parameter: ${param}`);
                 }
                 //store details
-                await method.call(this, actionId, { [param]: detailValue } as UploadType | ImportType);
+                const value = detailValue instanceof Date ? detailValue.toISOString() : String(detailValue);
+                await method.call(this, actionId, { [param]: value });
             }
         }
 

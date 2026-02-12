@@ -1,5 +1,5 @@
 import { ILoggedUser } from '../user/auth.interfaces';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { IUploadedFileResult, IFileDBFields, IImportedFileDBFields, IFileDetailType } from './file.interfaces';
 
 import { FileActionService } from './file-action/file.action.service';
@@ -25,7 +25,7 @@ export class FileService {
         user: ILoggedUser,
     ): Promise<IUploadedFileResult> {
         if (files.length === 0) {
-            throw new Error('No files uploaded.');
+            throw new BadRequestException('No files uploaded.');
         }
 
         const newEntries = files.map((file) => ({
@@ -44,18 +44,18 @@ export class FileService {
         //get id of file action - upload
         const [{ file_action_id }] = await this.fileActionService.getByField(FILE_ACTION_NAME, FileActionName.UPLOAD);
         if (!file_action_id) {
-            throw new Error(`File action not found: ${FileActionName.UPLOAD}`);
+            throw new NotFoundException(`File action not found: ${FileActionName.UPLOAD}`);
         }
         //write file-to-action
         const fileToActionRecord = await this.fileToActionService.createFileToAction(file_action_id, user.userId);
         if (!fileToActionRecord.file_to_action_id) {
-            throw new Error(`Error creating file to action record for action id: ${String(file_action_id)}`);
+            throw new InternalServerErrorException(`Error creating file to action record for action id: ${String(file_action_id)}`);
         }
         //write file-details
         await this.fileDetailService.add(
             FileActionName.UPLOAD,
             fileToActionRecord.file_to_action_id,
-            newEntries as unknown as IFileDetailType[],
+            newEntries,
         );
 
         return {
