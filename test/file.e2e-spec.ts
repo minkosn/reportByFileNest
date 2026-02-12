@@ -44,7 +44,7 @@ describe('File Controller (e2e)', () => {
         let fh = null;
         let fileBuffer; 
         try {
-            fh = await open('./ReadMe.txt');
+            fh = await open('./ReadMe.md');
             const fileContent = await fh.readFile( { encoding: 'utf8' });
             fileBuffer = Buffer.from( fileContent );
         } finally {

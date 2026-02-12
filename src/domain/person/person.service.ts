@@ -6,6 +6,7 @@ import { PERSON_REPOSITORY } from '../../infrastructure/database/db.tokens';
 @Injectable()
 export class PersonService {
     constructor(
+        //inject Person repository (postgres or mongo) with unification by interface PersonRepository
         @Inject(PERSON_REPOSITORY)
         private readonly personRepository: PersonRepository,
     ) {}

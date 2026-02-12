@@ -17,40 +17,33 @@ import { DatabaseFactory } from './db-factory.interface';
 
 //Postgres
 import { PostgresModule } from './postgres/postgres.module';
-//import { PostgresStrategy } from './postgres/postgres.strategy';
 import { PostgresFactory } from './postgres/postgres.factory';
+//import { PostgresStrategy } from './postgres/postgres.strategy';
 
 // Mongo
 import { MongoModule } from './mongo/mongo.module';
-//import { MongoStrategy } from './mongo/mongo.strategy';
 import { MongoFactory } from './mongo/mongo.factory';
+//import { MongoStrategy } from './mongo/mongo.strategy';
+
 import { DatabaseTypeEnum as DB_TYPE } from '../../shared.enum';
 
 const dbType = process.env.DB_TYPE;
 
-//const dbModules = [];
+//get specific Database module abd factory, depending of env config value 
 const dbModule =
     dbType === DB_TYPE.POSTGRES_DB_TYPE //'postgres'
         ? PostgresModule
         : MongoModule;
-//const dbFactories = [];
+
 const dbFactory = dbType === DB_TYPE.POSTGRES_DB_TYPE ? PostgresFactory : MongoFactory;
-/*
-if (dbType === 'postgres') {
-    dbModules.push(PostgresModule);
-    dbFactories.push(PostgresFactory);
-} else if (dbType === 'mongo') {
-    dbModules.push(MongoModule);
-    dbFactories.push(MongoFactory);
-}
-*/
 @Module({})
 export class DatabaseModule {
     static forRoot(): DynamicModule {
         return {
             module: DatabaseModule,
-            imports: [ConfigModule, dbModule /*...dbModules*/],
+            imports: [ConfigModule, dbModule],
             providers: [
+                //connection handled by TypeORM
                 /*{ 
                     provide: DB_STRATEGY,
                     useFactory: (config: ConfigService) => { 
@@ -63,6 +56,8 @@ export class DatabaseModule {
                     },
                     inject: [ConfigService] 
                 },*/
+                // DB Factory depending of active config by DB (postgres, mongo, ...) 
+                //Specific DB factory is responsible to create the specific repos
                 {
                     provide: DB_FACTORY,
                     useFactory: (config: ConfigService, dbFactory: DatabaseFactory): DatabaseFactory => {
@@ -76,23 +71,27 @@ export class DatabaseModule {
                                 throw new Error('MSSQL not yet implemented');
                         }
                     },
-                    inject: [ConfigService, dbFactory /*...dbFactories*/],
+                    inject: [ConfigService, dbFactory ],
                 },
+                //User repo, with dynamic creation depending of DB type 
                 {
                     provide: USER_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createUserRepository(),
                     inject: [DB_FACTORY],
                 },
+                //Person repo, with dynamic creation depending of DB type 
                 {
                     provide: PERSON_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createPersonRepository(),
                     inject: [DB_FACTORY],
                 },
+                //Auth repo, with dynamic creation depending of DB type 
                 {
                     provide: AUTH_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createAuthRepository(),
                     inject: [DB_FACTORY],
                 },
+                //FileAction repo, with dynamic creation depending of DB type 
                 {
                     provide: FILE_ACTION_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createFileActionRepository(),
@@ -103,11 +102,13 @@ export class DatabaseModule {
                     useFactory: (factory: DatabaseFactory) => factory.createFileToActionRepository(),
                     inject: [DB_FACTORY],
                 },
+                //FileDetail repo, with dynamic creation depending of DB type 
                 {
                     provide: FILE_DETAIL_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createFileDetailRepository(),
                     inject: [DB_FACTORY],
                 },
+                //FileDetailType repo, with dynamic creation depending of DB type 
                 {
                     provide: FILE_DETAIL_TYPE_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createFileDetailTypeRepository(),

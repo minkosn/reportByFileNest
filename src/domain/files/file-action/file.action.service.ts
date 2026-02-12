@@ -5,7 +5,7 @@ import { FileActionName, FileActionStatus } from './file.action.enums';
 import { FileActionRepository } from './file.action.repository';
 import { FileActionType } from '../file.interfaces';
 
-/*The service will be used initial stage when have to add actions 
+/*The service will be used in initial stage when have to add actions 
 - in process of work to deactivate or reactivate some action
 - to get data by some action
 */

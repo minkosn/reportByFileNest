@@ -18,17 +18,22 @@ export const TOKEN_RESET_TYPE = 'reset_password';
 @Injectable()
 export class AuthService {
     constructor(
+        // inject JWToken to manage tokens
         private readonly jwtService: JwtService,
+        //Inject Auth repos throught AuthRepository interface
         @Inject(AUTH_REPOSITORY)
         private readonly authRepo: AuthRepository,
+        //Inject user Service to access data concerned users
         private readonly userService: UserService,
     ) {}
 
     async register(registerDto: RegisterDto): Promise<void> {
         const { username, password, email, firstName, lastName, birthDate } = registerDto;
+        
         if (!username || !password || !email || !birthDate) {
             throw new UnauthorizedException('Missing required fields');
         }
+        
         const user = await this.userService.getUserByName(username);
 
         if (user) {
@@ -47,7 +52,6 @@ export class AuthService {
         });
 
         return;
-        //return this.authRepo.register(registerDto);
     }
     async login(loginDto: LoginDto): Promise<ILoggedUser> {
         const { username, password } = loginDto;

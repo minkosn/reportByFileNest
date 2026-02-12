@@ -6,6 +6,7 @@ import { User } from './user.entity';
 @Injectable()
 export class UserService {
     constructor(
+        // inject user repo (postgres or mongo type), referenced by interface UserRepository
         @Inject(USER_REPOSITORY)
         private readonly users: UserRepository,
     ) {}

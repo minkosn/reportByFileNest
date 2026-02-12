@@ -4,6 +4,7 @@ import { ConfigService } from './config.service';
 
 @Module({
     imports: [
+        // apply env file usage
         NestConfigModule.forRoot({
             envFilePath: '.env',
             isGlobal: true,

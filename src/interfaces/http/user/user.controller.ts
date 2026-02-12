@@ -55,7 +55,6 @@ export class UserController {
         return res
             .status(HttpStatus.OK)
             .send(result);
-        //return this.authService.login(loginDto);
     }
 
     //It's not public intentionally , the forgotten password users have to contact admin to solve the issue

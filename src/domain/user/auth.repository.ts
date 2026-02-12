@@ -6,7 +6,7 @@ export interface AddCustomer {
     username: string;
     hashedPassword: string;
 }
-
+//Interface allowed management of different type repo - DBs
 export interface AuthRepository {
     addCustomer(newCustomer: AddCustomer): Promise<BigInteger>;
 

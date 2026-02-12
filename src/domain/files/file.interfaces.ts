@@ -41,11 +41,11 @@ export interface IFileDBFields {
     batchId?: string;
 }
 
-export interface IFileUpload extends IFileDBFields {
+/*export interface IFileUpload extends IFileDBFields {
     year: string;
     month: string;
 }
-
+*/
 export interface IUploadedFileResult {
     message: string;
     files: { name: string; path: string }[];

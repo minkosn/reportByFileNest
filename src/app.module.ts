@@ -12,13 +12,18 @@ import { FileModule } from './domain/files/file.module';
 import { DatabaseModule } from './infrastructure/database/db.module';
 import { AuthGuard } from './domain/user/auth.guard';
 import { ConfigService } from './config/config.service';
+
+//TO DO - ADD
 //import { ReportsModule } from './reports/reports.module';
 //import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
+        //add configuration
         ConfigModule,
+        //add DB management
         DatabaseModule,
+        //add JWToken management
         JwtModule.registerAsync({
             global: true,
             imports: [ConfigModule],
@@ -28,6 +33,7 @@ import { ConfigService } from './config/config.service';
             }),
             inject: [ConfigService],
         }),
+        //business domains
         UserModule,
         PersonModule,
         FileModule,
@@ -35,6 +41,7 @@ import { ConfigService } from './config/config.service';
         // AuthModule,
     ],
     controllers: [AppController],
+    // use guard for entire app
     providers: [
         {
             provide: APP_GUARD,

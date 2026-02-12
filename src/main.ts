@@ -1,7 +1,3 @@
-// Polyfill for global crypto object. Required for @nestjs/typeorm v11.
-// import { webcrypto } from 'crypto';
-//(globalThis as any).crypto ??= webcrypto;
-
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -19,8 +15,10 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     console.log(`NestFactory.create done`);
 
+    // get configuration from env file, in case not value are used values from 'constants'
     const configService = app.get(ConfigService);
 
+    //allow CORS FE requests
     const feUrl = configService.get(FRONTEND_URL_KEY) || DEFAULT_FRONTEND_URL;
 
     const cors_methods = configService.get(METHOD_ALLOWED_FE_CORS);
@@ -34,8 +32,10 @@ async function bootstrap() {
 
     app.useGlobalPipes(new ValidationPipe());
 
+    // add global prefix 'api'
     app.setGlobalPrefix(GLOBAL_API_PREFIX);
 
+    // get port of the application
     const port = configService.get(PORT_APP) || DEFAULT_PORT_APP;
     await app.listen(port);
 

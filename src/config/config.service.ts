@@ -1,6 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
 import { DatabaseTypeEnum } from '../shared.enum';
+import { 
+    DB_HOST_KEY_NAME,
+    DB_PORT_KEY_NAME,
+    DB_USER_KEY_NAME, 
+    DB_PASSWORD_KEY_NAME,
+    DB_NAME_KEY_NAME,
+    MONGO_URI_KEY_NAME,
+    MSSQL_URI_KEY_NAME
+} from '../constants'
 
 interface MongoConfig {
     uri: string;
@@ -20,7 +29,7 @@ interface PostgresConfig {
 
 type Configs = PostgresConfig | MongoConfig | MssqlConfig;
 
-export type DatabaseType =
+type DatabaseType =
     | DatabaseTypeEnum.POSTGRES_DB_TYPE
     | DatabaseTypeEnum.MONGO_DB_TYPE
     | DatabaseTypeEnum.MSSQL_DB_TYPE;
@@ -35,7 +44,6 @@ export class ConfigService {
     }
 
     getDbType(): DatabaseType {
-        //return (process.env.DB_TYPE as DatabaseType) || DatabaseTypeEnum.POSTGRES_DB_TYPE;
         return (process.env.DB_TYPE ?? DatabaseTypeEnum.POSTGRES_DB_TYPE) as DatabaseType;
     }
 
@@ -45,30 +53,30 @@ export class ConfigService {
                 return this.getConfigMongo();
             case DatabaseTypeEnum.MSSQL_DB_TYPE:
                 return this.getConfigMssql();
-            default: //DatabaseTypeEnum.POSTGRES_DB_TYPE
+            default:
                 return this.getConfigPostgres();
         }
     }
 
     getConfigPostgres(): PostgresConfig {
         return {
-            host: this.get('DB_HOST'),
-            port: parseInt(this.get('DB_PORT'), 10),
-            user: this.get('DB_USER'),
-            password: this.get('DB_PASSWORD'),
-            database: this.get('DB_DATABASE'),
+            host: this.get(DB_HOST_KEY_NAME),
+            port: parseInt(this.get(DB_PORT_KEY_NAME), 10),
+            user: this.get(DB_USER_KEY_NAME),
+            password: this.get(DB_PASSWORD_KEY_NAME),
+            database: this.get(DB_NAME_KEY_NAME),
         };
     }
 
     getConfigMongo(): MongoConfig {
         return {
-            uri: this.get('MONGO_URI'),
+            uri: this.get(MONGO_URI_KEY_NAME),
         };
     }
 
     getConfigMssql(): MssqlConfig {
         return {
-            uri: this.get('MSSQL_URI'),
+            uri: this.get(MSSQL_URI_KEY_NAME),
         };
     }
 }
