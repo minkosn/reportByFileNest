@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Res, HttpStatus  } from '@nestjs/common';
+import type { Response } from 'express';
 import { UserService } from '../../../domain/user/user.service';
 import { AuthService } from '../../../domain/user/auth.service';
 import { User } from '../../../domain/user/user.entity';
@@ -48,17 +49,25 @@ export class UserController {
 
     @isPublic()
     @Post('login')
-    async login(@Body() loginDto: LoginDto) {
-        return this.authService.login(loginDto);
+    async login(@Body() loginDto: LoginDto, @Res() res: Response) {
+        const result = await this.authService.login(loginDto);
+        
+        return res
+            .status(HttpStatus.OK)
+            .send(result);
+        //return this.authService.login(loginDto);
     }
 
+    //It's not public intentionally , the forgotten password users have to contact admin to solve the issue
     @Post('reset-password')
-    async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
-        return this.authService.resetPassword(resetPasswordDto);
+    async resetPassword(@Body() resetPasswordDto: ResetPasswordDto, @Res() res: Response) {
+        await this.authService.resetPassword(resetPasswordDto);
+        return res.status(HttpStatus.ACCEPTED).send();
     }
 
     @Post('update-password')
-    async updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
-        return this.authService.updatePassword(updatePasswordDto);
+    async updatePassword(@Body() updatePasswordDto: UpdatePasswordDto, @Res() res: Response) {
+        const result = await this.authService.updatePassword(updatePasswordDto);
+        return res.status(HttpStatus.OK).send(result);
     }
 }
