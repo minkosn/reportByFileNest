@@ -1,20 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn  } from 'typeorm';
 
 @Entity('person', { schema: 'user' })
 export class PostgresPersonEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
     @Column()
-    first_name: string;
+    first_name!: string;
     @Column()
-    last_name: string;
-    @Column()
-    birth_date: Date;
-
-    constructor() {
-        this.id = 0;
-        this.first_name = '';
-        this.last_name = '';
-        this.birth_date = new Date();
-    }
+    last_name!: string;
+    @CreateDateColumn()
+    birth_date!: Date;
 }

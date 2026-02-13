@@ -1,35 +1,29 @@
 import { FileActionName, FileActionStatus } from '../../../../domain/files/file-action/file.action.enums';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('fileAction', { schema: 'file' })
 export class PostgresFileActionEntity {
     @PrimaryGeneratedColumn()
-    file_action_id: number;
+    file_action_id!: number;
 
     @Column({
         type: 'text',
         name: 'file_action_name',
         enum: FileActionName,
+        default: FileActionName.UPLOAD
     })
-    file_action_name: FileActionName; //Enum of actions: UPLOAD, IMPORT, CLEAR-UPLOADS
+    file_action_name!: FileActionName; //Enum of actions: UPLOAD, IMPORT, CLEAR-UPLOADS
 
     @Column({
         type: 'bigint',
         name: 'file_action_status',
     })
-    file_action_status: FileActionStatus; //Enum of status: ACTIVE, INACTIVE
+    file_action_status!: FileActionStatus; //Enum of status: ACTIVE, INACTIVE
 
-    @Column()
+    @UpdateDateColumn()
     file_action_updated_on?: Date; //triggered on action
 
     @Column()
-    file_action_updated_by: number;
-
-    constructor() {
-        this.file_action_id = 0;
-        this.file_action_name = FileActionName.UPLOAD;
-        this.file_action_status = FileActionStatus.INACTIVE;
-        this.file_action_updated_on = new Date();
-        this.file_action_updated_by = 0;
-    }
+    file_action_updated_by!: number;
+   
 }

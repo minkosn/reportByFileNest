@@ -22,7 +22,7 @@ import { ConfigService } from './config/config.service';
         //add configuration
         ConfigModule,
         //add DB management
-        DatabaseModule,
+        DatabaseModule.forRoot(),
         //add JWToken management
         JwtModule.registerAsync({
             global: true,

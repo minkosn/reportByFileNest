@@ -5,9 +5,10 @@ export class FileDetailEntity {
     file_detail_value: string; //distributor when is import action , year: string; month: string, batchId
     file_detail_file_to_action: number; //FK file-to-action
 
-    constructor() {
-        this.file_detail_type = 0; //default type
-        this.file_detail_value = ''; //default empty
-        this.file_detail_file_to_action = 0; //default FK
+    constructor(id: number, type: number, value: string, file_to_action: number) {
+        this.file_detail_id = id; //default
+        this.file_detail_type = type; //default type
+        this.file_detail_value = value; //default empty
+        this.file_detail_file_to_action = file_to_action; //default FK
     }
 }

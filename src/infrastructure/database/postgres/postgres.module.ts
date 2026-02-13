@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '../../../config/config.module';
 import { ConfigService } from '../../../config/config.service'; 
 
 import { PostgresUserEntity } from './user/postgres.user.entity';
@@ -15,9 +14,7 @@ import { PostgresFactory } from './postgres.factory';
 
 @Module({
     imports: [
-        ConfigModule,
         TypeOrmModule.forRootAsync({
-            imports: [ConfigModule],
             inject: [ConfigService],
             useFactory: (configService: ConfigService) => ({
                 type: 'postgres',
@@ -26,16 +23,8 @@ import { PostgresFactory } from './postgres.factory';
                 username: configService.get('DB_USER'),
                 password: configService.get('DB_PASSWORD'),
                 database: configService.get('DB_DATABASE'),
-                entities: [
-                    PostgresUserEntity,
-                    PostgresPersonEntity,
-                    PostgresAuthEntity,
-                    PostgresFileActionEntity,
-                    PostgresFileDetailEntity,
-                    PostgresFileToActionEntity,
-                    PostgresFileDetailTypeEntity,
-                ],
                 synchronize: false,
+                autoLoadEntities: true,
             }),
         }),
         TypeOrmModule.forFeature([

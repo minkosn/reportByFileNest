@@ -1,4 +1,5 @@
 import { FileToActionRepository } from '../../../../domain/files/file-to-action/file.to.action.repository';
+import { FileToActionEntity } from '../../../../domain/files/file-to-action/file.to.action.entity';
 import { PostgresFileToActionEntity } from './postgres.file.to.action.entity';
 import { Repository } from 'typeorm';
 import { FileToActionDataType } from '../../../../domain/files/file.interfaces';
@@ -6,15 +7,32 @@ import { FileToActionDataType } from '../../../../domain/files/file.interfaces';
 export class PostgresFileToActionRepository implements FileToActionRepository {
     constructor(private readonly repo: Repository<PostgresFileToActionEntity>) {}
 
-    create(entity: PostgresFileToActionEntity) {
-        return this.repo.save(entity);
+    async create(fileToAction: FileToActionEntity): Promise<FileToActionEntity> {
+        const entity = this.repo.create({
+            file_to_action_action: fileToAction.file_to_action_action,
+            file_to_action_date: fileToAction.file_to_action_date,
+            file_to_action_performed_By: fileToAction.file_to_action_performed_By,
+        } as PostgresFileToActionEntity);
+        const saved = await this.repo.save(entity);
+        return this.toDomain(saved);
     }
 
-    getByField(fieldName: string, value: FileToActionDataType): Promise<PostgresFileToActionEntity[]> {
-        return this.repo.findBy({ [fieldName]: value });
+    async getByField(fieldName: string, value: FileToActionDataType): Promise<FileToActionEntity[]> {
+        const entities = await this.repo.findBy({ [fieldName]: value } as any);
+        return entities.map((entity) => this.toDomain(entity));
     }
 
-    findAll(): Promise<PostgresFileToActionEntity[]> {
-        return this.repo.find();
+    async findAll(): Promise<FileToActionEntity[]> {
+        const entities = await this.repo.find();
+        return entities.map((entity) => this.toDomain(entity));
+    }
+
+    private toDomain(entity: PostgresFileToActionEntity): FileToActionEntity {
+        return new FileToActionEntity(
+            entity.file_to_action_id,
+            entity.file_to_action_date,
+            entity.file_to_action_performed_By,
+            entity.file_to_action_action
+        );
     }
 }

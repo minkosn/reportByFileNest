@@ -123,7 +123,7 @@ export class AuthService {
             const decoded = this.jwtService.verify<{ email: string }>(token);
             const { email } = decoded;
 
-            const resetTokens = await this.authRepo.get_token(TOKEN_RESET_TYPE, token);
+            const resetTokens = await this.authRepo.getToken(TOKEN_RESET_TYPE, token);
 
             if (resetTokens?.length === 0 || !resetTokens) {
                 throw new UnauthorizedException('Invalid or expired token');

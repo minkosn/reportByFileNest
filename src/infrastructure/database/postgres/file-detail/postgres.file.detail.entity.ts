@@ -3,21 +3,15 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('fileDetail', { schema: 'file' })
 export class PostgresFileDetailEntity {
     @PrimaryGeneratedColumn()
-    file_detail_id: number;
+    file_detail_id!: number;
 
     @Column()
-    file_detail_type: number; //Enum of actions: UPLOAD, IMPORT, CLEAR-UPLOADS
+    file_detail_type!: number; //Enum of actions: UPLOAD, IMPORT, CLEAR-UPLOADS
 
     @Column()
-    file_detail_value: string;
+    file_detail_value!: string;
 
     @Column()
-    file_detail_file_to_action: number;
-
-    constructor() {
-        this.file_detail_id = 0;
-        this.file_detail_type = 0;
-        this.file_detail_value = '';
-        this.file_detail_file_to_action = 0;
-    }
+    file_detail_file_to_action!: number;
+    
 }

@@ -33,7 +33,7 @@ export class MongoAuthRepository implements AuthRepository {
     };
     */
 
-    async addCustomer(newCustomer: AddCustomer): Promise<BigInteger> {
+    async addCustomer(newCustomer: AddCustomer): Promise<number> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
         await Promise.resolve([firstName, lastName, email, birthDate, username, hashedPassword]);
         /*
@@ -103,7 +103,7 @@ export class MongoAuthRepository implements AuthRepository {
         return;
     }
 
-    async get_token(tokenType: string, token: string): Promise<{ token_user: string }[] | null> {
+    async getToken(tokenType: string, token: string): Promise<{ token_user: string }[] | null> {
         /*
         return this.repo.query('SELECT * FROM "user".fn_get_token($1, $2, $3, $4, $5)', [
             tokenType,

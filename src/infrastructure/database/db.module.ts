@@ -1,9 +1,6 @@
 import { Module, DynamicModule } from '@nestjs/common';
-import { ConfigModule } from '../../config/config.module';
-import { ConfigService } from '../../config/config.service';
 import {
     DB_FACTORY,
-    //DB_STRATEGY,
     USER_REPOSITORY,
     PERSON_REPOSITORY,
     AUTH_REPOSITORY,
@@ -13,20 +10,18 @@ import {
     FILE_DETAIL_TYPE_REPOSITORY,
 } from './db.tokens';
 import { DatabaseFactory } from './db-factory.interface';
-//import { DatabaseStrategy } from './db-strategy.interface';
 
 //Postgres
 import { PostgresModule } from './postgres/postgres.module';
 import { PostgresFactory } from './postgres/postgres.factory';
-//import { PostgresStrategy } from './postgres/postgres.strategy';
 
 // Mongo
 import { MongoModule } from './mongo/mongo.module';
 import { MongoFactory } from './mongo/mongo.factory';
-//import { MongoStrategy } from './mongo/mongo.strategy';
 
 import { DatabaseTypeEnum as DB_TYPE } from '../../shared.enum';
 
+//which DB will be used (postgres, mongo, ..)
 const dbType = process.env.DB_TYPE;
 
 //get specific Database module abd factory, depending of env config value 
@@ -41,37 +36,14 @@ export class DatabaseModule {
     static forRoot(): DynamicModule {
         return {
             module: DatabaseModule,
-            imports: [ConfigModule, dbModule],
+            imports: [dbModule],
             providers: [
-                //connection handled by TypeORM
-                /*{ 
-                    provide: DB_STRATEGY,
-                    useFactory: (config: ConfigService) => { 
-                        switch (config.getDbType()) { 
-                            case 'postgres': return new PostgresStrategy();
-                            case 'mongo': return new MongoStrategy();
-                            case 'mssql': 
-                            default: throw new Error('MSSQL not yet implemented'); 
-                        } 
-                    },
-                    inject: [ConfigService] 
-                },*/
                 // DB Factory depending of active config by DB (postgres, mongo, ...) 
                 //Specific DB factory is responsible to create the specific repos
                 {
                     provide: DB_FACTORY,
-                    useFactory: (config: ConfigService, dbFactory: DatabaseFactory): DatabaseFactory => {
-                        switch (config.getDbType()) {
-                            case DB_TYPE.POSTGRES_DB_TYPE:
-                                return dbFactory as PostgresFactory;
-                            case DB_TYPE.MONGO_DB_TYPE:
-                                return dbFactory as MongoFactory;
-                            case DB_TYPE.MSSQL_DB_TYPE:
-                            default:
-                                throw new Error('MSSQL not yet implemented');
-                        }
-                    },
-                    inject: [ConfigService, dbFactory ],
+                    useFactory: (factory: DatabaseFactory) => factory,
+                    inject: [dbFactory],
                 },
                 //User repo, with dynamic creation depending of DB type 
                 {
@@ -125,6 +97,7 @@ export class DatabaseModule {
                 FILE_DETAIL_REPOSITORY,
                 FILE_DETAIL_TYPE_REPOSITORY,
             ],
+            global: true
         };
     }
 }

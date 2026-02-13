@@ -8,20 +8,17 @@ export class PostgresAuthRepository implements AuthRepository {
         private readonly dataSource: DataSource,
     ) {}
 
-    async addCustomer(newCustomer: AddCustomer): Promise<BigInteger> {
+    async addCustomer(newCustomer: AddCustomer): Promise<number> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
 
-        let outPersonId: unknown; //output parameter
-
-        const result = await this.repo.query<{ person_id: BigInteger }[]>(
+        const result = await this.repo.query<{ person_id: number }[]>(
             'CALL "user".proc_add_customer($1, $2, $3, $4, $5, $6, $7)',
-            [firstName, lastName, email, birthDate, username, hashedPassword, outPersonId],
+            [firstName, lastName, email, birthDate, username, hashedPassword, null],
         );
 
         if (result.length === 0) {
             throw new Error('Failed to add customer');
         }
-        //return outPersonId;
         return result[0]?.person_id;
     }
 
@@ -64,23 +61,16 @@ export class PostgresAuthRepository implements AuthRepository {
             await queryRunner.rollbackTransaction();
 
             if (err instanceof Error) {
-                (err as Error & { type: string }).type = 'DBError';
+                Object.assign(err, { type: 'DBError' });
                 throw err;
             }
-
-            const extendError: Error & { type: string } = {
-                message: 'Unknown error',
-                type: 'DBError',
-                name: 'setPasswordAndClearResetToken',
-            };
-
-            throw extendError;
+            throw new Error('Unknown error during password reset transaction');
         } finally {
             await queryRunner.release();
         }
     }
 
-    async get_token(tokenType: string, token: string): Promise<{ token_user: string }[] | null> {
+    async getToken(tokenType: string, token: string): Promise<{ token_user: string }[] | null> {
         return this.repo.query('SELECT * FROM "user".fn_get_token($1, $2, $3, $4, $5)', [
             tokenType,
             null,

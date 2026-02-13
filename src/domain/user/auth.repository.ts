@@ -8,7 +8,7 @@ export interface AddCustomer {
 }
 //Interface allowed management of different type repo - DBs
 export interface AuthRepository {
-    addCustomer(newCustomer: AddCustomer): Promise<BigInteger>;
+    addCustomer(newCustomer: AddCustomer): Promise<number>;
 
     getUserIdByEmail(email: string): Promise<number | null>;
 
@@ -18,5 +18,5 @@ export interface AuthRepository {
 
     setPasswordAndClearResetToken(hashedPassword: string, userId: string): Promise<void>;
 
-    get_token(tokenType: string, token: string): Promise<{ token_user: string }[] | null>;
+    getToken(tokenType: string, token: string): Promise<{ token_user: string }[] | null>;
 }
