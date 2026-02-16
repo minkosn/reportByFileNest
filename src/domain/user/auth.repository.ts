@@ -1,4 +1,4 @@
-export interface AddCustomer {
+export interface CreateUserParams {
     firstName: string;
     lastName: string;
     email: string;
@@ -6,17 +6,43 @@ export interface AddCustomer {
     username: string;
     hashedPassword: string;
 }
-//Interface allowed management of different type repo - DBs
-export interface AuthRepository {
-    addCustomer(newCustomer: AddCustomer): Promise<number>;
 
+/**
+ * Interface for Authentication data access layer.
+ * Handles user creation (auth specific) and token management.
+ */
+export interface AuthRepository {
+    /**
+     * Creates a new user/customer with authentication details.
+     * @param params The user creation parameters.
+     */
+    addCustomer(params: CreateUserParams): Promise<number>;
+
+    /**
+     * Finds a user ID by email.
+     */
     getUserIdByEmail(email: string): Promise<number | null>;
 
-    addTokenToUser(tokenType: string, userId: string, token: string): Promise<void>;
+    /**
+     * Stores a token for a specific user.
+     * @param userId The numeric ID of the user.
+     */
+    addTokenToUser(tokenType: string, userId: number, token: string): Promise<void>;
 
-    getTokenUser(tokenType: string, userId: string, token: string): Promise<{ token_user: string }[] | null>;
+    /**
+     * Retrieves token information for a user.
+     * @returns Array of objects containing the token user identifier. Returns empty array if not found.
+     */
+    getTokenUser(tokenType: string, userId: number, token: string): Promise<{ token_user: string }[]>;
 
-    setPasswordAndClearResetToken(hashedPassword: string, userId: string): Promise<void>;
+    /**
+     * Updates the password and clears the reset token.
+     */
+    setPasswordAndClearResetToken(hashedPassword: string, userId: number): Promise<void>;
 
-    getToken(tokenType: string, token: string): Promise<{ token_user: string }[] | null>;
+    /**
+     * Retrieves a token by its value and type.
+     * @returns Array of objects containing the token user identifier.
+     */
+    getToken(tokenType: string, token: string): Promise<{ token_user: string }[]>;
 }

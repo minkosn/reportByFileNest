@@ -1,29 +1,33 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { USER_REPOSITORY } from '../../infrastructure/database/db.tokens';
 import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
+    private readonly logger = new Logger(UserService.name);
+
     constructor(
         // inject user repo (postgres or mongo type), referenced by interface UserRepository
         @Inject(USER_REPOSITORY)
-        private readonly users: UserRepository,
+        private readonly userRepository: UserRepository,
     ) {}
 
-    getUserByName(userName: string): Promise<User | null> {
-        return this.users.findByName(userName);
+    async getUserByName(userName: string): Promise<User | null> {
+        return this.userRepository.findByName(userName);
     }
 
-    getUserById(userId: number): Promise<User | null> {
-        return this.users.findById(userId);
+    async getUserById(userId: number): Promise<User | null> {
+        return this.userRepository.findById(userId);
     }
 
-    getAllUsers(): Promise<User[] | null> {
-        return this.users.findAll();
+    async getAllUsers(): Promise<User[]> {
+        const users = await this.userRepository.findAll();
+        return users || [];
     }
 
-    createUser(user: User): Promise<User> {
-        return this.users.save(user);
+    async createUser(user: User): Promise<User> {
+        this.logger.log(`Creating user: ${user.username}`);
+        return this.userRepository.save(user);
     }
 }

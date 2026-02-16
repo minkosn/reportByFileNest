@@ -1,4 +1,4 @@
-import { AuthRepository, AddCustomer } from '../../../domain/user/auth.repository';
+import { AuthRepository, CreateUserParams } from '../../../domain/user/auth.repository';
 import { MongoAuthEntity } from './mongo.auth.entity';
 import { Repository, DataSource } from 'typeorm';
 
@@ -33,7 +33,7 @@ export class MongoAuthRepository implements AuthRepository {
     };
     */
 
-    async addCustomer(newCustomer: AddCustomer): Promise<number> {
+    async addCustomer(newCustomer: CreateUserParams): Promise<number> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
         await Promise.resolve([firstName, lastName, email, birthDate, username, hashedPassword]);
         /*
@@ -63,14 +63,14 @@ export class MongoAuthRepository implements AuthRepository {
         //return result?.rows[0]?.user_id;
     }
 
-    async addTokenToUser(tokenType: string, userId: string, token: string): Promise<void> {
+    async addTokenToUser(tokenType: string, userId: number, token: string): Promise<void> {
         // TO DO: Implement the stored procedure call for MongoDB
         //await this.repo.query('CALL "user".proc_add_token($1, $2, $3)', [tokenType, userId, token]);
         await Promise.resolve([tokenType, userId, token]);
         return;
     }
 
-    async getTokenUser(tokenType: string, userId: string, token: string): Promise<{ token_user: string }[] | null> {
+    async getTokenUser(tokenType: string, userId: number, token: string): Promise<{ token_user: string }[]> {
         /*return this.repo.query('SELECT * FROM "user".fn_get_token($1, $2, $3, $4, $5)', [
             tokenType,
             userId,
@@ -79,10 +79,10 @@ export class MongoAuthRepository implements AuthRepository {
             token,
         ]);*/
         await Promise.resolve([tokenType, userId, token]);
-        return null;
+        return [];
     }
 
-    async setPasswordAndClearResetToken(hashedPassword: string, userId: string): Promise<void> {
+    async setPasswordAndClearResetToken(hashedPassword: string, userId: number): Promise<void> {
         /*const queryRunner = this.dataSource.createQueryRunner();
         
         await queryRunner.connect();
@@ -103,7 +103,7 @@ export class MongoAuthRepository implements AuthRepository {
         return;
     }
 
-    async getToken(tokenType: string, token: string): Promise<{ token_user: string }[] | null> {
+    async getToken(tokenType: string, token: string): Promise<{ token_user: string }[]> {
         /*
         return this.repo.query('SELECT * FROM "user".fn_get_token($1, $2, $3, $4, $5)', [
             tokenType,
@@ -114,6 +114,6 @@ export class MongoAuthRepository implements AuthRepository {
         ]);
         */
         await Promise.resolve([tokenType, token]);
-        return null;
+        return [];
     }
 }

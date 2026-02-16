@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
@@ -7,13 +7,15 @@ import { IS_PUBLIC_KEY } from '../../interfaces/decorators/public.decorator';
 //with exception for some public paths as 'register' and 'login'  
 @Injectable()
 export class AuthGuard implements CanActivate {
+    private readonly logger = new Logger(AuthGuard.name);
+
     constructor(
-        private jwtService: JwtService,
-        private reflector: Reflector,
+        private readonly jwtService: JwtService,
+        private readonly reflector: Reflector,
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        //check the request was mark as public in the decorator of the controller
+        // Check if the handler or class is marked as public
         const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
             context.getHandler(),
             context.getClass(),
@@ -23,21 +25,28 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
-        //try to get authorization
+        // Extract and validate token
         const request = context.switchToHttp().getRequest<Request>();
-        const [type = null, token = null] = request.headers.authorization?.split(' ') ?? [];
+        const token = this.extractTokenFromHeader(request);
 
-        if (!token || type !== 'Bearer') {
+        if (!token) {
             throw new UnauthorizedException('No token provided');
         }
-        //verify attached token
+
         try {
-            const payload = await this.jwtService.verifyAsync<{ userId: number; token: string }>(token);
+            const payload: { userId: number; token: string } = await this.jwtService.verifyAsync(token);
+            // Assign the payload to the request object so it can be accessed in route handlers
             request.user = payload;
         } catch (err) {
-            throw new UnauthorizedException(`Invalid token! ${JSON.stringify(err)}`);
+            this.logger.error(`Token verification failed: ${(err as Error).message}`);
+            throw new UnauthorizedException('Invalid or expired token');
         }
 
         return true;
+    }
+
+    private extractTokenFromHeader(request: Request): string | undefined {
+        const [type, token] = request.headers.authorization?.split(' ') ?? [];
+        return type === 'Bearer' ? token : undefined;
     }
 }

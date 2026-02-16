@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, MinLength } from 'class-validator';
+import { IsString, IsNotEmpty, MinLength, IsNumber } from 'class-validator';
 
 export class UpdatePasswordDto {
     @IsString()
@@ -10,13 +10,13 @@ export class UpdatePasswordDto {
     @MinLength(3)
     readonly newPassword: string;
 
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
-    readonly userId: string;
+    readonly userId: number;
 
     constructor() {
         this.token = '';
         this.newPassword = '';
-        this.userId = '';
+        this.userId = 0;
     }
 }

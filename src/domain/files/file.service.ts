@@ -1,4 +1,4 @@
-import { ILoggedUser } from '../user/auth.interfaces';
+import { LoggedUser } from '../user/auth.interfaces';
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { IUploadedFileResult, IFileDBFields, IImportedFileDBFields, IFileDetailType } from './file.interfaces';
 
@@ -22,7 +22,7 @@ export class FileService {
         year: string,
         month: string,
         files: Express.Multer.File[],
-        user: ILoggedUser,
+        user: LoggedUser,
     ): Promise<IUploadedFileResult> {
         if (files.length === 0) {
             throw new BadRequestException('No files uploaded.');

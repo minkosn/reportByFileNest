@@ -11,7 +11,7 @@ import { LoginDto } from '../../interfaces/http/user/dto/login.dto';
 import { ResetPasswordDto } from '../../interfaces/http/user/dto/reset-password.dto';
 import { UpdatePasswordDto } from '../../interfaces/http/user/dto/update-password.dto';
 
-import { ILoggedUser } from './auth.interfaces';
+import { LoggedUser } from './auth.interfaces';
 
 export const TOKEN_RESET_TYPE = 'reset_password';
 
@@ -53,7 +53,7 @@ export class AuthService {
 
         return;
     }
-    async login(loginDto: LoginDto): Promise<ILoggedUser> {
+    async login(loginDto: LoginDto): Promise<LoggedUser> {
         const { username, password } = loginDto;
 
         const user = await this.userService.getUserByName(username);
@@ -62,7 +62,7 @@ export class AuthService {
             throw new UnauthorizedException('Invalid credentials');
         }
 
-        const isMatch = await bcrypt.compare(password, user.user_password);
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             throw new UnauthorizedException('Invalid credentials');
         }
@@ -81,7 +81,7 @@ export class AuthService {
         }
 
         const token = this.jwtService.sign({ email }, { expiresIn: '15m' });
-        await this.authRepo.addTokenToUser(TOKEN_RESET_TYPE, String(userId), token);
+        await this.authRepo.addTokenToUser(TOKEN_RESET_TYPE, userId, token);
 
         const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:8080';
         const resetLink = `${frontendUrl}/validate-token?token=${token}`;

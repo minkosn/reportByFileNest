@@ -1,4 +1,4 @@
-import { AuthRepository, AddCustomer } from '../../../../domain/user/auth.repository';
+import { AuthRepository, CreateUserParams } from '../../../../domain/user/auth.repository';
 import { PostgresAuthEntity } from './postgres.auth.entity';
 import { Repository, DataSource } from 'typeorm';
 
@@ -8,7 +8,7 @@ export class PostgresAuthRepository implements AuthRepository {
         private readonly dataSource: DataSource,
     ) {}
 
-    async addCustomer(newCustomer: AddCustomer): Promise<number> {
+    async addCustomer(newCustomer: CreateUserParams): Promise<number> {
         const { firstName, lastName, email, birthDate, username, hashedPassword } = newCustomer;
 
         const result = await this.repo.query<{ person_id: number }[]>(
@@ -30,11 +30,11 @@ export class PostgresAuthRepository implements AuthRepository {
         return result[0]?.user_id;
     }
 
-    async addTokenToUser(tokenType: string, userId: string, token: string): Promise<void> {
+    async addTokenToUser(tokenType: string, userId: number, token: string): Promise<void> {
         await this.repo.query('CALL "user".proc_add_token($1, $2, $3)', [tokenType, userId, token]);
     }
 
-    async getTokenUser(tokenType: string, userId: string, token: string): Promise<{ token_user: string }[] | null> {
+    async getTokenUser(tokenType: string, userId: number, token: string): Promise<{ token_user: string }[]> {
         return this.repo.query('SELECT * FROM "user".fn_get_token($1, $2, $3, $4, $5)', [
             tokenType,
             userId,
@@ -44,7 +44,7 @@ export class PostgresAuthRepository implements AuthRepository {
         ]);
     }
 
-    async setPasswordAndClearResetToken(hashedPassword: string, userId: string): Promise<void> {
+    async setPasswordAndClearResetToken(hashedPassword: string, userId: number): Promise<void> {
         const queryRunner = this.dataSource.createQueryRunner();
 
         await queryRunner.connect();
@@ -70,7 +70,7 @@ export class PostgresAuthRepository implements AuthRepository {
         }
     }
 
-    async getToken(tokenType: string, token: string): Promise<{ token_user: string }[] | null> {
+    async getToken(tokenType: string, token: string): Promise<{ token_user: string }[]> {
         return this.repo.query('SELECT * FROM "user".fn_get_token($1, $2, $3, $4, $5)', [
             tokenType,
             null,

@@ -28,7 +28,7 @@ export class MongoUserRepository implements UserRepository {
 
     async save(user: User): Promise<User> {
         const doc = await this.model
-            .findByIdAndUpdate(user.getId(), { ...(user as object) }, { upsert: true, new: true })
+            .findByIdAndUpdate(user.id, { ...(user as object) }, { upsert: true, new: true })
             .exec();
         return new User(doc.id, doc.user_name, doc.user_password, doc.user_inserted_on, doc.userupdated_on, doc.status);
     }
