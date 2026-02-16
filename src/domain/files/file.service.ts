@@ -1,11 +1,11 @@
 import { LoggedUser } from '../user/auth.interfaces';
-import { 
+import {
     BadRequestException,
     Injectable,
     InternalServerErrorException,
     NotFoundException,
     Logger,
-    NotImplementedException 
+    NotImplementedException,
 } from '@nestjs/common';
 import { UploadedFileResult, FileDbFields, ImportedFileDbFields, FileDetailTypeRec } from './file.interfaces';
 
@@ -60,11 +60,7 @@ export class FileService {
             throw new InternalServerErrorException(`Error creating file to action record for action id: ${String(id)}`);
         }
         //write file-details
-        await this.fileDetailService.add(
-            FileActionName.UPLOAD,
-            fileToActionRecord.id,
-            newEntries,
-        );
+        await this.fileDetailService.add(FileActionName.UPLOAD, fileToActionRecord.id, newEntries);
 
         this.logger.log('Files uploaded successfully');
 

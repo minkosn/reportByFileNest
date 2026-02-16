@@ -36,7 +36,11 @@ export class FileActionService {
     /**
      * Update action status.
      */
-    async updateFileActionStatus(fileActionName: FileActionName, status: FileActionStatus, updatedBy: number): Promise<FileActionEntity> {
+    async updateFileActionStatus(
+        fileActionName: FileActionName,
+        status: FileActionStatus,
+        updatedBy: number,
+    ): Promise<FileActionEntity> {
         this.logger.log(`Updating status for action ${fileActionName} to ${status}`);
         return this.fileActionRepository.updateStatus(fileActionName, status, updatedBy);
     }

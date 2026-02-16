@@ -29,11 +29,11 @@ export class AuthService {
 
     async register(registerDto: RegisterDto): Promise<void> {
         const { username, password, email, firstName, lastName, birthDate } = registerDto;
-        
+
         if (!username || !password || !email || !birthDate) {
             throw new UnauthorizedException('Missing required fields');
         }
-        
+
         const user = await this.userService.getUserByName(username);
 
         if (user) {

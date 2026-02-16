@@ -9,8 +9,7 @@ export const DEFAULT_PORT_APP = 3000;
 
 export const GLOBAL_API_PREFIX = 'api';
 
-
-export const DB_HOST_KEY_NAME = 'DB_HOST';          
+export const DB_HOST_KEY_NAME = 'DB_HOST';
 export const DB_PORT_KEY_NAME = 'DB_PORT';
 export const DB_USER_KEY_NAME = 'DB_USER';
 export const DB_PASSWORD_KEY_NAME = 'DB_PASSWORD';
@@ -21,4 +20,3 @@ export const MONGO_URI_KEY_NAME = 'MONGO_URI';
 export const MSSQL_URI_KEY_NAME = 'MSSQL_URI';
 
 export const DB_TYPE_KEY_NAME = 'DB_TYPE';
-  

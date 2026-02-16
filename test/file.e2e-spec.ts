@@ -5,7 +5,6 @@ import { AppModule } from '../src/app.module';
 import { open } from 'node:fs/promises';
 import { Response } from 'express';
 
-
 let app: INestApplication;
 
 beforeAll(async () => {
@@ -21,7 +20,6 @@ beforeAll(async () => {
 //Add logint and get the token before all tests
 
 describe('File Controller (e2e)', () => {
-    
     let token: string | null = null;
     let userId: number | null = null;
     //Get credentials
@@ -42,15 +40,15 @@ describe('File Controller (e2e)', () => {
 
     it('/ upload files', async () => {
         let fh = null;
-        let fileBuffer; 
+        let fileBuffer;
         try {
             fh = await open('./ReadMe.md');
-            const fileContent = await fh.readFile( { encoding: 'utf8' });
-            fileBuffer = Buffer.from( fileContent );
+            const fileContent = await fh.readFile({ encoding: 'utf8' });
+            fileBuffer = Buffer.from(fileContent);
         } finally {
             await fh?.close();
         }
-        
+
         return request(app.getHttpServer())
             .post('/api/files/upload')
             .set('Authorization', `Bearer ${token ?? ''}`)
@@ -58,11 +56,9 @@ describe('File Controller (e2e)', () => {
             .field('year', '2023')
             .field('month', '01')
             .expect(201)
-            .expect( (res : Response & { body: { message: string} }) => {
-                expect(res.body).toHaveProperty('message')
+            .expect((res: Response & { body: { message: string } }) => {
+                expect(res.body).toHaveProperty('message');
                 expect(res.body.message).toBe('Files uploaded successfully');
-            }); 
+            });
     });
-
 });
-

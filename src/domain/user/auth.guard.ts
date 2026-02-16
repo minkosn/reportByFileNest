@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from '../../interfaces/decorators/public.decorator';
 //Auth guard - glob used to verify existing token in the requests
-//with exception for some public paths as 'register' and 'login'  
+//with exception for some public paths as 'register' and 'login'
 @Injectable()
 export class AuthGuard implements CanActivate {
     private readonly logger = new Logger(AuthGuard.name);

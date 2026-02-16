@@ -16,7 +16,6 @@ beforeAll(async () => {
 });
 
 describe('UserController (e2e)', () => {
-    
     //wrong credential - have to fail
     it('/api/users/login (POST) should fail for incorrect credentials', async () => {
         return request(app.getHttpServer())
@@ -48,9 +47,7 @@ describe('UserController (e2e)', () => {
     });
 
     it('/api/users - GET users should fail on unauthorized access', async () => {
-        return request(app.getHttpServer())
-            .get('/api/users')
-            .expect(401);
+        return request(app.getHttpServer()).get('/api/users').expect(401);
     });
 
     it('/api/users - GET users list', async () => {
@@ -73,11 +70,10 @@ describe('UserController (e2e)', () => {
                 expect(res.body).toHaveProperty('id');
                 expect(res.body.id).toBe(userIdLogged);
             });
-        });        
+    });
 });
 
 describe('AuthController (e2e)', () => {
-    
     const uniqueUsername = `user_test_auth_${Date.now()}`;
     const uniqueEmail = `email_test_auth_${Date.now()}@example.com`;
     const password = 'test_password';
@@ -93,13 +89,13 @@ describe('AuthController (e2e)', () => {
     it('/api/users/register (POST) register a new user', async () => {
         return request(app.getHttpServer())
             .post('/api/users/register')
-            .send({ 
+            .send({
                 username: uniqueUsername,
                 password,
                 email: uniqueEmail,
                 firstName,
                 lastName,
-                birthDate
+                birthDate,
             })
             .expect(201);
     });
@@ -110,7 +106,7 @@ describe('AuthController (e2e)', () => {
             .post('/api/users/login')
             .send({ username: uniqueUsername, password })
             .expect(200)
-            .expect((res : Response & { body: {token: string, userId: number} }) => {
+            .expect((res: Response & { body: { token: string; userId: number } }) => {
                 expect(res.body).toHaveProperty('token');
                 expect(typeof res.body.token).toBe('string');
                 expect(res.body).toHaveProperty('userId');
@@ -132,12 +128,11 @@ describe('AuthController (e2e)', () => {
     });
     //Step 4 update the password with new one
     it('/api/users/update-password (POST) update the password', async () => {
-        const consoleOutput : string[] = [''];
+        const consoleOutput: string[] = [''];
         let token: string | null = null;
-        const originConsoleLog : typeof console.log = console.log; 
-        
+        const originConsoleLog: typeof console.log = console.log;
+
         try {
-            
             console.log = (...args: any[]) => {
                 consoleOutput.push(args.join(' '));
                 originConsoleLog(...args);
@@ -160,22 +155,22 @@ describe('AuthController (e2e)', () => {
             expect(token).not.toBeNull();
         } finally {
             console.log = originConsoleLog;
-        };
+        }
         // First, initiate password reset to get the token
-        
+
         // Now, update the password using the token
         return request(app.getHttpServer())
             .post('/api/users/update-password')
             .set('Authorization', `Bearer ${tokenRegistered ?? ''}`)
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
-            .send({ 
-                token, 
-                newPassword: resetPassword, 
-                userId: userIdLogged 
+            .send({
+                token,
+                newPassword: resetPassword,
+                userId: userIdLogged,
             })
             .expect(200)
-            .expect((res: Response & { body: {message: string} }) => {
+            .expect((res: Response & { body: { message: string } }) => {
                 expect(res.body).toHaveProperty('message');
                 expect(res.body.message).toBe('Password updated successfully');
             });
@@ -187,7 +182,7 @@ describe('AuthController (e2e)', () => {
             .post('/api/users/login')
             .send({ username: uniqueUsername, password: resetPassword })
             .expect(200)
-            .expect((res: Response & { body: {token: string, userId: number} }) => {
+            .expect((res: Response & { body: { token: string; userId: number } }) => {
                 expect(res.body).toHaveProperty('token');
                 expect(typeof res.body.token).toBe('string');
                 expect(res.body).toHaveProperty('userId');
@@ -195,6 +190,4 @@ describe('AuthController (e2e)', () => {
                 expect(res.body.userId).toBe(userIdLogged);
             });
     });
-
-
 });

@@ -32,7 +32,7 @@ export class PostgresFileToActionRepository implements FileToActionRepository {
             entity.file_to_action_id,
             entity.file_to_action_date,
             entity.file_to_action_performed_By,
-            entity.file_to_action_action
+            entity.file_to_action_action,
         );
     }
 }

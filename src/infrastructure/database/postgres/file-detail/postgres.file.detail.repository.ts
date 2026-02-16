@@ -5,9 +5,7 @@ import { FileDetailEntity } from '../../../../domain/files/file-detail/file.deta
 import { FileDetailType } from '../../../../domain/files/file.interfaces';
 
 export class PostgresFileDetailRepository implements FileDetailRepository {
-    constructor(
-        private readonly repo: Repository<PostgresFileDetailEntity>,
-    ) {}
+    constructor(private readonly repo: Repository<PostgresFileDetailEntity>) {}
 
     async create(fileDetailEntityDomain: FileDetailEntity): Promise<FileDetailEntity> {
         const entity = this.repo.create({
@@ -28,7 +26,7 @@ export class PostgresFileDetailRepository implements FileDetailRepository {
         const entities = await this.repo.find();
         return entities.map((entity) => this.toDomain(entity));
     }
-   
+
     private toDomain(entity: PostgresFileDetailEntity): FileDetailEntity {
         return new FileDetailEntity(
             entity.file_detail_id,

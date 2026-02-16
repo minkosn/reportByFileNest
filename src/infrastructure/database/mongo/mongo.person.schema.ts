@@ -27,8 +27,6 @@ export class MongoPerson {
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MongoUser' })
     fk_user_id!: MongoUser;
-
-    
 }
 
 export type MongoPersonDocument = mongoose.HydratedDocument<MongoPerson>;

@@ -24,7 +24,7 @@ import { DatabaseTypeEnum as DB_TYPE } from '../../shared.enum';
 //which DB will be used (postgres, mongo, ..)
 const dbType = process.env.DB_TYPE;
 
-//get specific Database module abd factory, depending of env config value 
+//get specific Database module abd factory, depending of env config value
 const dbModule =
     dbType === DB_TYPE.POSTGRES_DB_TYPE //'postgres'
         ? PostgresModule
@@ -38,32 +38,32 @@ export class DatabaseModule {
             module: DatabaseModule,
             imports: [dbModule],
             providers: [
-                // DB Factory depending of active config by DB (postgres, mongo, ...) 
+                // DB Factory depending of active config by DB (postgres, mongo, ...)
                 //Specific DB factory is responsible to create the specific repos
                 {
                     provide: DB_FACTORY,
                     useFactory: (factory: DatabaseFactory) => factory,
                     inject: [dbFactory],
                 },
-                //User repo, with dynamic creation depending of DB type 
+                //User repo, with dynamic creation depending of DB type
                 {
                     provide: USER_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createUserRepository(),
                     inject: [DB_FACTORY],
                 },
-                //Person repo, with dynamic creation depending of DB type 
+                //Person repo, with dynamic creation depending of DB type
                 {
                     provide: PERSON_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createPersonRepository(),
                     inject: [DB_FACTORY],
                 },
-                //Auth repo, with dynamic creation depending of DB type 
+                //Auth repo, with dynamic creation depending of DB type
                 {
                     provide: AUTH_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createAuthRepository(),
                     inject: [DB_FACTORY],
                 },
-                //FileAction repo, with dynamic creation depending of DB type 
+                //FileAction repo, with dynamic creation depending of DB type
                 {
                     provide: FILE_ACTION_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createFileActionRepository(),
@@ -74,13 +74,13 @@ export class DatabaseModule {
                     useFactory: (factory: DatabaseFactory) => factory.createFileToActionRepository(),
                     inject: [DB_FACTORY],
                 },
-                //FileDetail repo, with dynamic creation depending of DB type 
+                //FileDetail repo, with dynamic creation depending of DB type
                 {
                     provide: FILE_DETAIL_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createFileDetailRepository(),
                     inject: [DB_FACTORY],
                 },
-                //FileDetailType repo, with dynamic creation depending of DB type 
+                //FileDetailType repo, with dynamic creation depending of DB type
                 {
                     provide: FILE_DETAIL_TYPE_REPOSITORY,
                     useFactory: (factory: DatabaseFactory) => factory.createFileDetailTypeRepository(),
@@ -97,7 +97,7 @@ export class DatabaseModule {
                 FILE_DETAIL_REPOSITORY,
                 FILE_DETAIL_TYPE_REPOSITORY,
             ],
-            global: true
+            global: true,
         };
     }
 }

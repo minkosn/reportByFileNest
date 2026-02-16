@@ -1,16 +1,16 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
 import { DatabaseTypeEnum } from '../shared.enum';
-import { 
+import {
     DB_HOST_KEY_NAME,
     DB_PORT_KEY_NAME,
-    DB_USER_KEY_NAME, 
+    DB_USER_KEY_NAME,
     DB_PASSWORD_KEY_NAME,
     DB_NAME_KEY_NAME,
     DB_TYPE_KEY_NAME,
     MONGO_URI_KEY_NAME,
     MSSQL_URI_KEY_NAME,
-} from '../constants'
+} from '../constants';
 
 interface MongoConfig {
     uri: string;
@@ -30,10 +30,7 @@ interface PostgresConfig {
 
 type Configs = PostgresConfig | MongoConfig | MssqlConfig;
 
-type DatabaseType =
-    | DatabaseTypeEnum.POSTGRES_DB_TYPE
-    | DatabaseTypeEnum.MONGO_DB_TYPE
-    | DatabaseTypeEnum.MSSQL_DB_TYPE;
+type DatabaseType = DatabaseTypeEnum.POSTGRES_DB_TYPE | DatabaseTypeEnum.MONGO_DB_TYPE | DatabaseTypeEnum.MSSQL_DB_TYPE;
 
 @Injectable()
 export class ConfigService {

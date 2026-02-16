@@ -32,9 +32,7 @@ export class FileDetailService {
     private async addFileDetailsOnUpload(fileToActionId: number, detail: Record<string, string>): Promise<boolean> {
         const [key, value] = Object.entries(detail)[0];
 
-        const detailType = await this.fileDetailTypeService.getFileDetailTypeByType(
-            key as unknown as FileDetailType,
-        );
+        const detailType = await this.fileDetailTypeService.getFileDetailTypeByType(key as unknown as FileDetailType);
 
         if (!detailType?.id) {
             this.logger.error(`Detail type not found: ${key}`);

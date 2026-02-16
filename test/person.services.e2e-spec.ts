@@ -18,14 +18,10 @@ beforeAll(async () => {
 });
 
 describe('Person Service (e2e)', () => {
-    
     it('/ GET all persons', async () => {
         const personService = app.get(PersonService);
         const personList: Person[] = await personService.getAllPersons();
         expect(personList).toBeInstanceOf(Array);
-        console.log('personList -> ', personList.map(p => p.firstName).join(', '));
-        
+        console.log('personList -> ', personList.map((p) => p.firstName).join(', '));
     });
-
 });
-

@@ -13,5 +13,4 @@ export class PostgresFileDetailEntity {
 
     @Column()
     file_detail_file_to_action!: number;
-    
 }

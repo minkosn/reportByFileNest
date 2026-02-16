@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Res, HttpStatus  } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Res, HttpStatus } from '@nestjs/common';
 import type { Response } from 'express';
 import { UserService } from '../../../domain/user/user.service';
 import { AuthService } from '../../../domain/user/auth.service';
@@ -51,10 +51,8 @@ export class UserController {
     @Post('login')
     async login(@Body() loginDto: LoginDto, @Res() res: Response) {
         const result = await this.authService.login(loginDto);
-        
-        return res
-            .status(HttpStatus.OK)
-            .send(result);
+
+        return res.status(HttpStatus.OK).send(result);
     }
 
     //It's not public intentionally , the forgotten password users have to contact admin to solve the issue

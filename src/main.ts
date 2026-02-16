@@ -2,12 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
-import {
-    FRONTEND_URL_KEY,
-    METHOD_ALLOWED_FE_CORS,
-    PORT_APP,
-    GLOBAL_API_PREFIX,
-} from './constants';
+import { FRONTEND_URL_KEY, METHOD_ALLOWED_FE_CORS, PORT_APP, GLOBAL_API_PREFIX } from './constants';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -19,7 +14,7 @@ async function bootstrap() {
     //allow CORS FE requests
     const feUrl: string = configService.get(FRONTEND_URL_KEY);
 
-    const cors_methods :string[] = configService.get(METHOD_ALLOWED_FE_CORS);
+    const cors_methods: string[] = configService.get(METHOD_ALLOWED_FE_CORS);
 
     //allow FE localhost:8080 to access BE
     app.enableCors({
