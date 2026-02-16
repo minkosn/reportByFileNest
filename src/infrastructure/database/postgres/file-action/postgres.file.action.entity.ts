@@ -3,8 +3,10 @@ import { Entity, Column, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeor
 
 @Entity('fileAction', { schema: 'file' })
 export class PostgresFileActionEntity {
-    @PrimaryGeneratedColumn()
-    file_action_id!: number;
+    @PrimaryGeneratedColumn({
+        name: 'file_action_id'
+    })
+    id!: number;
 
     @Column({
         type: 'text',
@@ -12,18 +14,22 @@ export class PostgresFileActionEntity {
         enum: FileActionName,
         default: FileActionName.UPLOAD
     })
-    file_action_name!: FileActionName; //Enum of actions: UPLOAD, IMPORT, CLEAR-UPLOADS
+    name!: FileActionName; //Enum of actions: UPLOAD, IMPORT, CLEAR-UPLOADS
 
     @Column({
         type: 'bigint',
         name: 'file_action_status',
     })
-    file_action_status!: FileActionStatus; //Enum of status: ACTIVE, INACTIVE
+    status!: FileActionStatus; //Enum of status: ACTIVE, INACTIVE
 
-    @UpdateDateColumn()
-    file_action_updated_on?: Date; //triggered on action
+    @UpdateDateColumn({
+        name: 'file_action_updated_on'
+    })
+    updatedOn?: Date; //triggered on action
 
-    @Column()
-    file_action_updated_by!: number;
+    @Column({
+        name: 'file_action_updated_by'
+    })
+    updatedBy!: number;
    
 }

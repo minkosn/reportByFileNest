@@ -1,4 +1,4 @@
-import { IFileRepository } from '../../files/file.interfaces';
+import { FileRepository } from '../../files/file.interfaces';
 import { FileDetailEntity } from './file.detail.entity';
 
-export type FileDetailRepository = IFileRepository<FileDetailEntity>;
+export type FileDetailRepository = FileRepository<FileDetailEntity>;

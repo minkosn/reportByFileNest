@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import { PostgresFileDetailTypeEntity } from './postgres.file.detail.type.entity';
 import { FileDetailTypeEntity } from '../../../../domain/files/file-detail-type/file.detail.type.entity';
 import { FileDetailTypeRepository } from '../../../../domain/files/file-detail-type/file.detail.type.repository';
-import { FileDetailTypeType, IFileDetailType } from 'src/domain/files/file.interfaces';
+import { FileDetailTypeType, FileDetailType } from 'src/domain/files/file.interfaces';
 
 export class PostgresFileDetailTypeRepository implements FileDetailTypeRepository {
     constructor(private readonly repo: Repository<PostgresFileDetailTypeEntity>) {}
@@ -10,14 +10,14 @@ export class PostgresFileDetailTypeRepository implements FileDetailTypeRepositor
     async create(domainEntity: FileDetailTypeEntity): Promise<FileDetailTypeEntity>{
         // Explicitly map from the domain entity to the persistence entity
         const persistenceEntity = this.repo.create({
-            file_detail_type_data: domainEntity.file_detail_type_data,
-            file_detail_type_performed_by: domainEntity.file_detail_type_performed_by,
+            file_detail_type_data: domainEntity.data,
+            file_detail_type_performed_by: domainEntity.performedBy,
         });
         const saved = await this.repo.save(persistenceEntity);
         return this.toDomain(saved);
     }
 
-    async findByType(type: IFileDetailType): Promise<FileDetailTypeEntity | null> {
+    async findByType(type: FileDetailType): Promise<FileDetailTypeEntity | null> {
         const entity = await this.repo.findOneBy({ file_detail_type_data: type as unknown as string });
         return entity ? this.toDomain(entity) : null;
     }

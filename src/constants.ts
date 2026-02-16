@@ -19,4 +19,6 @@ export const DB_NAME_KEY_NAME = 'DB_DATABASE';
 export const MONGO_URI_KEY_NAME = 'MONGO_URI';
 
 export const MSSQL_URI_KEY_NAME = 'MSSQL_URI';
+
+export const DB_TYPE_KEY_NAME = 'DB_TYPE';
   

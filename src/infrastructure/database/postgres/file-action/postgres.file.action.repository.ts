@@ -27,9 +27,9 @@ export class PostgresFileActionRepository implements FileActionRepository {
         updatedBy: number,
     ): Promise<FileActionEntity> {
         return this.repo.save({
-            file_action_name: FileActionName,
-            file_action_status: status,
-            file_action_updated_by: updatedBy,
+            name: FileActionName,
+            status: status,
+            updatedBy: updatedBy,
         });
     }
 }

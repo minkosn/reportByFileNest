@@ -5,39 +5,30 @@ import { MongoUser } from './mongo.user.schema';
 @Schema({ collection: 'person' })
 export class MongoPerson {
     @Prop()
-    id: number;
+    id!: number;
 
     @Prop()
-    first_name: string;
+    firstName!: string;
 
     @Prop()
-    last_name: string;
+    lastName!: string;
 
     @Prop()
-    birth_date: Date;
+    birthDate!: Date;
 
     @Prop()
-    inserted_on: Date;
+    inserted_on!: Date;
 
     @Prop()
-    updated_on: Date;
+    updated_on!: Date;
 
     @Prop()
-    status: string;
+    status!: string;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MongoUser' })
-    fk_user_id: MongoUser;
+    fk_user_id!: MongoUser;
 
-    constructor() {
-        this.id = 0;
-        this.first_name = '';
-        this.last_name = '';
-        this.birth_date = new Date();
-        this.inserted_on = new Date();
-        this.updated_on = new Date();
-        this.status = '';
-        this.fk_user_id = new MongoUser();
-    }
+    
 }
 
 export type MongoPersonDocument = mongoose.HydratedDocument<MongoPerson>;

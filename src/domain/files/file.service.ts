@@ -1,10 +1,16 @@
 import { LoggedUser } from '../user/auth.interfaces';
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { IUploadedFileResult, IFileDBFields, IImportedFileDBFields, IFileDetailType } from './file.interfaces';
+import { 
+    BadRequestException,
+    Injectable,
+    InternalServerErrorException,
+    NotFoundException,
+    Logger,
+    NotImplementedException 
+} from '@nestjs/common';
+import { UploadedFileResult, FileDbFields, ImportedFileDbFields, FileDetailTypeRec } from './file.interfaces';
 
 import { FileActionService } from './file-action/file.action.service';
 import { FileActionName } from './file-action/file.action.enums';
-import { FILE_ACTION_NAME } from './file-action/file.action.constants';
 
 import { FileToActionService } from './file-to-action/file.to.action.service';
 
@@ -12,6 +18,8 @@ import { FileDetailService } from './file-detail/file.detail.service';
 
 @Injectable()
 export class FileService {
+    private readonly logger = new Logger(FileService.name);
+
     constructor(
         private readonly fileActionService: FileActionService,
         private readonly fileToActionService: FileToActionService,
@@ -23,15 +31,17 @@ export class FileService {
         month: string,
         files: Express.Multer.File[],
         user: LoggedUser,
-    ): Promise<IUploadedFileResult> {
+    ): Promise<UploadedFileResult> {
+        this.logger.log(`Uploading ${files.length} files for ${year}-${month}`);
+
         if (files.length === 0) {
             throw new BadRequestException('No files uploaded.');
         }
 
-        const newEntries = files.map((file) => ({
-            file_name_origin: file.originalname, //Buffer.from(file.originalname, 'latin1').toString('utf8'),
-            file_name: file.filename,
-            file_path: file.path,
+        const newEntries: FileDetailTypeRec[] = files.map((file) => ({
+            fileNameOrigin: file.originalname,
+            fileName: file.filename,
+            filePath: file.path,
             importDate: new Date(),
             distributor: 'N/A',
             rowCount: 0,
@@ -39,24 +49,24 @@ export class FileService {
             month,
         }));
 
-        // Save file upload trace to the database
-
         //get id of file action - upload
-        const [{ file_action_id }] = await this.fileActionService.getByField(FILE_ACTION_NAME, FileActionName.UPLOAD);
-        if (!file_action_id) {
+        const [{ id }] = await this.fileActionService.getByField('name', FileActionName.UPLOAD);
+        if (!id) {
             throw new NotFoundException(`File action not found: ${FileActionName.UPLOAD}`);
         }
         //write file-to-action
-        const fileToActionRecord = await this.fileToActionService.createFileToAction(file_action_id, user.userId);
-        if (!fileToActionRecord.file_to_action_id) {
-            throw new InternalServerErrorException(`Error creating file to action record for action id: ${String(file_action_id)}`);
+        const fileToActionRecord = await this.fileToActionService.createFileToAction(id, user.userId);
+        if (!fileToActionRecord.id) {
+            throw new InternalServerErrorException(`Error creating file to action record for action id: ${String(id)}`);
         }
         //write file-details
         await this.fileDetailService.add(
             FileActionName.UPLOAD,
-            fileToActionRecord.file_to_action_id,
+            fileToActionRecord.id,
             newEntries,
         );
+
+        this.logger.log('Files uploaded successfully');
 
         return {
             message: 'Files uploaded successfully',
@@ -67,20 +77,15 @@ export class FileService {
         };
     }
 
-    async getUploadedFiles(): Promise<IFileDBFields[]> {
-        //TO DO return this.fileRepository.getUploadedFiles();
-        await Promise.resolve();
-        throw new Error('Method not implemented.');
+    async getUploadedFiles(): Promise<FileDbFields[]> {
+        throw new NotImplementedException();
     }
 
-    async getImportedFiles(): Promise<IImportedFileDBFields[]> {
-        //TO DO return this.fileRepository.getImportedFiles();
-        await Promise.resolve();
-        throw new Error('Method not implemented.');
+    async getImportedFiles(): Promise<ImportedFileDbFields[]> {
+        throw new NotImplementedException();
     }
 
     async clearUploadFolder(): Promise<void> {
-        await Promise.resolve();
-        throw new Error('Method not implemented.');
+        throw new NotImplementedException();
     }
 }

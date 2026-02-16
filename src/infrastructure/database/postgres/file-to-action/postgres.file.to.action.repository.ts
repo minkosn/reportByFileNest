@@ -9,9 +9,9 @@ export class PostgresFileToActionRepository implements FileToActionRepository {
 
     async create(fileToAction: FileToActionEntity): Promise<FileToActionEntity> {
         const entity = this.repo.create({
-            file_to_action_action: fileToAction.file_to_action_action,
-            file_to_action_date: fileToAction.file_to_action_date,
-            file_to_action_performed_By: fileToAction.file_to_action_performed_By,
+            file_to_action_action: fileToAction.actionId,
+            file_to_action_date: fileToAction.date,
+            file_to_action_performed_By: fileToAction.performedBy,
         } as PostgresFileToActionEntity);
         const saved = await this.repo.save(entity);
         return this.toDomain(saved);

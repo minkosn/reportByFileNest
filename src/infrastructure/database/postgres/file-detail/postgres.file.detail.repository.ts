@@ -11,9 +11,9 @@ export class PostgresFileDetailRepository implements FileDetailRepository {
 
     async create(fileDetailEntityDomain: FileDetailEntity): Promise<FileDetailEntity> {
         const entity = this.repo.create({
-            file_detail_type: fileDetailEntityDomain.file_detail_type,
-            file_detail_value: fileDetailEntityDomain.file_detail_value,
-            file_detail_file_to_action: fileDetailEntityDomain.file_detail_file_to_action,
+            file_detail_type: fileDetailEntityDomain.typeId,
+            file_detail_value: fileDetailEntityDomain.value,
+            file_detail_file_to_action: fileDetailEntityDomain.fileToActionId,
         });
         const saved = await this.repo.save(entity);
         return this.toDomain(saved);

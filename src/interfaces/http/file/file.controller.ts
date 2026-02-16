@@ -2,7 +2,7 @@ import { Request, Body, Controller, Post, UploadedFiles, UseInterceptors, Get } 
 import { FileService } from '../../../domain/files/file.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UploadDto } from './dto/upload.dto';
-import { IUploadedFileResult } from '../../../domain/files/file.interfaces';
+import { UploadedFileResult } from '../../../domain/files/file.interfaces';
 
 @Controller('files')
 export class FilesController {
@@ -15,7 +15,7 @@ export class FilesController {
         @UploadedFiles() files: Express.Multer.File[],
         @Body() body: UploadDto,
         @Request() req: { user: { id: number } },
-    ): Promise<IUploadedFileResult> {
+    ): Promise<UploadedFileResult> {
         return this.fileService.uploadFiles(body.year, body.month, files, { token: '', userId: req.user.id });
     }
 

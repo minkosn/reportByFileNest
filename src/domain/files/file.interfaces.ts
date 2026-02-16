@@ -1,7 +1,7 @@
 import { FileActionName, FileActionStatus } from './file-action/file.action.enums';
 
 //file interfaces
-export interface IFileRepository<TEntity = any> {
+export interface FileRepository<TEntity = any> {
     create(entity: TEntity): Promise<TEntity>;
 
     //get instance as 'fieldName' is filename from the correct passed class, 'value' si some value from the instances by this field
@@ -11,11 +11,11 @@ export interface IFileRepository<TEntity = any> {
     findAll(): Promise<TEntity[]>;
 }
 
-export interface IFileDetailType {
+export interface FileDetailTypeRec {
     //On upload
-    file_name: string;
-    file_name_origin: string;
-    file_path: string;
+    fileName: string;
+    fileNameOrigin: string;
+    filePath: string;
 
     distributor: string;
     year: string;
@@ -24,7 +24,7 @@ export interface IFileDetailType {
     rowCount?: number;
 
     //On import
-    batch_id?: string;
+    batchId?: string;
 }
 
 export type FileActionType = number | FileActionStatus | Date | FileActionName | undefined;
@@ -33,7 +33,7 @@ export type FileDetailType = number | string | undefined;
 export type FileToActionDataType = number | Date | undefined;
 
 //handleFileUpload
-export interface IFileDBFields {
+export interface FileDbFields {
     originalName: string;
     fileName: string;
     filePath: string;
@@ -43,18 +43,13 @@ export interface IFileDBFields {
     batchId?: string;
 }
 
-/*export interface IFileUpload extends IFileDBFields {
-    year: string;
-    month: string;
-}
-*/
-export interface IUploadedFileResult {
+export interface UploadedFileResult {
     message: string;
     files: { name: string; path: string }[];
 }
 
-export interface IImportedFileDBFields extends Pick<
-    IFileDBFields,
+export interface ImportedFileDbFields extends Pick<
+    FileDbFields,
     'importDate' | 'distributor' | 'rowCount' | 'originalName'
 > {
     init(): Promise<void>;

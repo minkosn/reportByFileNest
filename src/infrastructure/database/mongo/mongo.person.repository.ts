@@ -8,7 +8,7 @@ export class MongoPersonRepository implements PersonRepository {
 
     async getAllPersons(): Promise<Person[]> {
         const docs = await this.personModel.find().exec();
-        return docs.map((doc) => new Person(doc.id, doc.first_name, doc.last_name, doc.birth_date));
+        return docs.map((doc) => new Person(doc.id, doc.firstName, doc.lastName, doc.birthDate));
     }
 
     async getPersonByName(name: string): Promise<Person[]> {

@@ -23,7 +23,7 @@ describe('Person Service (e2e)', () => {
         const personService = app.get(PersonService);
         const personList: Person[] = await personService.getAllPersons();
         expect(personList).toBeInstanceOf(Array);
-        console.log('personList -> ', personList.map(p => p.first_name).join(', '));
+        console.log('personList -> ', personList.map(p => p.firstName).join(', '));
         
     });
 

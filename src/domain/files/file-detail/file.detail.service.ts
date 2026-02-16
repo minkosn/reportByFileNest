@@ -1,9 +1,9 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Logger, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { FileDetailRepository } from './file.detail.repository';
 import { FileDetailEntity } from './file.detail.entity';
 import { FILE_DETAIL_REPOSITORY } from '../../../infrastructure/database/db.tokens';
 import { FileDetailTypeFields as FileDetailType } from '../file-detail-type/file.detail.type.enum';
-import { IFileDetailType } from '../file.interfaces';
+import { FileDetailTypeRec } from '../file.interfaces';
 
 import { FileActionName } from '../file-action/file.action.enums';
 
@@ -11,11 +11,13 @@ import { FileDetailTypeService } from '../file-detail-type/file.detail.type.serv
 
 /* Service add details for each action related to file*/
 
-type UploadType = Omit<IFileDetailType, FileDetailType.BATCH_ID>;
-type ImportType = Pick<IFileDetailType, FileDetailType.BATCH_ID>;
+//type UploadType = Omit<FileDetailTypeEnum, FileDetailTypeEnum.BATCH_ID>;
+//type ImportType = Pick<FileDetailTypeEnum, FileDetailTypeEnum.BATCH_ID>;
 
 @Injectable()
 export class FileDetailService {
+    private readonly logger = new Logger(FileDetailService.name);
+
     constructor(
         @Inject(FILE_DETAIL_REPOSITORY)
         private readonly fileDetailRepository: FileDetailRepository,
@@ -28,17 +30,20 @@ export class FileDetailService {
 
     //one pair of property-value at call
     private async addFileDetailsOnUpload(fileToActionId: number, detail: Record<string, string>): Promise<boolean> {
-        //const detailTypeId = await this.fileDetailRepository.getDetailTypeId(Object.keys(detail)[0]);
-        const detailType = await this.fileDetailTypeService.getFileDetailTypes(
-            Object.keys(detail)[0] as unknown as IFileDetailType,
+        const [key, value] = Object.entries(detail)[0];
+
+        const detailType = await this.fileDetailTypeService.getFileDetailTypeByType(
+            key as unknown as FileDetailType,
         );
-        if (!detailType?.file_detail_type_id) {
-            throw new Error(`Detail type not found: ${Object.keys(detail)[0]}`);
+
+        if (!detailType?.id) {
+            this.logger.error(`Detail type not found: ${key}`);
+            throw new InternalServerErrorException(`Detail type not found: ${key}`);
         }
         const fileDetailEntity: FileDetailEntity = {
-            file_detail_file_to_action: fileToActionId,
-            file_detail_value: Object.values(detail)[0],
-            file_detail_type: detailType.file_detail_type_id, //Object.keys(detail)[0] as FileDetailType,
+            fileToActionId,
+            value,
+            typeId: detailType.id,
         };
         await this.addFileDetail(fileDetailEntity);
 
@@ -50,7 +55,7 @@ export class FileDetailService {
         fileDetails: Record<string, string>,
     ): Promise<boolean> {
         const result = await Promise.resolve([fileToActionId, fileDetails]);
-        throw new Error(`Not implemented yet: ${JSON.stringify(result)}`);
+        throw new InternalServerErrorException(`Not implemented yet: ${JSON.stringify(result)}`);
     }
 
     //get method to add detail based on action
@@ -63,7 +68,7 @@ export class FileDetailService {
             case FileActionName.IMPORT:
                 return this.addFileDetailsOnImport.bind(this);
             default:
-                throw new Error(`Unknown category detail: ${action}`);
+                throw new BadRequestException(`Unknown category detail: ${action}`);
         }
     }
 
@@ -75,27 +80,27 @@ export class FileDetailService {
             case FileActionName.IMPORT:
                 return [FileDetailType.BATCH_ID];
             default:
-                throw new Error(`Unknown category detail: ${action}`);
+                throw new BadRequestException(`Unknown category detail: ${action}`);
         }
     }
 
     //general method to add details based on action
-    async add(action: FileActionName, actionId: number, Details: IFileDetailType[]): Promise<boolean> {
+    async add(action: FileActionName, actionId: number, details: FileDetailTypeRec[]): Promise<boolean> {
         //get method to add details
         const method = this.getDetailActionMethod(action);
         //get required params for action
         const paramNames = this.getDetailActionParams(action);
 
         //process each detail
-        for (const detail of Details) {
+        for (const detail of details) {
             //get passed params
             const paramsByAction = Object.keys(detail).filter((key) => paramNames.includes(key));
 
             //get params and call method to store details
             for (const param of paramsByAction) {
-                const detailValue = detail[param as keyof IFileDetailType];
+                const detailValue = detail[param as keyof FileDetailTypeRec];
                 if (detailValue === undefined) {
-                    throw new Error(`Missing parameter: ${param}`);
+                    throw new BadRequestException(`Missing parameter: ${param}`);
                 }
                 //store details
                 const value = detailValue instanceof Date ? detailValue.toISOString() : String(detailValue);

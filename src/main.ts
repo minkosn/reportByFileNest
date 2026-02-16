@@ -4,10 +4,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
 import {
     FRONTEND_URL_KEY,
-    DEFAULT_FRONTEND_URL,
     METHOD_ALLOWED_FE_CORS,
     PORT_APP,
-    DEFAULT_PORT_APP,
     GLOBAL_API_PREFIX,
 } from './constants';
 
@@ -19,9 +17,9 @@ async function bootstrap() {
     const configService = app.get(ConfigService);
 
     //allow CORS FE requests
-    const feUrl = configService.get(FRONTEND_URL_KEY) || DEFAULT_FRONTEND_URL;
+    const feUrl: string = configService.get(FRONTEND_URL_KEY);
 
-    const cors_methods = configService.get(METHOD_ALLOWED_FE_CORS);
+    const cors_methods :string[] = configService.get(METHOD_ALLOWED_FE_CORS);
 
     //allow FE localhost:8080 to access BE
     app.enableCors({
@@ -36,7 +34,7 @@ async function bootstrap() {
     app.setGlobalPrefix(GLOBAL_API_PREFIX);
 
     // get port of the application
-    const port = configService.get(PORT_APP) || DEFAULT_PORT_APP;
+    const port: string = configService.get(PORT_APP);
     await app.listen(port);
 
     console.log(`Application is running on: ${await app.getUrl()}`);
