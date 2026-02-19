@@ -1,6 +1,6 @@
 # Aim of the Application
 
-Web service to allow uploading of files (xlsx, csv, txt) and import in DB.
+Web service that allow uploading of files (xlsx, csv, txt) and import in DB.
 Generating reports by data imported.
 
 Features:
