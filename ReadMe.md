@@ -36,7 +36,7 @@ Flow of work:
 How to install:
 
 npm install -g nest
-git clone 'repo'
+git clone 'repo'  (https://github.com/minkosn/reportByFileNest.git)
 cd 'repo'
 npm install
 npm run start
