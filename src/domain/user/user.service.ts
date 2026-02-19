@@ -23,7 +23,7 @@ export class UserService {
 
     async getAllUsers(): Promise<User[]> {
         const users = await this.userRepository.findAll();
-        return users || [];
+        return users;
     }
 
     async createUser(user: User): Promise<User> {
