@@ -1,86 +1,42 @@
-1. File import 
-2. Reports
+# Aim of the Application
 
-versions:
-   0.0.0 - initial version  
-   1.0.0 - application with basic features:
-    - Users management (login, register, password reset, password update, list users, gte user info)
-    - Parsons management (list persons, get person info)
-    - Basic API for files (upload, list uploads, list imports) 
+Web service to allow uploading of files (xlsx, csv, txt) and import in DB.
+Generating reports by data imported.
 
+Features:
 
-Users:
-    "username": "firsto_2", 
-    "password": "222"
+1. Register users to manage upload, import and reportings
+2. Login of already registered users
+3. List of users, persons, uploaded files, imported files
+4. Upload files
+5. Import already uploaded files
+6. Generate reports
 
-    "username": "firsto_3", 
-    "password": "firsto_333"    
+Note: point 5 and 6 are in stage 'TO DO'
 
-    "username": "firsto_114445",
-    "password": "000",
-    
+DB supported:
 
+1. Postgres
+2. Mongo DB
 
+Implementation:
 
-7. Postgres implementation (TypeORM example)
+Nest JS framework
+Type Script
+TypeORM for Postgres
 
+Flow of work:
 
-v 0.0.0 - Work as use worker for import files
+1. Register user
+2. Login
+3. Upload file
+4. Import file
+5. Generate report
 
-1. To upgrade node to LST version, run:
-   nvm install --lts
-   nvm use --lts
+How to install:
 
-TO DO 
-=========
-1. in database 
-1.1 Add init DB structure
-1.2 refactor all modules where is used directly PgSQL and replace in 'database.service' that will call different classes with adapters.
-Like class InitDBStructure with adapters for PgSQL, Mongo,....  
-
-Flow 
-1. LoadFile
-    1.1 load from folder
-    1.2 load from stream
-    1.3 load from buffer
-2. PreProcessFile
-    2.1 validate file
-    2.2 transform file
-    2.1 DB(persistent).PreProcessFile
-3. ImportFile
-4. postProcessFile
-    4.2 archive file
-    4.3 move file to another folder
-    4.2 DB(persistent).postProcessFile
-
-   Design import file (one by one):
-   type LoadingFile = 'uploadFile' | 'streamFile' | 'streamFileInMemory';{
-   
-   Interface ILoadFile {
-    loadFile(): LoadingFile;
-   }
-
-   Class LoadFile {
-    constructor(typeLoading: LoadingFile, filePath?: string, fileContent?: Buffer | stream.Readable) {
-        this.filePath = filePath;
-    }
-
-    loadFile() {
-        switch (this.typeLoading) {
-            case 'uploadFile':
-                // logic to load file via upload
-                break;
-            case 'streamFile':
-                // logic to load file via stream
-                break;
-            case 'streamFileInMemory':
-                // logic to load file via in-memory stream
-                break;
-            default:
-                throw new Error('Invalid loading type');
-        }
-    }
-   } 
-
-
-   
+npm install -g nest
+git clone 'repo'
+cd 'repo'
+npm install
+npm run start
